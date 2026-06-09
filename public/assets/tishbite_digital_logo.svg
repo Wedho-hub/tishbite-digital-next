@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180">
+
+<!-- Abstract brand mark -->
+<g transform="translate(40,30)">
+
+<path d="M70 110
+C40 90 35 55 60 30
+C80 12 110 18 125 40
+C140 60 130 90 100 110
+C90 118 80 118 70 110Z"
+fill="#2d6a4f"/>
+
+<path d="M82 95
+C65 82 65 58 82 40
+C96 25 116 30 124 48
+C132 65 120 82 102 95
+C95 100 90 100 82 95Z"
+fill="black" opacity="0.92"/>
+
+<circle cx="118" cy="44" r="5" fill="#f4c95d"/>
+
+</g>
+
+<!-- Brand text -->
+<text x="210" y="92"
+font-family="Inter, Helvetica, Arial, sans-serif"
+font-size="42"
+font-weight="600"
+fill="#ffffff"
+letter-spacing="1">
+Tishbite
+</text>
+
+<text x="212" y="125"
+font-family="Inter, Helvetica, Arial, sans-serif"
+font-size="22"
+letter-spacing="5"
+fill="#f4c95d">
+DIGITAL
+</text>
+
+</svg>

@@ -1,0 +1,184 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaPinterestP,
+  FaCreditCard,
+  FaArrowRight,
+  FaShieldAlt,
+  FaLock,
+} from "react-icons/fa";
+
+const SOCIAL = [
+  {
+    href: "https://web.facebook.com/profile.php?id=61584656188539",
+    Icon: FaFacebookF,
+    label: "Facebook",
+  },
+  {
+    href: "https://www.instagram.com/tishbitedigital/",
+    Icon: FaInstagram,
+    label: "Instagram",
+  },
+  {
+    href: "https://za.pinterest.com/Tishbite_Digital/",
+    Icon: FaPinterestP,
+    label: "Pinterest",
+  },
+];
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/projects", label: "Projects" },
+  { href: "/how-we-work", label: "How We Work" },
+  { href: "/blog", label: "Blog" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Footer() {
+  return (
+    <motion.footer
+      className="on-dark bg-[#0f2016] text-white/80 pt-12 pb-6"
+      aria-label="Site footer"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="container mx-auto px-4 max-w-7xl">
+
+        {/* Pay Online strip */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/[0.06] border border-white/10 rounded-2xl p-4 sm:p-5 mb-10">
+          <div className="flex items-start sm:items-center gap-3">
+            <FaCreditCard className="text-accent text-2xl flex-shrink-0 mt-0.5 sm:mt-0" />
+            <div>
+              <p className="text-white font-semibold text-sm mb-1">
+                Pay for services securely online
+              </p>
+              <p className="text-white/50 text-xs flex flex-wrap gap-x-3 gap-y-1 m-0">
+                <span className="flex items-center gap-1">
+                  <FaLock aria-hidden="true" /> SSL Encrypted
+                </span>
+                <span className="flex items-center gap-1">
+                  <FaShieldAlt aria-hidden="true" /> Secured by PayFast
+                </span>
+                <span>ZAR · Instant confirmation</span>
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/checkout"
+            className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-4 py-2.5 rounded-xl text-sm flex-shrink-0 transition-colors duration-200 no-underline"
+          >
+            Pay Online <FaArrowRight aria-hidden="true" />
+          </Link>
+        </div>
+
+        {/* Main grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+
+          {/* Brand */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4 }}
+          >
+            <Link href="/" className="inline-flex flex-col gap-1 mb-4 no-underline">
+              <img
+                src="/assets/tishbite_digital_logo.svg"
+                alt="Tishbite Digital"
+                className="h-10 w-auto"
+                loading="lazy"
+              />
+              <span className="text-accent/70 text-xs font-medium">
+                Growing Together
+              </span>
+            </Link>
+            <p className="text-white/60 text-sm leading-relaxed m-0">
+              Cape Town digital agency helping service businesses get more
+              enquiries, better Google visibility, and sustainable online
+              growth.
+            </p>
+          </motion.div>
+
+          {/* Quick Links */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.06 }}
+          >
+            <h6 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+              Quick Links
+            </h6>
+            <ul className="space-y-2 list-none p-0 m-0">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.4, delay: 0.12 }}
+          >
+            <h6 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+              Contact
+            </h6>
+            <div className="space-y-2 mb-4">
+              <a
+                href="tel:+27791684548"
+                className="block text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
+              >
+                📞 +27 79 168 4548
+              </a>
+              <a
+                href="mailto:info@tishbitedigital.co.za"
+                className="block text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
+              >
+                ✉️ info@tishbitedigital.co.za
+              </a>
+            </div>
+            <div className="flex gap-2">
+              {SOCIAL.map(({ href, Icon, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} (opens in a new tab)`}
+                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-accent/20 hover:text-accent flex items-center justify-center text-white/60 transition-all duration-200"
+                >
+                  <Icon size={14} />
+                </a>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="border-t border-white/10 pt-5 text-center">
+          <p className="text-white/40 text-xs m-0">
+            © {new Date().getFullYear()} Tishbite Digital. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </motion.footer>
+  );
+}

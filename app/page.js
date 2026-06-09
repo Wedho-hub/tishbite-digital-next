@@ -1,65 +1,130 @@
-import Image from "next/image";
+import HomePageContent from "@/components/HomePageContent";
 
-export default function Home() {
+export const metadata = {
+  title: "We Help Cape Town Businesses Get More Clients Online | Tishbite Digital",
+  description:
+    "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
+  keywords: [
+    "Cape Town web design",
+    "Cape Town SEO",
+    "lead generation",
+    "WhatsApp marketing",
+    "website audit",
+    "digital marketing Cape Town",
+    "small business web design South Africa",
+  ],
+  alternates: {
+    canonical: "https://tishbitedigital.co.za/",
+  },
+  openGraph: {
+    title: "We Help Cape Town Businesses Get More Clients Online",
+    description:
+      "Websites. SEO. Ads. Built to generate leads, calls and WhatsApp enquiries for Cape Town businesses.",
+    url: "https://tishbitedigital.co.za/",
+    images: [
+      {
+        url: "https://tishbitedigital.co.za/assets/tishbiteHero.png",
+        width: 1200,
+        height: 630,
+        alt: "Tishbite Digital — Cape Town Digital Marketing Agency",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: ["https://tishbitedigital.co.za/assets/tishbiteHero.png"],
+  },
+};
+
+const SOCIAL_PROFILES = [
+  "https://web.facebook.com/profile.php?id=61584656188539",
+  "https://www.instagram.com/tishbitedigital/",
+  "https://za.pinterest.com/Tishbite_Digital/",
+  "https://g.page/r/CcbaVAYMBDDAEBM",
+];
+
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://tishbitedigital.co.za/#website",
+      name: "Tishbite Digital",
+      alternateName: "Tishbite Digital Cape Town",
+      url: "https://tishbitedigital.co.za/",
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://tishbitedigital.co.za/#organization",
+      name: "Tishbite Digital",
+      url: "https://tishbitedigital.co.za/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://tishbitedigital.co.za/assets/tishbite_digital_logo.svg",
+        caption: "Tishbite Digital Logo",
+      },
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: "+27791684548",
+        contactType: "customer service",
+        availableLanguage: ["English"],
+        areaServed: "ZA",
+      },
+      sameAs: SOCIAL_PROFILES,
+    },
+    {
+      "@type": ["LocalBusiness", "ProfessionalService"],
+      "@id": "https://tishbitedigital.co.za/#localbusiness",
+      name: "Tishbite Digital",
+      url: "https://tishbitedigital.co.za/",
+      telephone: "+27791684548",
+      priceRange: "R2500 – R30000+",
+      currenciesAccepted: "ZAR",
+      paymentAccepted: "Cash, EFT, Installment Plans",
+      areaServed: [
+        { "@type": "City", name: "Cape Town" },
+        { "@type": "City", name: "Bellville" },
+        { "@type": "City", name: "Claremont" },
+        { "@type": "City", name: "Stellenbosch" },
+        { "@type": "City", name: "Somerset West" },
+        { "@type": "City", name: "Paarl" },
+        { "@type": "State", name: "Western Cape" },
+        { "@type": "Country", name: "South Africa" },
+      ],
+      description:
+        "Tishbite Digital helps Cape Town businesses get more clients online through websites, SEO, ads, WhatsApp lead generation, and automation.",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Cape Town",
+        addressRegion: "Western Cape",
+        addressCountry: "ZA",
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: -33.9249,
+        longitude: 18.4241,
+      },
+      hasMap: "https://g.page/r/CcbaVAYMBDDAEBM",
+      openingHoursSpecification: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "17:00",
+      },
+      image: "https://tishbitedigital.co.za/assets/tishbiteHero.png",
+      sameAs: SOCIAL_PROFILES,
+    },
+  ],
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
+      />
+      <HomePageContent />
+    </>
   );
 }
