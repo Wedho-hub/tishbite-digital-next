@@ -21,6 +21,11 @@ export const metadata = {
     default: "Tishbite Digital | Cape Town Web Design & SEO",
     template: "%s | Tishbite Digital",
   },
+  icons: {
+    icon: "/assets/tishbite_digital_favicon.svg",
+    shortcut: "/assets/tishbite_digital_favicon.svg",
+    apple: "/assets/tishbite_digital_favicon.svg",
+  },
   description:
     "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
   metadataBase: new URL("https://tishbitedigital.co.za"),
