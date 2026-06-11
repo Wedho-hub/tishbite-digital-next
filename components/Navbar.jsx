@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import {
   FaFacebookF,
   FaInstagram,
@@ -15,16 +16,19 @@ const SOCIAL = [
     href: "https://web.facebook.com/profile.php?id=61584656188539",
     Icon: FaFacebookF,
     label: "Facebook",
+    color: "#1877F2",
   },
   {
     href: "https://www.instagram.com/tishbitedigital/",
     Icon: FaInstagram,
     label: "Instagram",
+    color: "#E1306C",
   },
   {
     href: "https://za.pinterest.com/Tishbite_Digital/",
     Icon: FaPinterestP,
     label: "Pinterest",
+    color: "#E60023",
   },
 ];
 
@@ -88,13 +92,13 @@ export default function Navbar() {
       >
         <div className="container mx-auto px-4 max-w-7xl">
           {/* ─── Desktop ─── */}
-          <div className="hidden lg:flex items-center h-[76px] gap-6">
+          <div className="hidden lg:flex items-center h-19 gap-6">
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
+            <Link href="/" className="shrink-0">
               <img
                 src="/assets/tishbite_digital_logo.svg"
                 alt="Tishbite Digital"
-                className="h-10 w-auto"
+                className="h-14 w-auto"
                 loading="eager"
               />
             </Link>
@@ -119,18 +123,19 @@ export default function Navbar() {
             </ul>
 
             {/* Social + Phone */}
-            <div className="flex items-center gap-3 flex-shrink-0">
+            <div className="flex items-center gap-3 shrink-0">
               <div className="flex gap-2">
-                {SOCIAL.map(({ href, Icon, label }) => (
+                {SOCIAL.map(({ href, Icon, label, color }) => (
                   <a
                     key={href}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in a new tab)`}
-                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-accent/20 flex items-center justify-center text-white/70 hover:text-accent transition-all duration-200"
+                    className="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                    style={{ backgroundColor: color }}
                   >
-                    <Icon size={13} />
+                    <Icon size={13} className="text-white" />
                   </a>
                 ))}
               </div>
@@ -150,16 +155,17 @@ export default function Navbar() {
             {/* Top row */}
             <div className="flex items-center justify-between mb-2">
               <div className="flex gap-1.5">
-                {SOCIAL.map(({ href, Icon, label }) => (
+                {SOCIAL.map(({ href, Icon, label, color }) => (
                   <a
                     key={href}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in a new tab)`}
-                    className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-white/60"
+                    className="w-7 h-7 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                    style={{ backgroundColor: color }}
                   >
-                    <Icon size={11} />
+                    <Icon size={11} className="text-white" />
                   </a>
                 ))}
               </div>
@@ -179,7 +185,7 @@ export default function Navbar() {
                 <img
                   src="/assets/tishbite_digital_favicon.svg"
                   alt="Tishbite Digital"
-                  className="h-8 w-8"
+                  className="h-10 w-10"
                   loading="eager"
                 />
                 <span className="text-white font-bold text-sm leading-tight">
@@ -190,18 +196,19 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <button
+              <motion.button
                 ref={togglerRef}
                 type="button"
-                className="flex flex-col gap-[5px] p-2 rounded-lg hover:bg-white/10 transition-colors"
+                className="flex flex-col gap-1.25 p-2 rounded-lg hover:bg-white/10 transition-colors"
                 aria-label={menuOpen ? "Close navigation" : "Open navigation"}
                 aria-controls="mobile-nav-menu"
                 aria-expanded={menuOpen}
                 onClick={() => setMenuOpen((prev) => !prev)}
+                whileTap={{ scale: 0.88 }}
               >
                 <span
                   className={`block w-6 h-0.5 bg-white transition-all duration-300 origin-center ${
-                    menuOpen ? "rotate-45 translate-y-[7px]" : ""
+                    menuOpen ? "rotate-45 translate-y-1.75" : ""
                   }`}
                 />
                 <span
@@ -211,22 +218,24 @@ export default function Navbar() {
                 />
                 <span
                   className={`block w-6 h-0.5 bg-white transition-all duration-300 origin-center ${
-                    menuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+                    menuOpen ? "-rotate-45 -translate-y-1.75" : ""
                   }`}
                 />
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Mobile menu — rendered outside <nav> to avoid backdrop-filter containment */}
+      {/* Mobile menu */}
       <div
         id="mobile-nav-menu"
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
-        className={`on-dark fixed inset-0 top-[96px] z-40 lg:hidden transition-opacity duration-300 ${
+        aria-hidden={!menuOpen}
+        {...(!menuOpen ? { inert: true } : {})}
+        className={`on-dark fixed inset-0 top-24 z-40 lg:hidden transition-opacity duration-300 ${
           menuOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -267,7 +276,7 @@ export default function Navbar() {
       {menuOpen && (
         <button
           type="button"
-          className="fixed inset-0 top-[96px] z-30 lg:hidden cursor-default"
+          className="fixed inset-0 top-24 z-30 lg:hidden cursor-default"
           aria-label="Close menu"
           onClick={closeMenu}
           tabIndex={-1}

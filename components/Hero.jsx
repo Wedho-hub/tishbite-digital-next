@@ -6,21 +6,30 @@ import { motion } from "framer-motion";
 import { FaArrowRight, FaCheckCircle, FaWhatsapp } from "react-icons/fa";
 
 const containerVariants = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.55,
-      ease: [0.22, 1, 0.36, 1],
-      staggerChildren: 0.12,
-    },
+    transition: { duration: 0.4, staggerChildren: 0.14 },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const proofVariants = {
+  hidden: { opacity: 0, scale: 0.8, y: 12 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: { type: "spring", stiffness: 220, damping: 18 },
+  },
 };
 
 const PROOF_ITEMS = [
@@ -32,29 +41,47 @@ const PROOF_ITEMS = [
 export default function Hero() {
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-br from-[#f3f9f5] via-white to-[#e6f2eb] pt-1 pb-12"
+      className="relative overflow-hidden bg-gradient-to-br from-[#f3f9f5] via-white to-[#e6f2eb] pt-1 pb-14"
       aria-label="Tishbite Digital helping Cape Town businesses get more clients online"
     >
-      {/* Background glows */}
+      {/* Animated background glows */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-[15%] left-[10%] w-72 h-72 rounded-full bg-accent/14 blur-3xl" />
-        <div className="absolute bottom-[15%] right-[10%] w-72 h-72 rounded-full bg-primary/14 blur-3xl" />
+        <motion.div
+          className="absolute top-[15%] left-[10%] w-80 h-80 rounded-full bg-accent/14 blur-3xl"
+          animate={{ x: [0, 24, 0], y: [0, -18, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-[15%] right-[10%] w-80 h-80 rounded-full bg-primary/14 blur-3xl"
+          animate={{ x: [0, -24, 0], y: [0, 18, 0] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        />
+        <motion.div
+          className="absolute top-[45%] left-[45%] w-64 h-64 rounded-full bg-primary/8 blur-3xl"
+          animate={{ scale: [1, 1.25, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 min-h-[clamp(440px,60vh,680px)]">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-10 min-h-[clamp(500px,68vh,740px)]">
 
           {/* ── Text content ── */}
           <motion.div
-            className="lg:w-1/2 flex flex-col justify-center order-2 lg:order-1 w-full"
+            className="lg:w-[44%] flex flex-col justify-center order-2 lg:order-1 w-full"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             <motion.p
               variants={itemVariants}
-              className="inline-flex self-start items-center px-3 py-1.5 rounded-full bg-accent/22 border border-accent/45 text-[#173828] text-[0.78rem] font-extrabold uppercase tracking-wider mb-4"
+              className="inline-flex self-start items-center gap-2 px-3 py-1.5 rounded-full bg-accent/22 border border-accent/45 text-[#173828] text-[0.78rem] font-extrabold uppercase tracking-wider mb-4"
             >
+              <motion.span
+                className="w-2 h-2 rounded-full bg-accent shrink-0"
+                animate={{ opacity: [1, 0.3, 1], scale: [1, 1.3, 1] }}
+                transition={{ duration: 1.8, repeat: Infinity }}
+              />
               Cape Town Web Design, SEO, Ads and WhatsApp Lead Generation
             </motion.p>
 
@@ -68,7 +95,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="text-[1.05rem] text-[#2e4037] max-w-[540px] mb-4 leading-relaxed"
+              className="text-[1.05rem] text-[#2e4037] max-w-[540px] mb-5 leading-relaxed"
             >
               Websites. SEO. Ads. Built to generate leads, calls, bookings, and
               WhatsApp enquiries — not just look good. We help Cape Town service
@@ -78,18 +105,19 @@ export default function Hero() {
             </motion.p>
 
             <motion.div
-              variants={itemVariants}
-              className="flex flex-wrap gap-2 mb-5"
+              variants={containerVariants}
+              className="flex flex-wrap gap-2 mb-6"
               aria-label="Business growth benefits"
             >
               {PROOF_ITEMS.map((item) => (
-                <span
+                <motion.span
                   key={item}
+                  variants={proofVariants}
                   className="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/80 border border-primary-dark/10 shadow-sm text-[#173828] text-sm font-semibold"
                 >
                   <FaCheckCircle className="text-primary" aria-hidden="true" />
                   {item}
-                </span>
+                </motion.span>
               ))}
             </motion.div>
 
@@ -123,20 +151,39 @@ export default function Hero() {
 
           {/* ── Image ── */}
           <motion.div
-            className="lg:w-1/2 flex items-center justify-center order-1 lg:order-2 w-full"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.02, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:w-[56%] flex items-center justify-center order-1 lg:order-2 w-full"
+            initial={{ opacity: 0, x: 40, scale: 0.96 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
           >
-            <Image
-              src="/assets/tishbiteHero.png"
-              alt="Cape Town digital professional surrounded by analytics dashboards, social media growth metrics and website results — Tishbite Digital"
-              width={700}
-              height={500}
-              priority
-              className="w-full rounded-2xl shadow-2xl object-cover hover:-translate-y-1 hover:shadow-[0_30px_50px_rgba(27,67,50,0.16)] transition-all duration-400"
-              style={{ minHeight: "clamp(280px,45vh,520px)", maxHeight: "520px", objectFit: "cover" }}
-            />
+            <div className="relative w-full">
+              {/* Animated glow behind image */}
+              <motion.div
+                className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-primary/25 to-accent/25 blur-2xl"
+                animate={{ opacity: [0.45, 0.8, 0.45] }}
+                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+              {/* Floating image */}
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                className="relative"
+              >
+                <Image
+                  src="/assets/tishbiteHero.png"
+                  alt="Cape Town digital professional surrounded by analytics dashboards, social media growth metrics and website results — Tishbite Digital"
+                  width={860}
+                  height={640}
+                  priority
+                  className="w-full rounded-2xl shadow-2xl object-cover hover:shadow-[0_36px_60px_rgba(27,67,50,0.2)] transition-shadow duration-500"
+                  style={{
+                    minHeight: "clamp(340px,52vh,620px)",
+                    maxHeight: "640px",
+                    objectFit: "cover",
+                  }}
+                />
+              </motion.div>
+            </div>
           </motion.div>
 
         </div>

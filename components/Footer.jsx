@@ -17,16 +17,19 @@ const SOCIAL = [
     href: "https://web.facebook.com/profile.php?id=61584656188539",
     Icon: FaFacebookF,
     label: "Facebook",
+    color: "#1877F2",
   },
   {
     href: "https://www.instagram.com/tishbitedigital/",
     Icon: FaInstagram,
     label: "Instagram",
+    color: "#E1306C",
   },
   {
     href: "https://za.pinterest.com/Tishbite_Digital/",
     Icon: FaPinterestP,
     label: "Pinterest",
+    color: "#E60023",
   },
 ];
 
@@ -53,9 +56,9 @@ export default function Footer() {
       <div className="container mx-auto px-4 max-w-7xl">
 
         {/* Pay Online strip */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/[0.06] border border-white/10 rounded-2xl p-4 sm:p-5 mb-10">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-white/6 border border-white/10 rounded-2xl p-4 sm:p-5 mb-10">
           <div className="flex items-start sm:items-center gap-3">
-            <FaCreditCard className="text-accent text-2xl flex-shrink-0 mt-0.5 sm:mt-0" />
+            <FaCreditCard className="text-accent text-2xl shrink-0 mt-0.5 sm:mt-0" />
             <div>
               <p className="text-white font-semibold text-sm mb-1">
                 Pay for services securely online
@@ -73,7 +76,7 @@ export default function Footer() {
           </div>
           <Link
             href="/checkout"
-            className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-4 py-2.5 rounded-xl text-sm flex-shrink-0 transition-colors duration-200 no-underline"
+            className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-4 py-2.5 rounded-xl text-sm shrink-0 transition-colors duration-200 no-underline"
           >
             Pay Online <FaArrowRight aria-hidden="true" />
           </Link>
@@ -93,7 +96,7 @@ export default function Footer() {
               <img
                 src="/assets/tishbite_digital_logo.svg"
                 alt="Tishbite Digital"
-                className="h-10 w-auto"
+                className="h-12 w-auto"
                 loading="lazy"
               />
               <span className="text-accent/70 text-xs font-medium">
@@ -156,16 +159,17 @@ export default function Footer() {
               </a>
             </div>
             <div className="flex gap-2">
-              {SOCIAL.map(({ href, Icon, label }) => (
+              {SOCIAL.map(({ href, Icon, label, color }) => (
                 <a
                   key={href}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${label} (opens in a new tab)`}
-                  className="w-9 h-9 rounded-full bg-white/10 hover:bg-accent/20 hover:text-accent flex items-center justify-center text-white/60 transition-all duration-200"
+                  className="w-9 h-9 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                  style={{ backgroundColor: color }}
                 >
-                  <Icon size={14} />
+                  <Icon size={14} className="text-white" />
                 </a>
               ))}
             </div>

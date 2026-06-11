@@ -18,23 +18,34 @@ import {
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
 
+/* ── Animation variants ─────────────────────────────────── */
+const spring = { type: "spring", stiffness: 120, damping: 18 };
+const springFast = { type: "spring", stiffness: 160, damping: 20 };
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
+  hidden: { opacity: 0, y: 36 },
+  visible: { opacity: 1, y: 0, transition: spring },
 };
 const fadeLeft = {
-  hidden: { opacity: 0, x: -40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  hidden: { opacity: 0, x: -36 },
+  visible: { opacity: 1, x: 0, transition: spring },
 };
 const fadeRight = {
-  hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.8 } },
+  hidden: { opacity: 0, x: 36 },
+  visible: { opacity: 1, x: 0, transition: spring },
+};
+const cardVariants = {
+  hidden: { opacity: 0, y: 28, scale: 0.97 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: springFast },
 };
 const stagger = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.18 } },
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
+const VIEW = { once: true, amount: 0.2 };
+
+/* ── Data ───────────────────────────────────────────────── */
 const GROWTH_PILLARS = [
   {
     Icon: FaSearch,
@@ -121,6 +132,13 @@ const PROJECTS = [
   },
 ];
 
+const LOCAL_SEO_POINTS = [
+  "Cape Town service-area messaging with clearer intent matching",
+  "Answer-focused copy for users searching in Google and AI assistants",
+  "Lead magnets and WhatsApp conversion paths that reduce friction",
+];
+
+/* ── Shared sub-components ──────────────────────────────── */
 function SectionKicker({ children, center = false }) {
   return (
     <p
@@ -143,6 +161,7 @@ function SectionTitle({ id, children, light = false }) {
   );
 }
 
+/* ── Page ───────────────────────────────────────────────── */
 export default function HomePageContent() {
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.3 });
 
@@ -161,12 +180,12 @@ export default function HomePageContent() {
             variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={VIEW}
             className="flex flex-col lg:flex-row items-center gap-10"
           >
             <motion.div
-              variants={fadeRight}
-              className="lg:w-1/2 text-center order-1 lg:order-2"
+              variants={fadeLeft}
+              className="lg:w-1/2 text-center order-1"
             >
               <Link href="/about" className="inline-block no-underline group">
                 <div className="relative overflow-hidden rounded-2xl shadow-xl">
@@ -185,7 +204,7 @@ export default function HomePageContent() {
               </Link>
             </motion.div>
 
-            <motion.div variants={fadeLeft} className="lg:w-1/2 order-2 lg:order-1 flex flex-col">
+            <motion.div variants={fadeRight} className="lg:w-1/2 order-2 flex flex-col">
               <SectionKicker>Local SEO + Lead Generation</SectionKicker>
               <SectionTitle id="home-about-heading">
                 We build digital systems that help service businesses win more
@@ -205,7 +224,7 @@ export default function HomePageContent() {
                   "Improve search visibility for local, high-intent services in Cape Town",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-text-muted text-sm">
-                    <FaCheckCircle className="text-primary mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <FaCheckCircle className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
                     {item}
                   </li>
                 ))}
@@ -213,7 +232,7 @@ export default function HomePageContent() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   href="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-sm shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
                 >
                   Get My Free Audit <FaArrowRight aria-hidden="true" />
                 </Link>
@@ -251,7 +270,7 @@ export default function HomePageContent() {
             variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={VIEW}
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {[
@@ -277,14 +296,18 @@ export default function HomePageContent() {
               <motion.article
                 key={card.title}
                 variants={card.highlight ? fadeLeft : fadeRight}
-                className={`rounded-2xl p-7 flex flex-col ${card.highlight ? "bg-gradient-to-br from-primary-dark to-primary text-white shadow-xl" : "bg-bg border border-primary/10"}`}
+                whileTap={{ scale: 0.98 }}
+                className={`rounded-2xl p-7 flex flex-col cursor-pointer ${card.highlight ? "bg-linear-to-br from-primary-dark to-primary text-white shadow-xl" : "bg-bg border border-primary/10"}`}
               >
                 <card.Icon
                   size={48}
                   className={`mb-4 ${card.highlight ? "text-accent" : "text-primary"}`}
                   aria-hidden="true"
                 />
-                <h4 className={`text-xl font-bold mb-2 ${card.highlight ? "text-white" : "text-primary-dark"}`} style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                <h4
+                  className={`text-xl font-bold mb-2 ${card.highlight ? "text-white" : "text-primary-dark"}`}
+                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                >
                   {card.title}
                 </h4>
                 <p className={`text-sm leading-relaxed mb-3 flex-1 ${card.highlight ? "text-white/80" : "text-text-muted"}`}>
@@ -318,14 +341,18 @@ export default function HomePageContent() {
               Built for rankings, trust, and lead flow
             </SectionTitle>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          >
             {GROWTH_PILLARS.map((pillar) => (
               <motion.article
                 key={pillar.title}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                variants={cardVariants}
+                whileTap={{ scale: 0.97 }}
                 className="bg-white rounded-2xl p-7 border border-primary/8 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
@@ -342,30 +369,34 @@ export default function HomePageContent() {
                 </p>
               </motion.article>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ── Stats ── */}
       <section
-        className="py-16 bg-gradient-to-r from-primary-dark via-primary to-primary-light"
+        className="py-16 bg-linear-to-r from-primary-dark via-primary to-primary-light"
         role="region"
         aria-labelledby="home-stats-heading"
       >
         <div className="container mx-auto px-4 max-w-7xl text-center">
-          <h2
+          <motion.h2
             id="home-stats-heading"
             className="text-3xl lg:text-4xl font-extrabold text-white mb-12"
             style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
           >
             Focused on measurable business growth
-          </h2>
+          </motion.h2>
           <motion.div
             ref={statsRef}
             variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={VIEW}
             className="grid grid-cols-1 md:grid-cols-3 gap-8"
           >
             {[
@@ -390,14 +421,10 @@ export default function HomePageContent() {
                   className="text-5xl lg:text-6xl font-extrabold text-accent mb-3"
                   aria-label={`${end}${suffix} ${label}`}
                 >
-                  {statsInView ? (
-                    <CountUp end={end} duration={2.2} />
-                  ) : (
-                    0
-                  )}
+                  {statsInView ? <CountUp end={end} duration={2.2} /> : 0}
                   {suffix}
                 </p>
-                <p className="text-white/70 text-sm max-w-[200px] mx-auto">
+                <p className="text-white/70 text-sm max-w-50 mx-auto">
                   {label}
                 </p>
               </motion.div>
@@ -416,7 +443,13 @@ export default function HomePageContent() {
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-center gap-10">
-            <div className="lg:w-5/12 flex flex-col">
+            <motion.div
+              variants={fadeLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEW}
+              className="lg:w-5/12 flex flex-col"
+            >
               <SectionKicker>Cape Town Focus</SectionKicker>
               <SectionTitle id="local-seo-heading">
                 Better GEO starts with clearer local relevance
@@ -427,26 +460,26 @@ export default function HomePageContent() {
                 AI-driven discovery tools can understand who you help, where
                 you help them, and why your business is worth contacting.
               </p>
-            </div>
-            <div className="lg:w-7/12">
-              <div className="space-y-4">
-                {[
-                  "Cape Town service-area messaging with clearer intent matching",
-                  "Answer-focused copy for users searching in Google and AI assistants",
-                  "Lead magnets and WhatsApp conversion paths that reduce friction",
-                ].map((point) => (
-                  <div
-                    key={point}
-                    className="flex items-start gap-3 p-4 rounded-xl bg-bg border border-primary/8"
-                  >
-                    <FaMapMarkerAlt className="text-primary mt-0.5 flex-shrink-0" aria-hidden="true" />
-                    <span className="text-text-dark text-sm font-medium">
-                      {point}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </motion.div>
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEW}
+              className="lg:w-7/12 space-y-4"
+            >
+              {LOCAL_SEO_POINTS.map((point) => (
+                <motion.div
+                  key={point}
+                  variants={fadeRight}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-start gap-3 p-4 rounded-xl bg-bg border border-primary/8"
+                >
+                  <FaMapMarkerAlt className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="text-text-dark text-sm font-medium">{point}</span>
+                </motion.div>
+              ))}
+            </motion.div>
           </div>
         </div>
       </section>
@@ -464,14 +497,18 @@ export default function HomePageContent() {
               Frequently asked by growing businesses
             </SectionTitle>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {FAQ_ITEMS.map((item) => (
               <motion.article
                 key={item.question}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
+                variants={cardVariants}
+                whileTap={{ scale: 0.97 }}
                 className="bg-white rounded-2xl p-6 border border-primary/8 hover:shadow-md transition-shadow duration-300"
               >
                 <h3
@@ -485,7 +522,7 @@ export default function HomePageContent() {
                 </p>
               </motion.article>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -503,15 +540,25 @@ export default function HomePageContent() {
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={VIEW}
           >
             Selected Projects
           </motion.h2>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
+          >
             {PROJECTS.map((project) => {
               const card = (
-                <div className="overflow-hidden rounded-2xl bg-bg border border-primary/8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-                  <div className="aspect-[4/3] overflow-hidden">
+                <motion.div
+                  variants={cardVariants}
+                  whileTap={{ scale: 0.96 }}
+                  className="overflow-hidden rounded-2xl bg-bg border border-primary/8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                >
+                  <div className="aspect-4/3 overflow-hidden">
                     <Image
                       src={project.img}
                       alt={`${project.name} — ${project.desc}`}
@@ -522,42 +569,31 @@ export default function HomePageContent() {
                     />
                   </div>
                   <div className="p-3 text-center">
-                    <p className="font-bold text-primary-dark text-sm m-0">
-                      {project.name}
-                    </p>
+                    <p className="font-bold text-primary-dark text-sm m-0">{project.name}</p>
                     <p className="text-text-muted text-xs m-0">{project.desc}</p>
                   </div>
-                </div>
-              );
-              return (
-                <motion.div
-                  key={project.name}
-                  variants={fadeUp}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, amount: 0.2 }}
-                >
-                  {project.link ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${project.name} live project`}
-                      className="no-underline block"
-                    >
-                      {card}
-                    </a>
-                  ) : (
-                    card
-                  )}
                 </motion.div>
               );
+              return project.link ? (
+                <a
+                  key={project.name}
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`View ${project.name} live project (opens in a new tab)`}
+                  className="no-underline block"
+                >
+                  {card}
+                </a>
+              ) : (
+                <div key={project.name}>{card}</div>
+              );
             })}
-          </div>
+          </motion.div>
           <div className="text-center">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
             >
               View All Projects <FaArrowRight aria-hidden="true" />
             </Link>
