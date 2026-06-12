@@ -82,7 +82,7 @@ export default function Hero() {
                 animate={{ opacity: [1, 0.3, 1], scale: [1, 1.3, 1] }}
                 transition={{ duration: 1.8, repeat: Infinity }}
               />
-              Cape Town Web Design, SEO, Ads and WhatsApp Lead Generation
+              Web Design, SEO, Ads and WhatsApp Lead Generation
             </motion.p>
 
             <motion.h1
@@ -122,22 +122,59 @@ export default function Hero() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-between gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-primary-dark via-primary to-primary-light text-[#f9f7ef] font-bold text-[0.98rem] shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 no-underline"
+              <motion.div
+                whileHover="hover"
+                initial="rest"
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
-                <span>Get Free Website &amp; SEO Audit</span>
-                <FaArrowRight className="text-xs" aria-hidden="true" />
-              </Link>
-              <a
+                <motion.div
+                  variants={{
+                    rest: { y: 0, boxShadow: "0 4px 14px rgba(27,67,50,0.2)" },
+                    hover: { y: -5, boxShadow: "0 14px 36px rgba(27,67,50,0.45)" },
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  className="rounded-xl"
+                >
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-linear-to-r from-primary-dark via-primary to-primary-light text-[#f9f7ef] font-bold text-[0.98rem] no-underline"
+                  >
+                    <span>Get Free Website &amp; SEO Audit</span>
+                    <motion.span
+                      variants={{ rest: { x: 0 }, hover: { x: 5 } }}
+                      transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                      aria-hidden="true"
+                    >
+                      <FaArrowRight className="text-xs" />
+                    </motion.span>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              <motion.a
                 href="https://wa.me/27791684548?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-between gap-2 px-5 py-3.5 rounded-xl bg-gradient-to-r from-accent to-accent-light text-primary-dark border border-[rgba(196,146,28,0.35)] font-bold text-[0.98rem] shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all duration-300 no-underline"
+                className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-linear-to-r from-accent to-accent-light text-primary-dark border border-[rgba(196,146,28,0.35)] font-bold text-[0.98rem] no-underline"
+                whileHover="hover"
+                initial="rest"
+                whileTap={{ scale: 0.97 }}
+                variants={{
+                  rest: { y: 0, boxShadow: "0 4px 14px rgba(244,201,93,0.2)" },
+                  hover: { y: -5, boxShadow: "0 12px 30px rgba(244,201,93,0.5)" },
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
                 <span>Chat With Us on WhatsApp</span>
-                <FaWhatsapp className="text-sm" aria-hidden="true" />
-              </a>
+                <motion.span
+                  variants={{ rest: { scale: 1 }, hover: { scale: 1.2 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  aria-hidden="true"
+                >
+                  <FaWhatsapp className="text-sm" />
+                </motion.span>
+              </motion.a>
             </motion.div>
 
             <motion.p

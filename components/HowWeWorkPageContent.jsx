@@ -120,7 +120,7 @@ export default function HowWeWorkPageContent() {
               <ul className="space-y-2 list-none p-0 m-0">
                 {step.bullets.map((b) => (
                   <li key={b} className="flex items-start gap-2 text-sm text-text-muted">
-                    <FaCheckCircle className="text-primary flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <FaCheckCircle className="text-primary shrink-0 mt-0.5" aria-hidden="true" />
                     {b}
                   </li>
                 ))}
@@ -152,7 +152,7 @@ export default function HowWeWorkPageContent() {
         {/* CTA */}
         <motion.div
           variants={itemVariants}
-          className="bg-gradient-to-r from-primary-dark via-primary to-primary-light rounded-2xl p-10 text-center"
+          className="bg-linear-to-r from-primary-dark via-primary to-primary-light rounded-2xl p-10 text-center"
         >
           <h2
             className="text-2xl lg:text-3xl font-extrabold text-white mb-3"
@@ -164,20 +164,47 @@ export default function HowWeWorkPageContent() {
             Tell us about your business and we'll map out the right growth plan — no pressure, no obligation.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent hover:bg-accent-light text-primary-dark font-bold transition-colors no-underline"
+            <motion.div
+              whileHover="hover"
+              initial="rest"
+              whileTap={{ scale: 0.97 }}
             >
-              Get My Free Audit <FaArrowRight aria-hidden="true" />
-            </Link>
-            <a
+              <motion.div
+                variants={{
+                  rest: { y: 0, boxShadow: "0 4px 12px rgba(244,201,93,0.18)" },
+                  hover: { y: -4, boxShadow: "0 12px 28px rgba(244,201,93,0.5)" },
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="rounded-xl"
+              >
+                <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-primary-dark font-bold no-underline">
+                  Get My Free Audit
+                  <motion.span variants={{ rest: { x: 0 }, hover: { x: 5 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                    <FaArrowRight />
+                  </motion.span>
+                </Link>
+              </motion.div>
+            </motion.div>
+
+            <motion.a
               href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20want%20to%20understand%20your%20process%20and%20see%20if%20we%20are%20a%20good%20fit."
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold border border-white/20 transition-colors no-underline"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold border border-white/20 no-underline"
+              whileHover="hover"
+              initial="rest"
+              whileTap={{ scale: 0.97 }}
+              variants={{
+                rest: { y: 0, backgroundColor: "rgba(255,255,255,0.08)" },
+                hover: { y: -4, backgroundColor: "rgba(255,255,255,0.18)", boxShadow: "0 8px 22px rgba(37,211,102,0.35)" },
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
             >
-              <FaWhatsapp aria-hidden="true" /> Chat on WhatsApp
-            </a>
+              <motion.span variants={{ rest: { scale: 1 }, hover: { scale: 1.2 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                <FaWhatsapp />
+              </motion.span>
+              Chat on WhatsApp
+            </motion.a>
           </div>
         </motion.div>
       </div>

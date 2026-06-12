@@ -230,18 +230,56 @@ export default function HomePageContent() {
                 ))}
               </ul>
               <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
+                <motion.div
+                  whileHover="hover"
+                  initial="rest"
+                  whileTap={{ scale: 0.97 }}
                 >
-                  Get My Free Audit <FaArrowRight aria-hidden="true" />
-                </Link>
-                <Link
-                  href="/services"
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all duration-300 no-underline"
+                  <motion.div
+                    variants={{
+                      rest: { y: 0, boxShadow: "0 4px 12px rgba(27,67,50,0.18)" },
+                      hover: { y: -4, boxShadow: "0 12px 28px rgba(27,67,50,0.42)" },
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="rounded-xl"
+                  >
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline"
+                    >
+                      Get My Free Audit
+                      <motion.span variants={{ rest: { x: 0 }, hover: { x: 5 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                        <FaArrowRight />
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                </motion.div>
+
+                <motion.div
+                  whileHover="hover"
+                  initial="rest"
+                  whileTap={{ scale: 0.97 }}
                 >
-                  View Services <FaArrowRight aria-hidden="true" />
-                </Link>
+                  <motion.div
+                    variants={{
+                      rest: { y: 0, backgroundColor: "transparent", color: "var(--color-primary)" },
+                      hover: { y: -3, backgroundColor: "var(--color-primary)", color: "#ffffff", boxShadow: "0 8px 20px rgba(27,67,50,0.3)" },
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                    className="rounded-xl border-2 border-primary"
+                  >
+                    <Link
+                      href="/services"
+                      className="inline-flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-sm no-underline"
+                      style={{ color: "inherit" }}
+                    >
+                      View Services
+                      <motion.span variants={{ rest: { x: 0 }, hover: { x: 5 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                        <FaArrowRight />
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                </motion.div>
               </div>
             </motion.div>
           </motion.div>
@@ -318,9 +356,9 @@ export default function HomePageContent() {
                 </p>
                 <Link
                   href={card.href}
-                  className={`inline-flex items-center gap-1.5 font-bold text-sm no-underline ${card.highlight ? "text-accent hover:text-accent-light" : "text-primary hover:text-primary-dark"} transition-colors`}
+                  className={`group inline-flex items-center gap-1.5 font-bold text-sm no-underline ${card.highlight ? "text-accent hover:text-accent-light" : "text-primary hover:text-primary-dark"} transition-colors`}
                 >
-                  {card.cta} <FaArrowRight size={11} />
+                  {card.cta} <FaArrowRight size={11} className="transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
               </motion.article>
             ))}
@@ -591,12 +629,30 @@ export default function HomePageContent() {
             })}
           </motion.div>
           <div className="text-center">
-            <Link
-              href="/projects"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 no-underline"
+            <motion.div
+              whileHover="hover"
+              initial="rest"
+              whileTap={{ scale: 0.97 }}
             >
-              View All Projects <FaArrowRight aria-hidden="true" />
-            </Link>
+              <motion.div
+                variants={{
+                  rest: { y: 0, boxShadow: "0 4px 12px rgba(27,67,50,0.18)" },
+                  hover: { y: -4, boxShadow: "0 12px 28px rgba(27,67,50,0.42)" },
+                }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="rounded-xl"
+              >
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold no-underline"
+                >
+                  View All Projects
+                  <motion.span variants={{ rest: { x: 0 }, hover: { x: 5 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                    <FaArrowRight />
+                  </motion.span>
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>

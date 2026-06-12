@@ -229,13 +229,27 @@ export default function ServicesPageContent() {
           >
             {isExpanded ? "Show Less" : "Read More"}
           </button>
-          <button
-            className={`ml-auto flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-lg transition-all duration-200 ${isBundle ? "bg-accent text-primary-dark hover:bg-accent-light" : "bg-primary text-white hover:bg-primary-dark"}`}
+          <motion.button
+            className={`ml-auto flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-lg ${isBundle ? "bg-accent text-primary-dark" : "bg-primary text-white"}`}
             onClick={() => goCheckout(getDisplayTitle(service), isBundle ? 8500 : 3500)}
             aria-label={`Get started with ${getDisplayTitle(service)}`}
+            whileHover="hover"
+            initial="rest"
+            whileTap={{ scale: 0.95 }}
+            variants={isBundle ? {
+              rest: { y: 0, backgroundColor: "#f4c95d", boxShadow: "0 2px 6px rgba(244,201,93,0.2)" },
+              hover: { y: -2, backgroundColor: "#ffe08a", boxShadow: "0 6px 18px rgba(244,201,93,0.5)" },
+            } : {
+              rest: { y: 0, backgroundColor: "#2d6a4f", boxShadow: "0 2px 6px rgba(27,67,50,0.15)" },
+              hover: { y: -2, backgroundColor: "#1b4332", boxShadow: "0 6px 18px rgba(27,67,50,0.38)" },
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
           >
-            Get Started <FaArrowRight size={10} aria-hidden="true" />
-          </button>
+            Get Started
+            <motion.span variants={{ rest: { x: 0 }, hover: { x: 3 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+              <FaArrowRight size={10} />
+            </motion.span>
+          </motion.button>
         </div>
       </motion.li>
     );
@@ -394,12 +408,15 @@ export default function ServicesPageContent() {
               viewport={VIEW}
               className="text-center mt-8"
             >
-              <button
-                className="px-6 py-2.5 rounded-xl border-2 border-primary text-primary font-bold text-sm hover:bg-primary hover:text-white transition-all duration-200"
+              <motion.button
+                className="px-6 py-2.5 rounded-xl border-2 border-primary text-primary font-bold text-sm"
                 onClick={() => setShowAllGeneral((p) => !p)}
+                whileHover={{ y: -2, backgroundColor: "#2d6a4f", color: "#ffffff", boxShadow: "0 6px 16px rgba(27,67,50,0.3)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
                 {showAllGeneral ? "Show Less" : `See All ${general.length} General Services`}
-              </button>
+              </motion.button>
             </motion.div>
           )}
         </div>
@@ -450,12 +467,15 @@ export default function ServicesPageContent() {
               viewport={VIEW}
               className="text-center mt-8"
             >
-              <button
-                className="px-6 py-2.5 rounded-xl border-2 border-accent text-[#b8860b] font-bold text-sm hover:bg-accent hover:text-primary-dark transition-all duration-200"
+              <motion.button
+                className="px-6 py-2.5 rounded-xl border-2 border-accent text-[#b8860b] font-bold text-sm"
                 onClick={() => setShowAllBundles((p) => !p)}
+                whileHover={{ y: -2, backgroundColor: "#f4c95d", color: "#1b4332", boxShadow: "0 6px 18px rgba(244,201,93,0.45)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
                 {showAllBundles ? "Show Less" : `See All ${bundles.length} Bundle Packages`}
-              </button>
+              </motion.button>
             </motion.div>
           )}
         </div>
@@ -521,20 +541,30 @@ export default function ServicesPageContent() {
                     <td className="px-4 py-3.5 text-white/50 text-xs">{row.notes}</td>
                     <td className="px-4 py-3.5">
                       {row.checkoutService ? (
-                        <button
-                          className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-accent text-primary-dark hover:bg-accent-light transition-colors whitespace-nowrap"
+                        <motion.button
+                          className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-accent text-primary-dark whitespace-nowrap"
                           onClick={() => goCheckout(row.checkoutService, row.price)}
                           aria-label={`Get started with ${row.service}`}
+                          whileHover={{ scale: 1.06, backgroundColor: "#ffe08a", boxShadow: "0 4px 12px rgba(244,201,93,0.45)" }}
+                          whileTap={{ scale: 0.95 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 18 }}
                         >
                           Get Started <FaArrowRight size={9} />
-                        </button>
+                        </motion.button>
                       ) : (
-                        <Link
-                          href="/contact"
-                          className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg bg-white/10 border border-white/20 text-white hover:bg-white/20 transition-colors whitespace-nowrap no-underline"
+                        <motion.div
+                          whileHover={{ scale: 1.06, backgroundColor: "rgba(255,255,255,0.22)" }}
+                          whileTap={{ scale: 0.95 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                          className="rounded-lg border border-white/20 bg-white/10 inline-flex"
                         >
-                          Enquire <FaArrowRight size={9} />
-                        </Link>
+                          <Link
+                            href="/contact"
+                            className="flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg text-white whitespace-nowrap no-underline"
+                          >
+                            Enquire <FaArrowRight size={9} />
+                          </Link>
+                        </motion.div>
                       )}
                     </td>
                   </tr>
@@ -567,13 +597,35 @@ export default function ServicesPageContent() {
               See exactly how we turn your goals into a clear growth plan — step by step.
             </p>
           </motion.div>
-          <motion.div variants={fadeRight} className="shrink-0">
-            <Link
-              href="/how-we-work"
-              className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-7 py-3.5 rounded-xl text-sm transition-colors duration-200 no-underline whitespace-nowrap shadow-lg"
+          <motion.div
+            variants={fadeRight}
+            className="shrink-0"
+            whileHover="hover"
+            initial="rest"
+            whileTap={{ scale: 0.97 }}
+          >
+            <motion.div
+              variants={{
+                rest: { y: 0, boxShadow: "0 4px 14px rgba(244,201,93,0.25)" },
+                hover: { y: -4, boxShadow: "0 12px 28px rgba(244,201,93,0.55)" },
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
+              className="rounded-xl"
             >
-              See How We Work <FaArrowRight aria-hidden="true" />
-            </Link>
+              <Link
+                href="/how-we-work"
+                className="flex items-center gap-2 bg-accent text-primary-dark font-bold px-7 py-3.5 rounded-xl text-sm no-underline whitespace-nowrap"
+              >
+                See How We Work
+                <motion.span
+                  variants={{ rest: { x: 0 }, hover: { x: 5 } }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  aria-hidden="true"
+                >
+                  <FaArrowRight />
+                </motion.span>
+              </Link>
+            </motion.div>
           </motion.div>
         </motion.div>
       </section>

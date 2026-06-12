@@ -337,18 +337,38 @@ export default function AboutPageContent() {
               Whether you need a full-stack developer or a growth partner for your business — let's talk about what's possible.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent hover:bg-accent-light text-primary-dark font-bold transition-colors no-underline"
+              <motion.div
+                whileHover="hover"
+                initial="rest"
+                whileTap={{ scale: 0.97 }}
               >
-                Get In Touch <FaArrowRight aria-hidden="true" />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold border border-white/20 transition-colors no-underline"
+                <motion.div
+                  variants={{
+                    rest: { y: 0, boxShadow: "0 4px 12px rgba(244,201,93,0.18)" },
+                    hover: { y: -4, boxShadow: "0 12px 28px rgba(244,201,93,0.5)" },
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  className="rounded-xl"
+                >
+                  <Link href="/contact" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-accent text-primary-dark font-bold no-underline">
+                    Get In Touch
+                    <motion.span variants={{ rest: { x: 0 }, hover: { x: 5 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                      <FaArrowRight />
+                    </motion.span>
+                  </Link>
+                </motion.div>
+              </motion.div>
+
+              <motion.div
+                whileHover={{ y: -3, backgroundColor: "rgba(255,255,255,0.18)", boxShadow: "0 8px 20px rgba(255,255,255,0.12)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="rounded-xl border border-white/20"
               >
-                View Services
-              </Link>
+                <Link href="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold no-underline">
+                  View Services
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </div>

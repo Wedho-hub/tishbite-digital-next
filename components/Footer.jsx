@@ -74,12 +74,19 @@ export default function Footer() {
               </p>
             </div>
           </div>
-          <Link
-            href="/checkout"
-            className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold px-4 py-2.5 rounded-xl text-sm shrink-0 transition-colors duration-200 no-underline"
+          <motion.div
+            whileHover={{ y: -2, boxShadow: "0 8px 22px rgba(244,201,93,0.5)" }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
+            className="shrink-0"
           >
-            Pay Online <FaArrowRight aria-hidden="true" />
-          </Link>
+            <Link
+              href="/checkout"
+              className="flex items-center gap-2 bg-accent text-primary-dark font-bold px-4 py-2.5 rounded-xl text-sm no-underline"
+            >
+              Pay Online <FaArrowRight aria-hidden="true" />
+            </Link>
+          </motion.div>
         </div>
 
         {/* Main grid */}
@@ -110,7 +117,7 @@ export default function Footer() {
             </p>
           </motion.div>
 
-          {/* Quick Links */}
+          {/* Quick Links — underline slides in via <span> */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -123,12 +130,24 @@ export default function Footer() {
             <ul className="space-y-2 list-none p-0 m-0">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
-                  >
-                    {link.label}
-                  </Link>
+                  <motion.div whileHover="hover" initial="rest">
+                    <Link
+                      href={link.href}
+                      className="relative inline-block text-white/60 text-sm no-underline"
+                      style={{ transition: "color 0.2s" }}
+                      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent, #f4c95d)")}
+                      onMouseLeave={(e) => (e.currentTarget.style.color = "")}
+                    >
+                      {link.label}
+                      <motion.span
+                        aria-hidden="true"
+                        className="absolute bottom-0 left-0 right-0 block"
+                        style={{ height: "1px", backgroundColor: "var(--color-accent, #f4c95d)", originX: 0 }}
+                        variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                        transition={{ duration: 0.2 }}
+                      />
+                    </Link>
+                  </motion.div>
                 </li>
               ))}
             </ul>
@@ -145,32 +164,39 @@ export default function Footer() {
               Contact
             </h6>
             <div className="space-y-2 mb-4">
-              <a
+              <motion.a
                 href="tel:+27791684548"
-                className="block text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
+                className="block text-white/60 text-sm no-underline"
+                whileHover={{ color: "var(--color-accent, #f4c95d)", x: 3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 📞 +27 79 168 4548
-              </a>
-              <a
+              </motion.a>
+              <motion.a
                 href="mailto:info@tishbitedigital.co.za"
-                className="block text-white/60 hover:text-accent text-sm transition-colors duration-200 no-underline"
+                className="block text-white/60 text-sm no-underline"
+                whileHover={{ color: "var(--color-accent, #f4c95d)", x: 3 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
                 ✉️ info@tishbitedigital.co.za
-              </a>
+              </motion.a>
             </div>
             <div className="flex gap-2">
               {SOCIAL.map(({ href, Icon, label, color }) => (
-                <a
+                <motion.a
                   key={href}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${label} (opens in a new tab)`}
-                  className="w-9 h-9 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                  className="w-9 h-9 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: color }}
+                  whileHover={{ scale: 1.18, filter: "brightness(1.15)" }}
+                  whileTap={{ scale: 0.88 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 >
                   <Icon size={14} className="text-white" />
-                </a>
+                </motion.a>
               ))}
             </div>
           </motion.div>

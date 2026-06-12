@@ -91,8 +91,10 @@ export default function Navbar() {
         aria-label="Main navigation"
       >
         <div className="container mx-auto px-4 max-w-7xl">
+
           {/* ─── Desktop ─── */}
           <div className="hidden lg:flex items-center h-19 gap-6">
+
             {/* Logo */}
             <Link href="/" className="shrink-0">
               <img
@@ -103,80 +105,110 @@ export default function Navbar() {
               />
             </Link>
 
-            {/* Nav links */}
+            {/* Nav links — underline slides in via <span> */}
             <ul className="flex flex-1 justify-center gap-0.5 list-none m-0 p-0">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors duration-200 no-underline ${
-                      pathname === link.href
-                        ? "text-accent bg-white/10"
-                        : "text-white/80 hover:text-white hover:bg-white/10"
-                    }`}
-                    aria-current={pathname === link.href ? "page" : undefined}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
+              {NAV_LINKS.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <li key={link.href}>
+                    <motion.div
+                      whileHover="hover"
+                      initial="rest"
+                      animate={isActive ? "hover" : "rest"}
+                    >
+                      <Link
+                        href={link.href}
+                        className={`relative block px-4 py-2 rounded-lg text-sm font-semibold no-underline transition-colors duration-200 ${
+                          isActive
+                            ? "text-accent bg-white/10"
+                            : "text-white/80 hover:text-white hover:bg-white/10"
+                        }`}
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        {link.label}
+                        <motion.span
+                          aria-hidden="true"
+                          className="absolute bottom-1 left-3 right-3 h-0.5 rounded-full bg-accent block"
+                          variants={{
+                            rest: { scaleX: 0, originX: 0 },
+                            hover: { scaleX: 1, originX: 0 },
+                          }}
+                          transition={{ duration: 0.2 }}
+                        />
+                      </Link>
+                    </motion.div>
+                  </li>
+                );
+              })}
             </ul>
 
-            {/* Social + Phone */}
+            {/* Social icons + Phone */}
             <div className="flex items-center gap-3 shrink-0">
               <div className="flex gap-2">
                 {SOCIAL.map(({ href, Icon, label, color }) => (
-                  <a
+                  <motion.a
                     key={href}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in a new tab)`}
-                    className="w-8 h-8 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                    className="w-8 h-8 rounded-full flex items-center justify-center"
                     style={{ backgroundColor: color }}
+                    whileHover={{ scale: 1.18, filter: "brightness(1.15)" }}
+                    whileTap={{ scale: 0.88 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   >
                     <Icon size={13} className="text-white" />
-                  </a>
+                  </motion.a>
                 ))}
               </div>
-              <a
+
+              <motion.a
                 href={PHONE.href}
                 aria-label={`Call Tishbite Digital on ${PHONE.number}`}
-                className="flex items-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold text-sm px-3 py-2 rounded-lg transition-colors duration-200 no-underline"
+                className="flex items-center gap-2 bg-accent text-primary-dark font-bold text-sm px-3 py-2 rounded-lg no-underline"
+                whileHover={{ y: -2, boxShadow: "0 6px 18px rgba(244,201,93,0.55)" }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
                 <FaPhoneAlt size={12} />
                 {PHONE.number}
-              </a>
+              </motion.a>
             </div>
           </div>
 
-          {/* ─── Mobile ─── */}
+          {/* ─── Mobile header ─── */}
           <div className="flex lg:hidden flex-col py-2">
-            {/* Top row */}
+            {/* Top row: socials + phone */}
             <div className="flex items-center justify-between mb-2">
               <div className="flex gap-1.5">
                 {SOCIAL.map(({ href, Icon, label, color }) => (
-                  <a
+                  <motion.a
                     key={href}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${label} (opens in a new tab)`}
-                    className="w-7 h-7 rounded-full flex items-center justify-center hover:opacity-85 transition-opacity duration-200"
+                    className="w-7 h-7 rounded-full flex items-center justify-center"
                     style={{ backgroundColor: color }}
+                    whileHover={{ scale: 1.18, filter: "brightness(1.15)" }}
+                    whileTap={{ scale: 0.88 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   >
                     <Icon size={11} className="text-white" />
-                  </a>
+                  </motion.a>
                 ))}
               </div>
-              <a
+              <motion.a
                 href={PHONE.href}
                 aria-label={`Call Tishbite Digital on ${PHONE.number}`}
                 className="flex items-center gap-1.5 text-accent font-bold text-sm no-underline"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <FaPhoneAlt size={12} />
                 {PHONE.number}
-              </a>
+              </motion.a>
             </div>
 
             {/* Logo + Hamburger */}
@@ -227,7 +259,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* ─── Mobile menu ─── */}
       <div
         id="mobile-nav-menu"
         role="dialog"
@@ -244,31 +276,43 @@ export default function Navbar() {
       >
         <div className="p-6 max-w-sm mx-auto">
           <ul className="list-none m-0 p-0 space-y-1">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className={`block px-4 py-3.5 rounded-xl text-lg font-semibold transition-colors duration-200 no-underline ${
-                    pathname === link.href
-                      ? "text-accent bg-white/10"
-                      : "text-white hover:text-accent hover:bg-white/[0.07]"
-                  }`}
-                  onClick={closeMenu}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <li key={link.href}>
+                  <motion.div
+                    whileHover={isActive ? {} : { x: 4 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  >
+                    <Link
+                      href={link.href}
+                      className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-lg font-semibold no-underline border-l-[3px] transition-colors duration-200 ${
+                        isActive
+                          ? "text-accent bg-white/10 border-accent"
+                          : "text-white/80 hover:text-white hover:bg-white/10 border-transparent hover:border-accent/60"
+                      }`}
+                      onClick={closeMenu}
+                      aria-current={isActive ? "page" : undefined}
+                    >
+                      {link.label}
+                    </Link>
+                  </motion.div>
+                </li>
+              );
+            })}
           </ul>
 
-          <a
+          <motion.a
             href={PHONE.href}
-            className="mt-6 flex items-center justify-center gap-2 bg-accent hover:bg-accent-light text-primary-dark font-bold py-3.5 rounded-xl text-base no-underline transition-colors"
+            className="mt-6 flex items-center justify-center gap-2 bg-accent text-primary-dark font-bold py-3.5 rounded-xl text-base no-underline"
+            whileHover={{ y: -3, boxShadow: "0 8px 22px rgba(244,201,93,0.55)" }}
+            whileTap={{ scale: 0.96 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
           >
             <FaPhoneAlt />
             {PHONE.number}
-          </a>
+          </motion.a>
         </div>
       </div>
 

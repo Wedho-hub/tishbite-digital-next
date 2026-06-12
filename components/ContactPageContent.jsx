@@ -124,27 +124,37 @@ export default function ContactPageContent() {
                 </p>
                 <div className="space-y-3 mb-5">
                   <a href="tel:+27791684548" className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors no-underline text-sm">
-                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                       <FaPhone size={14} aria-hidden="true" />
                     </div>
                     +27 79 168 4548
                   </a>
                   <a href="mailto:info@tishbitedigital.co.za" className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors no-underline text-sm">
-                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                       <FaEnvelope size={14} aria-hidden="true" />
                     </div>
                     info@tishbitedigital.co.za
                   </a>
                 </div>
-                <a
+                <motion.a
                   href="https://wa.me/27791684548?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-[#25d366] hover:bg-[#1db954] text-white font-bold py-3 rounded-xl transition-colors no-underline text-sm"
+                  className="flex items-center justify-center gap-2 bg-[#25d366] text-white font-bold py-3 rounded-xl no-underline text-sm"
+                  whileHover="hover"
+                  initial="rest"
+                  whileTap={{ scale: 0.96 }}
+                  variants={{
+                    rest: { y: 0, backgroundColor: "#25d366", boxShadow: "0 2px 8px rgba(37,211,102,0.2)" },
+                    hover: { y: -3, backgroundColor: "#1db954", boxShadow: "0 8px 22px rgba(37,211,102,0.5)" },
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 >
-                  <FaWhatsapp size={16} />
+                  <motion.span variants={{ rest: { scale: 1 }, hover: { scale: 1.2 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                    <FaWhatsapp size={16} />
+                  </motion.span>
                   Chat on WhatsApp
-                </a>
+                </motion.a>
               </div>
 
               <div className="bg-white rounded-2xl p-6 border border-primary/8 shadow-sm">
@@ -154,11 +164,11 @@ export default function ContactPageContent() {
                 </h4>
                 <ul className="space-y-2 list-none p-0 m-0 text-sm text-text-muted">
                   <li className="flex items-start gap-2">
-                    <FaCalendarAlt className="text-primary mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <FaCalendarAlt className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
                     Working hours: <strong className="text-text-dark ml-1">0500hrs to 2000hrs</strong>
                   </li>
                   <li className="flex items-start gap-2">
-                    <FaCalendarAlt className="text-primary mt-0.5 flex-shrink-0" aria-hidden="true" />
+                    <FaCalendarAlt className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
                     Availability pause: <strong className="text-text-dark ml-1">Friday sunset to Saturday sunset</strong>
                   </li>
                 </ul>
@@ -267,14 +277,17 @@ export default function ContactPageContent() {
                     )}
                   </div>
 
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={loading}
-                    className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold py-3.5 rounded-xl hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 bg-linear-to-r from-primary-dark to-primary-light text-white font-bold py-3.5 rounded-xl disabled:opacity-60 disabled:cursor-not-allowed"
+                    whileHover={loading ? {} : { y: -3, boxShadow: "0 10px 24px rgba(27,67,50,0.4)" }}
+                    whileTap={loading ? {} : { scale: 0.98 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 18 }}
                   >
                     {loading ? "Sending Message..." : "Send Message"}
                     <FaPaperPlane size={14} aria-hidden="true" />
-                  </button>
+                  </motion.button>
 
                   {success && (
                     <motion.div
@@ -289,14 +302,17 @@ export default function ContactPageContent() {
                       <p className="text-green-600 text-sm mb-3">
                         We'll be in touch within <strong>24 hours</strong>. Want a faster response?
                       </p>
-                      <a
+                      <motion.a
                         href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20just%20submitted%20an%20enquiry%20and%20would%20love%20to%20chat."
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-4 py-2 rounded-lg text-sm no-underline hover:bg-[#1db954] transition-colors"
+                        className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-4 py-2 rounded-lg text-sm no-underline"
+                        whileHover={{ y: -2, backgroundColor: "#1db954", boxShadow: "0 6px 16px rgba(37,211,102,0.45)" }}
+                        whileTap={{ scale: 0.96 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 18 }}
                       >
                         <FaWhatsapp /> Chat on WhatsApp now
-                      </a>
+                      </motion.a>
                     </motion.div>
                   )}
 

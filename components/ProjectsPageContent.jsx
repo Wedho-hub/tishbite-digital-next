@@ -144,7 +144,7 @@ function ProjectCard({ project, isExpanded, onToggle }) {
               target="_blank"
               rel="noopener noreferrer"
               title={`Visit ${project.title}`}
-              className="flex-shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-200 no-underline text-sm"
+              className="shrink-0 w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 no-underline text-sm"
             >
               🔗
             </a>
