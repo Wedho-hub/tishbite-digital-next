@@ -136,10 +136,13 @@ function ServicePicker({ onSelect }) {
                 type="button"
                 variants={fadeUp}
                 onClick={() => onSelect({ name: svc.name, price: svc.price })}
-                className={`relative text-left rounded-2xl p-5 border-2 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/40 ${
+                whileHover={{ y: -4, boxShadow: isFeatured ? "0 12px 28px rgba(27,67,50,0.45)" : "0 10px 24px rgba(27,67,50,0.2)" }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
+              className={`relative text-left rounded-2xl p-5 border-2 focus:outline-none focus:ring-2 focus:ring-primary/40 ${
                   isFeatured
-                    ? "border-accent bg-gradient-to-br from-primary-dark to-primary text-white"
-                    : "border-primary/15 bg-white hover:border-primary/40"
+                    ? "border-accent bg-linear-to-br from-primary-dark to-primary text-white"
+                    : "border-primary/15 bg-white hover:border-primary/40 transition-colors duration-200"
                 }`}
               >
                 {svc.badge && (
@@ -263,7 +266,7 @@ function CheckoutForm({ selectedService, onBack }) {
               <FaArrowLeft size={12} /> Change Service
             </button>
 
-            <div className="bg-gradient-to-br from-primary-dark to-primary rounded-2xl p-6 text-white sticky top-[calc(var(--nav-height)+1rem)]">
+            <div className="bg-linear-to-br from-primary-dark to-primary rounded-2xl p-6 text-white sticky top-[calc(var(--nav-height)+1rem)]">
               <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-4">
                 <FaCreditCard size={20} />
               </div>
@@ -321,7 +324,7 @@ function CheckoutForm({ selectedService, onBack }) {
               <div className="flex flex-col gap-2 pt-4 border-t border-white/15">
                 {["SSL Encrypted", "PayFast Secured", "South African Rand (ZAR)"].map((b) => (
                   <span key={b} className="flex items-center gap-2 text-xs text-white/80">
-                    <FaCheckCircle size={10} className="text-accent flex-shrink-0" />
+                    <FaCheckCircle size={10} className="text-accent shrink-0" />
                     {b}
                   </span>
                 ))}
@@ -455,7 +458,10 @@ function CheckoutForm({ selectedService, onBack }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 w-full flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-base hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+                className="mt-2 w-full flex items-center justify-center gap-3 py-4 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-base disabled:opacity-60 disabled:cursor-not-allowed"
+                whileHover={loading ? {} : { y: -3, boxShadow: "0 10px 24px rgba(27,67,50,0.4)" }}
+                whileTap={loading ? {} : { scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
               >
                 {loading ? (
                   <>

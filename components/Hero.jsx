@@ -41,7 +41,7 @@ const PROOF_ITEMS = [
 export default function Hero() {
   return (
     <section
-      className="relative overflow-hidden bg-gradient-to-br from-[#f3f9f5] via-white to-[#e6f2eb] pt-1 pb-14"
+      className="relative overflow-hidden bg-linear-to-br from-[#f3f9f5] via-white to-[#e6f2eb] pt-1 pb-14"
       aria-label="Tishbite Digital helping Cape Town businesses get more clients online"
     >
       {/* Animated background glows */}
@@ -196,7 +196,7 @@ export default function Hero() {
             <div className="relative w-full">
               {/* Animated glow behind image */}
               <motion.div
-                className="absolute -inset-3 rounded-3xl bg-gradient-to-br from-primary/25 to-accent/25 blur-2xl"
+                className="absolute -inset-3 rounded-3xl bg-linear-to-br from-primary/25 to-accent/25 blur-2xl"
                 animate={{ opacity: [0.45, 0.8, 0.45] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
               />

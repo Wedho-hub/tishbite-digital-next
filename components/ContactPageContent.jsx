@@ -112,7 +112,7 @@ export default function ContactPageContent() {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="bg-gradient-to-br from-primary-dark to-primary rounded-2xl p-7 text-white mb-4">
+              <div className="bg-linear-to-br from-primary-dark to-primary rounded-2xl p-7 text-white mb-4">
                 <h3
                   className="text-xl font-bold mb-3"
                   style={{ fontFamily: "var(--font-montserrat), sans-serif" }}

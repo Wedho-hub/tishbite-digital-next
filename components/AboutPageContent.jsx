@@ -73,7 +73,7 @@ export default function AboutPageContent() {
     <div className="overflow-hidden">
       {/* ── Hero ── */}
       <motion.section
-        className="py-16 bg-gradient-to-br from-primary-dark via-primary to-primary-light text-center"
+        className="py-16 bg-linear-to-br from-primary-dark via-primary to-primary-light text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.7 }}
@@ -322,7 +322,7 @@ export default function AboutPageContent() {
       </section>
 
       {/* ── CTA ── */}
-      <section className="py-16 bg-gradient-to-r from-primary-dark via-primary to-primary-light" aria-labelledby="about-cta-heading">
+      <section className="py-16 bg-linear-to-r from-primary-dark via-primary to-primary-light" aria-labelledby="about-cta-heading">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} className="flex flex-col items-center">
             <Eyebrow light>Let's Work Together</Eyebrow>

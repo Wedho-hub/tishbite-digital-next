@@ -3,6 +3,7 @@
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { FaTimesCircle, FaArrowLeft, FaWhatsapp } from "react-icons/fa";
 
 export default function PaymentCancelContent() {
@@ -41,20 +42,30 @@ export default function PaymentCancelContent() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link
-            href={retryUrl}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+          <motion.div
+            whileHover={{ y: -3, boxShadow: "0 8px 20px rgba(27,67,50,0.38)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
+            className="rounded-xl"
           >
-            <FaArrowLeft size={12} /> Try Again
-          </Link>
-          <a
+            <Link
+              href={retryUrl}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline"
+            >
+              <FaArrowLeft size={12} /> Try Again
+            </Link>
+          </motion.div>
+          <motion.a
             href="https://wa.me/27791684548"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm no-underline"
+            whileHover={{ y: -3, backgroundColor: "#1db954", boxShadow: "0 8px 20px rgba(37,211,102,0.45)" }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 300, damping: 18 }}
           >
             <FaWhatsapp size={16} /> Get Help on WhatsApp
-          </a>
+          </motion.a>
         </div>
       </div>
     </section>

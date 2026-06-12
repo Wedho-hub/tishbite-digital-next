@@ -61,7 +61,7 @@ function StarRating({ count }) {
 export default function Testimonials() {
   return (
     <section
-      className="py-16 bg-gradient-to-b from-[#0f2016] to-[#1a3527]"
+      className="py-16 bg-linear-to-b from-[#0f2016] to-[#1a3527]"
       role="region"
       aria-labelledby="testimonials-heading"
     >
@@ -94,12 +94,12 @@ export default function Testimonials() {
             <motion.article
               key={review.name}
               variants={fadeUp}
-              className="flex flex-col bg-white/[0.06] border border-white/10 rounded-2xl p-6 hover:bg-white/[0.09] transition-colors duration-300"
+              className="flex flex-col bg-white/6 border border-white/10 rounded-2xl p-6 hover:bg-white/9 transition-colors duration-300"
             >
               {/* Avatar + meta */}
               <div className="flex items-center gap-3 mb-4">
                 <div
-                  className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm flex-shrink-0"
+                  className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm shrink-0"
                   aria-hidden="true"
                 >
                   {review.initials}

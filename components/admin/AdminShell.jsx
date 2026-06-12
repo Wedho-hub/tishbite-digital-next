@@ -47,7 +47,7 @@ export default function AdminShell({ children }) {
   return (
     <div className="flex min-h-screen bg-[#f0f4f1]">
       {/* Sidebar */}
-      <aside className="w-56 flex-shrink-0 bg-[#0f2016] flex flex-col">
+      <aside className="w-56 shrink-0 bg-[#0f2016] flex flex-col">
         <div className="px-5 py-5 border-b border-white/8">
           <Link href="/admin" className="flex items-center gap-2 no-underline">
             <Image
@@ -101,7 +101,7 @@ export default function AdminShell({ children }) {
 
       {/* Content */}
       <main className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 bg-white border-b border-[#0f2016]/10 flex items-center px-6 flex-shrink-0">
+        <header className="h-14 bg-white border-b border-[#0f2016]/10 flex items-center px-6 shrink-0">
           <h1
             className="text-sm font-bold text-[#0f2016]"
             style={{ fontFamily: "var(--font-montserrat), sans-serif" }}

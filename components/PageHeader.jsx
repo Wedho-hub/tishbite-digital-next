@@ -2,7 +2,7 @@ export default function PageHeader({ title, subtitle, background = "dark" }) {
   const isDark = background === "dark";
   return (
     <section
-      className={`py-14 ${isDark ? "bg-gradient-to-r from-primary-dark via-primary to-primary-light" : "bg-bg border-b border-primary/8"}`}
+      className={`py-14 ${isDark ? "bg-linear-to-r from-primary-dark via-primary to-primary-light" : "bg-bg border-b border-primary/8"}`}
     >
       <div className="container mx-auto px-4 max-w-7xl text-center">
         <h1

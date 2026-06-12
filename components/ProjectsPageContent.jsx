@@ -120,7 +120,7 @@ function ProjectCard({ project, isExpanded, onToggle }) {
       whileHover={{ y: -6, scale: 1.01 }}
       className="flex flex-col bg-white rounded-2xl border border-primary/8 shadow-sm hover:shadow-lg overflow-hidden transition-shadow duration-300"
     >
-      <div className="relative aspect-[16/10] overflow-hidden">
+      <div className="relative aspect-16/10 overflow-hidden">
         <Image
           src={imageUrl}
           alt={project.title}
