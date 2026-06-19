@@ -1,4 +1,5 @@
 import ProjectsPageContent from "@/components/ProjectsPageContent";
+import CaseStudiesSection from "@/components/CaseStudiesSection";
 
 export const metadata = {
   title: "Portfolio: Web Design & Digital Projects | Cape Town",
@@ -14,5 +15,10 @@ export const metadata = {
 };
 
 export default function ProjectsPage() {
-  return <ProjectsPageContent />;
+  return (
+    <>
+      <ProjectsPageContent />
+      <CaseStudiesSection />
+    </>
+  );
 }

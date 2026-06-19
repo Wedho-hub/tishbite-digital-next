@@ -12,13 +12,17 @@ import {
   FaCogs,
   FaEnvelope,
   FaSignOutAlt,
+  FaChartLine,
+  FaStar,
 } from "react-icons/fa";
 
 const NAV_LINKS = [
   { href: "/admin", label: "Dashboard", icon: FaHome, exact: true },
   { href: "/admin/blogs", label: "Blogs", icon: FaPenNib },
   { href: "/admin/projects", label: "Projects", icon: FaBriefcase },
+  { href: "/admin/case-studies", label: "Case Studies", icon: FaChartLine },
   { href: "/admin/services", label: "Services", icon: FaCogs },
+  { href: "/admin/testimonials", label: "Testimonials", icon: FaStar },
   { href: "/admin/enquiries", label: "Enquiries", icon: FaEnvelope },
 ];
 
@@ -51,7 +55,7 @@ export default function AdminShell({ children }) {
         <div className="px-5 py-5 border-b border-white/8">
           <Link href="/admin" className="flex items-center gap-2 no-underline">
             <Image
-              src="/assets/tishbite_digital_logo.svg"
+              src="/assets/tishbite_digital_favicon.svg"
               alt="Tishbite Digital"
               width={28}
               height={28}

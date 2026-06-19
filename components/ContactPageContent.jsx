@@ -5,8 +5,6 @@ import { motion } from "framer-motion";
 import { FaWhatsapp, FaPaperPlane, FaClock, FaCalendarAlt, FaPhone, FaEnvelope } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tishbitedigital-api.onrender.com";
-
 const SERVICES_OPTIONS = [
   "Lead-Generating Website Development",
   "Google Business Profile & Local SEO",
@@ -72,12 +70,13 @@ export default function ContactPageContent() {
     setSuccess(false);
     setSubmitError("");
     try {
-      const res = await fetch(`${API_URL}/api/enquiries`, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Submission failed. Please try again.");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Submission failed. Please try again.");
       setSuccess(true);
       setForm({ name: "", email: "", service: "", message: "" });
       setErrors({ name: "", email: "", message: "" });

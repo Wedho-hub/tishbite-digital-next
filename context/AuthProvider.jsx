@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { loginAdmin, logoutAdmin, verifyAdmin, fetchCsrfToken } from "@/lib/adminApi";
+import { loginAdmin, logoutAdmin, verifyAdmin } from "@/lib/adminApi";
 
 const AuthContext = createContext(null);
 
@@ -18,7 +18,6 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      await fetchCsrfToken();
       const res = await loginAdmin(email, password);
       if (res.success) setAdmin(res.admin);
       return res;

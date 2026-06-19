@@ -181,7 +181,7 @@ export default function ManageProjectsPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-sm hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              className="px-5 py-2.5 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
             >
               {submitting ? "Saving..." : editing ? "Update" : "Create"}
             </button>

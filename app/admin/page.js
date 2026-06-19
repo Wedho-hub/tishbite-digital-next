@@ -7,6 +7,8 @@ import {
   FaBriefcase,
   FaCogs,
   FaEnvelope,
+  FaChartLine,
+  FaStar,
 } from "react-icons/fa";
 
 const TILES = [
@@ -25,11 +27,25 @@ const TILES = [
     color: "from-primary to-primary-dark",
   },
   {
+    href: "/admin/case-studies",
+    label: "Manage Case Studies",
+    desc: "Tell the problem → solution → result story",
+    icon: FaChartLine,
+    color: "from-teal-600 to-teal-800",
+  },
+  {
     href: "/admin/services",
     label: "Manage Services",
     desc: "Edit general and bundled services",
     icon: FaCogs,
     color: "from-primary-light to-primary",
+  },
+  {
+    href: "/admin/testimonials",
+    label: "Manage Testimonials",
+    desc: "Import Google reviews and ratings",
+    icon: FaStar,
+    color: "from-amber-500 to-amber-700",
   },
   {
     href: "/admin/enquiries",
@@ -55,9 +71,9 @@ export default function AdminDashboardPage() {
           <Link
             key={href}
             href={href}
-            className={`flex items-start gap-4 p-5 rounded-2xl bg-gradient-to-br ${color} text-white no-underline hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300`}
+            className={`flex items-start gap-4 p-5 rounded-2xl bg-linear-to-br ${color} text-white no-underline hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300`}
           >
-            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center shrink-0">
               <Icon size={18} />
             </div>
             <div>

@@ -187,21 +187,24 @@ export default function HomePageContent() {
               variants={fadeLeft}
               className="lg:w-1/2 text-center order-1"
             >
-              <Link href="/about" className="inline-block no-underline group">
-                <div className="relative overflow-hidden rounded-2xl shadow-xl">
-                  <Image
-                    src="/assets/profilePic.jpg"
-                    alt="Wellington Dhliwayo — Founder of Tishbite Digital"
-                    width={500}
-                    height={500}
-                    className="w-full max-w-sm mx-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy"
-                  />
-                </div>
-                <p className="mt-3 text-text-muted text-sm font-semibold">
-                  Meet Our Founder
-                </p>
-              </Link>
+              <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}>
+                <Link href="/about" className="inline-block no-underline group">
+                  <div className="relative overflow-hidden rounded-2xl shadow-xl group-hover:shadow-2xl transition-shadow duration-300">
+                    <Image
+                      src="/assets/profilePic.jpg"
+                      alt="Wellington Dhliwayo — Founder of Tishbite Digital"
+                      width={500}
+                      height={500}
+                      className="w-full max-w-sm mx-auto object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-primary-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <p className="mt-3 text-text-muted text-sm font-semibold group-hover:text-primary transition-colors duration-200">
+                    Meet Our Founder
+                  </p>
+                </Link>
+              </motion.div>
             </motion.div>
 
             <motion.div variants={fadeRight} className="lg:w-1/2 order-2 flex flex-col">
@@ -334,7 +337,9 @@ export default function HomePageContent() {
               <motion.article
                 key={card.title}
                 variants={card.highlight ? fadeLeft : fadeRight}
+                whileHover={{ y: -6, boxShadow: card.highlight ? "0 16px 36px rgba(27,67,50,0.45)" : "0 12px 28px rgba(27,67,50,0.15)" }}
                 whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 className={`rounded-2xl p-7 flex flex-col cursor-pointer ${card.highlight ? "bg-linear-to-br from-primary-dark to-primary text-white shadow-xl" : "bg-bg border border-primary/10"}`}
               >
                 <card.Icon
@@ -593,23 +598,32 @@ export default function HomePageContent() {
               const card = (
                 <motion.div
                   variants={cardVariants}
+                  whileHover="hover"
+                  initial="rest"
                   whileTap={{ scale: 0.96 }}
-                  className="overflow-hidden rounded-2xl bg-bg border border-primary/8 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                  className="group overflow-hidden rounded-2xl bg-bg border border-primary/8"
                 >
-                  <div className="aspect-4/3 overflow-hidden">
-                    <Image
-                      src={project.img}
-                      alt={`${project.name} — ${project.desc}`}
-                      width={300}
-                      height={225}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                  </div>
-                  <div className="p-3 text-center">
-                    <p className="font-bold text-primary-dark text-sm m-0">{project.name}</p>
-                    <p className="text-text-muted text-xs m-0">{project.desc}</p>
-                  </div>
+                  <motion.div
+                    variants={{ rest: { y: 0, boxShadow: "0 2px 8px rgba(27,67,50,0.08)" }, hover: { y: -5, boxShadow: "0 14px 30px rgba(27,67,50,0.28)" } }}
+                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                    className="rounded-2xl"
+                  >
+                    <div className="relative aspect-4/3 overflow-hidden">
+                      <Image
+                        src={project.img}
+                        alt={`${project.name} — ${project.desc}`}
+                        width={300}
+                        height={225}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-primary-dark/55 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                    <div className="p-3 text-center">
+                      <p className="font-bold text-primary-dark text-sm m-0 group-hover:text-primary transition-colors duration-200">{project.name}</p>
+                      <p className="text-text-muted text-xs m-0">{project.desc}</p>
+                    </div>
+                  </motion.div>
                 </motion.div>
               );
               return project.link ? (

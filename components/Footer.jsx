@@ -99,17 +99,19 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
           >
-            <Link href="/" className="inline-flex flex-col gap-1 mb-4 no-underline">
-              <img
-                src="/assets/tishbite_digital_logo.svg"
-                alt="Tishbite Digital"
-                className="h-12 w-auto"
-                loading="lazy"
-              />
-              <span className="text-accent/70 text-xs font-medium">
-                Growing Together
-              </span>
-            </Link>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="inline-block">
+              <Link href="/" className="inline-flex flex-col gap-1 mb-4 no-underline group">
+                <img
+                  src="/assets/tishbite_digital_logo.svg"
+                  alt="Tishbite Digital"
+                  className="h-12 w-auto"
+                  loading="lazy"
+                />
+                <span className="text-accent/70 text-xs font-medium group-hover:text-accent transition-colors duration-200">
+                  Growing Together
+                </span>
+              </Link>
+            </motion.div>
             <p className="text-white/60 text-sm leading-relaxed m-0">
               Cape Town digital agency helping service businesses get more
               enquiries, better Google visibility, and sustainable online

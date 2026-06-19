@@ -146,7 +146,6 @@ const HERO_FEATURES = [
 ];
 
 const INITIAL_VISIBLE = 4;
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tishbitedigital-api.onrender.com";
 
 /* ── Section heading ── */
 function SectionLabel({ children }) {
@@ -169,7 +168,7 @@ export default function ServicesPageContent() {
     let mounted = true;
     (async () => {
       try {
-        const res = await fetch(`${API_URL}/api/services`);
+        const res = await fetch("/api/services");
         if (!res.ok) return;
         const data = await res.json();
         if (mounted && Array.isArray(data) && data.length > 0) setServices(data);

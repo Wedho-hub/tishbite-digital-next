@@ -18,7 +18,7 @@ export default function NotFound() {
       <div className="flex flex-wrap gap-3 justify-center">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold no-underline hover:-translate-y-0.5 transition-all duration-300"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold no-underline hover:-translate-y-0.5 transition-all duration-300"
         >
           Go Home <FaArrowRight />
         </Link>

@@ -8,8 +8,6 @@ import ReactMarkdown from "react-markdown";
 import { FaArrowRight, FaCalendarAlt } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tishbitedigital-api.onrender.com";
-
 export default function BlogDetailPage() {
   const params = useParams();
   const [post, setPost] = useState(null);
@@ -19,7 +17,7 @@ export default function BlogDetailPage() {
   useEffect(() => {
     if (!params?.slug) return;
     let mounted = true;
-    fetch(`${API_URL}/api/blogs/${params.slug}`)
+    fetch(`/api/blogs/${params.slug}`)
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((data) => { if (mounted) setPost(data); })
       .catch(() => { if (mounted) setError(true); })
@@ -46,9 +44,7 @@ export default function BlogDetailPage() {
     );
   }
 
-  const imageUrl = post.image
-    ? (post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`)
-    : null;
+  const imageUrl = post.image || null;
 
   return (
     <>
@@ -101,7 +97,7 @@ export default function BlogDetailPage() {
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
             >
               Get a Free Audit <FaArrowRight size={12} />
             </Link>

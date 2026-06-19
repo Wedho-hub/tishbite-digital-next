@@ -1,38 +1,37 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaStar, FaGoogle } from "react-icons/fa";
 
-const REVIEWS = [
+const FALLBACK_REVIEWS = [
   {
+    _id: "fallback-thandi",
     name: "Thandi M.",
     role: "HR Business Partner",
     company: "Maffy Online",
-    service: "Lead-Generating Website",
     rating: 5,
     quote:
       "Our WhatsApp enquiries doubled within the first month of launching our new site. Tishbite Digital didn't just build a website — they built us a lead machine that works around the clock.",
-    initials: "TM",
   },
   {
+    _id: "fallback-nkosi",
     name: "Mr. F. Nkosi",
     role: "Principal",
     company: "FOG Educare",
-    service: "Local SEO & Google Visibility",
     rating: 5,
     quote:
       "Parents started finding us through Google within weeks. Enrolment enquiries increased noticeably and we now appear for the local searches that matter most to our community.",
-    initials: "FN",
   },
   {
+    _id: "fallback-leon",
     name: "Leon V.",
     role: "Owner",
     company: "Cape Comfort Home Services",
-    service: "Business Starter Pack",
     rating: 5,
     quote:
       "They made the whole process simple and clear. I didn't know where to start online, but within a short time I had a professional site and was getting weekly WhatsApp enquiries.",
-    initials: "LV",
   },
 ];
 
@@ -58,7 +57,29 @@ function StarRating({ count }) {
   );
 }
 
+function getInitials(name = "") {
+  return name.slice(0, 2).toUpperCase();
+}
+
 export default function Testimonials() {
+  const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await fetch("/api/testimonials");
+        if (!res.ok) return;
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
+        if (mounted && list.length > 0) setReviews(list);
+      } catch {
+        /* fallback stays */
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
+
   return (
     <section
       className="py-16 bg-linear-to-b from-[#0f2016] to-[#1a3527]"
@@ -90,35 +111,43 @@ export default function Testimonials() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {REVIEWS.map((review) => (
+          {reviews.map((review) => (
             <motion.article
-              key={review.name}
+              key={review._id || review.name}
               variants={fadeUp}
               className="flex flex-col bg-white/6 border border-white/10 rounded-2xl p-6 hover:bg-white/9 transition-colors duration-300"
             >
               {/* Avatar + meta */}
               <div className="flex items-center gap-3 mb-4">
-                <div
-                  className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm shrink-0"
-                  aria-hidden="true"
-                >
-                  {review.initials}
-                </div>
+                {review.image ? (
+                  <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 relative">
+                    <Image
+                      src={review.image}
+                      alt={review.name}
+                      fill
+                      className="object-cover"
+                      sizes="44px"
+                    />
+                  </div>
+                ) : (
+                  <div
+                    className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm shrink-0"
+                    aria-hidden="true"
+                  >
+                    {getInitials(review.name)}
+                  </div>
+                )}
                 <div>
                   <p className="text-white font-semibold text-sm m-0">
                     {review.name}
                   </p>
                   <p className="text-white/50 text-xs m-0">
-                    {review.role} &middot; {review.company}
+                    {[review.role, review.company].filter(Boolean).join(" · ")}
                   </p>
                 </div>
               </div>
 
-              <StarRating count={review.rating} />
-
-              <span className="inline-block mb-3 px-2.5 py-1 rounded-full bg-primary/30 text-primary-light text-xs font-semibold">
-                {review.service}
-              </span>
+              <StarRating count={review.rating || 5} />
 
               <blockquote className="flex-1 text-white/70 text-sm leading-relaxed italic m-0 mb-4">
                 &ldquo;{review.quote}&rdquo;
@@ -126,7 +155,7 @@ export default function Testimonials() {
 
               <div className="flex items-center gap-1.5 text-white/30 text-xs border-t border-white/10 pt-3">
                 <FaGoogle aria-hidden="true" />
-                <span>Google Review</span>
+                <span>{review.source || "Google"} Review</span>
               </div>
             </motion.article>
           ))}

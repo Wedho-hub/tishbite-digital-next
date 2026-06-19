@@ -7,8 +7,6 @@ import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://tishbitedigital-api.onrender.com";
-
 const FALLBACK_POSTS = [
   {
     _id: "fb-seo",
@@ -58,9 +56,10 @@ export default function BlogPage() {
 
   useEffect(() => {
     let mounted = true;
-    fetch(`${API_URL}/api/blogs`)
+    fetch("/api/blogs")
       .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
+      .then((result) => {
+        const data = Array.isArray(result) ? result : result?.data;
         if (mounted && Array.isArray(data) && data.length > 0) setPosts(data);
       })
       .catch(() => {})
@@ -95,10 +94,10 @@ export default function BlogPage() {
                   variants={fadeUp}
                   className="flex flex-col bg-white rounded-2xl border border-primary/8 shadow-sm hover:shadow-md hover:-translate-y-0.5 overflow-hidden transition-all duration-300"
                 >
-                  <div className="aspect-[16/9] bg-primary/5 overflow-hidden">
+                  <div className="aspect-video bg-primary/5 overflow-hidden">
                     {post.image ? (
                       <Image
-                        src={post.image.startsWith("http") ? post.image : `${API_URL}${post.image}`}
+                        src={post.image}
                         alt={post.title}
                         width={400}
                         height={225}
@@ -106,7 +105,7 @@ export default function BlogPage() {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                      <div className="w-full h-full bg-linear-to-br from-primary/10 to-accent/10 flex items-center justify-center">
                         <span className="text-primary/30 text-4xl font-bold">TD</span>
                       </div>
                     )}

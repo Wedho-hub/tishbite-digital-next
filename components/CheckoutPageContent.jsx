@@ -13,9 +13,6 @@ import {
   FaShieldAlt,
 } from "react-icons/fa";
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://tishbitedigital-api.onrender.com";
-
 const INSTALLMENT_INFO = {
   "Business Launch Suite": { amount: 2900, months: 3 },
   "Digital Foundation Suite": { amount: 3400, months: 3 },
@@ -232,7 +229,7 @@ function CheckoutForm({ selectedService, onBack }) {
     }
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/payments/initiate`, {
+      const res = await fetch("/api/payments/initiate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, service, amount: displayAmount, paymentType }),

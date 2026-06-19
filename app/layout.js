@@ -38,7 +38,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${montserrat.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${montserrat.variable} ${inter.variable}`}>
       <body className="flex flex-col min-h-screen bg-bg text-text-dark">
         <PublicWrapper>{children}</PublicWrapper>
       </body>

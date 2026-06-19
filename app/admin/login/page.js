@@ -47,7 +47,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
           <Image
-            src="/assets/tishbite_digital_logo.svg"
+            src="/assets/tishbite_digital_favicon.svg"
             alt="Tishbite Digital"
             width={48}
             height={48}
@@ -109,7 +109,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="mt-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary-dark to-primary-light text-white font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+              className="mt-1 flex items-center justify-center gap-2 py-3 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
             >
               {submitting ? (
                 <>

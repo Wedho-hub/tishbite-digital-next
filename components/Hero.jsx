@@ -95,7 +95,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="text-[1.05rem] text-[#2e4037] max-w-[540px] mb-5 leading-relaxed"
+              className="text-[1.05rem] text-[#2e4037] max-w-135 mb-5 leading-relaxed"
             >
               Websites. SEO. Ads. Built to generate leads, calls, bookings, and
               WhatsApp enquiries — not just look good. We help Cape Town service
@@ -179,7 +179,7 @@ export default function Hero() {
 
             <motion.p
               variants={itemVariants}
-              className="mt-3 text-[#486154] text-sm leading-relaxed max-w-[560px]"
+              className="mt-3 text-[#486154] text-sm leading-relaxed max-w-140"
             >
               Serving Cape Town, the Western Cape, and South African businesses
               that want growth systems, not brochure websites.
