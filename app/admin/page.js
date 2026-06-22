@@ -9,9 +9,17 @@ import {
   FaEnvelope,
   FaChartLine,
   FaStar,
+  FaClipboardList,
 } from "react-icons/fa";
 
 const TILES = [
+  {
+    href: "/admin/onboarding",
+    label: "Manage Onboarding",
+    desc: "Review new client submissions and quote status",
+    icon: FaClipboardList,
+    color: "from-indigo-600 to-indigo-800",
+  },
   {
     href: "/admin/blogs",
     label: "Manage Blogs",

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaWhatsapp, FaPaperPlane, FaClock, FaCalendarAlt, FaPhone, FaEnvelope } from "react-icons/fa";
+import { FaWhatsapp, FaPaperPlane, FaClock, FaCalendarAlt, FaPhone, FaEnvelope, FaClipboardList, FaArrowRight } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
 const SERVICES_OPTIONS = [
@@ -172,6 +173,24 @@ export default function ContactPageContent() {
                   </li>
                 </ul>
               </div>
+
+              <motion.div
+                whileHover={{ y: -2, boxShadow: "0 8px 22px rgba(27,67,50,0.18)" }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                className="bg-white rounded-2xl border border-primary/8 shadow-sm mt-4"
+              >
+                <Link href="/onboarding" className="flex items-center gap-3 p-5 no-underline">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
+                    <FaClipboardList className="text-primary" aria-hidden="true" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-bold text-primary-dark text-sm m-0">New client?</p>
+                    <p className="text-text-muted text-xs m-0">Fill out our onboarding form for a faster, more accurate quote</p>
+                  </div>
+                  <FaArrowRight className="text-primary shrink-0" size={12} aria-hidden="true" />
+                </Link>
+              </motion.div>
             </motion.div>
 
             {/* ── Form ── */}

@@ -14,10 +14,12 @@ import {
   FaSignOutAlt,
   FaChartLine,
   FaStar,
+  FaClipboardList,
 } from "react-icons/fa";
 
 const NAV_LINKS = [
   { href: "/admin", label: "Dashboard", icon: FaHome, exact: true },
+  { href: "/admin/onboarding", label: "Onboarding", icon: FaClipboardList },
   { href: "/admin/blogs", label: "Blogs", icon: FaPenNib },
   { href: "/admin/projects", label: "Projects", icon: FaBriefcase },
   { href: "/admin/case-studies", label: "Case Studies", icon: FaChartLine },
