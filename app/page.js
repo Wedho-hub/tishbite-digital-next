@@ -1,9 +1,9 @@
 import HomePageContent from "@/components/HomePageContent";
 
 export const metadata = {
-  title: "We Help Cape Town Businesses Get More Clients Online | Tishbite Digital",
+  title: "Cape Town Web Design, SEO & Lead Generation | Tishbite Digital",
   description:
-    "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
+    "Lead-generating websites, SEO, and WhatsApp-ready digital systems built to turn Cape Town traffic into real client enquiries.",
   keywords: [
     "Cape Town web design",
     "Cape Town SEO",

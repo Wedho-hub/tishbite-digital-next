@@ -1,9 +1,9 @@
 import ServicesPageContent from "@/components/ServicesPageContent";
 
 export const metadata = {
-  title: "Website Design, SEO & Digital Marketing Services in Cape Town",
+  title: "Website Design, SEO & Marketing in Cape Town",
   description:
-    "From website design to SEO, ads, and WhatsApp automation. We help Cape Town businesses build digital growth systems that generate qualified leads and drive results.",
+    "Website design, SEO, ads, and WhatsApp automation built to turn Cape Town businesses into lead-generating machines.",
   keywords: [
     "website design Cape Town",
     "SEO services",

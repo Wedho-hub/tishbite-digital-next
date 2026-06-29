@@ -1,9 +1,9 @@
 import AboutPageContent from "@/components/AboutPageContent";
 
 export const metadata = {
-  title: "About Us — Cape Town Web Design & Digital Marketing Agency",
+  title: "Meet Our Founder — Cape Town Web Design Agency",
   description:
-    "Tishbite Digital is a Cape Town digital agency founded by Wellington Dhliwayo. We build lead-generating websites, local SEO systems, and growth automation for South African service businesses.",
+    "Tishbite Digital is led by Wellington Dhliwayo, building lead-generating websites and SEO systems for Cape Town businesses.",
   keywords: [
     "Tishbite Digital",
     "Wellington Dhliwayo",

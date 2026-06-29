@@ -2,7 +2,7 @@ import ProjectsPageContent from "@/components/ProjectsPageContent";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 
 export const metadata = {
-  title: "Portfolio: Web Design & Digital Projects in Cape Town",
+  title: "Web Design Portfolio — Cape Town Digital Projects",
   description:
     "See our portfolio of website design, web development, and digital transformation projects built for Cape Town and South African businesses.",
   keywords: [
