@@ -17,19 +17,42 @@ const inter = Inter({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://www.tishbitedigital.co.za"),
+
   title: {
     default: "Tishbite Digital | Cape Town Web Design & SEO",
     template: "%s | Tishbite Digital",
   },
+
+  description:
+    "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
+
+  keywords: [
+    "web development Cape Town",
+    "SEO Cape Town",
+    "digital marketing agency South Africa",
+    "Next.js web design",
+    "lead generation websites",
+    "WhatsApp marketing",
+    "Google Business Profile optimization",
+    "small business website South Africa",
+  ],
+
   icons: {
     icon: "/assets/tishbite_digital_favicon.svg",
     shortcut: "/assets/tishbite_digital_favicon.svg",
     apple: "/assets/tishbite_digital_favicon.svg",
   },
-  description:
-    "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
-  metadataBase: new URL("https://www.tishbitedigital.co.za"),
+
+  alternates: {
+    canonical: "/",
+  },
+
   openGraph: {
+    title: "Tishbite Digital | Cape Town Web Design & SEO",
+    description:
+      "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
+    url: "/",
     siteName: "Tishbite Digital",
     locale: "en_ZA",
     type: "website",

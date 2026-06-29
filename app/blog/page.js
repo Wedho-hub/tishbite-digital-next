@@ -9,12 +9,19 @@ export const metadata = {
   title: "Blog — Digital Growth Insights",
   description:
     "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
+  keywords: [
+    "Cape Town digital marketing blog",
+    "SEO tips South Africa",
+    "WhatsApp lead generation",
+    "small business growth strategies",
+  ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/blog" },
   openGraph: {
     title: "Digital Growth Insights — Tishbite Digital Blog",
     description:
       "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
     url: "https://www.tishbitedigital.co.za/blog",
+    images: [{ url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png" }],
   },
 };
 

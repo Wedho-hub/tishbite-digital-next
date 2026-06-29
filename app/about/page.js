@@ -1,9 +1,16 @@
 import AboutPageContent from "@/components/AboutPageContent";
 
 export const metadata = {
-  title: "About Tishbite Digital — Cape Town Web Design & Digital Marketing Agency",
+  title: "About Us — Cape Town Web Design & Digital Marketing Agency",
   description:
     "Tishbite Digital is a Cape Town digital agency founded by Wellington Dhliwayo. We build lead-generating websites, local SEO systems, and growth automation for South African service businesses.",
+  keywords: [
+    "Tishbite Digital",
+    "Wellington Dhliwayo",
+    "Cape Town web developer",
+    "full-stack developer South Africa",
+    "digital agency founder Cape Town",
+  ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/about" },
   openGraph: {
     title: "Wellington Dhliwayo — Web Developer & Founder | Tishbite Digital",
