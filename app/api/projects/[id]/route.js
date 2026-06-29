@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Project from "@/models/Project";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 export async function GET(request, { params }) {
   await connectDB();
@@ -51,6 +52,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existingProject.image, imagePublicId: existingProject.imagePublicId });
   }
 
+  await pingIndexNow("/projects");
   return Response.json(project);
 }
 
@@ -65,5 +67,6 @@ export async function DELETE(request, { params }) {
 
   await deleteStoredImage({ image: project.image, imagePublicId: project.imagePublicId });
 
+  await pingIndexNow("/projects");
   return Response.json({ message: "Project deleted" });
 }

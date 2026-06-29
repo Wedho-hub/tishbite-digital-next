@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import CaseStudy from "@/models/CaseStudy";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickCaseStudyPayload = (body = {}) => {
   const payload = {
@@ -69,5 +70,6 @@ export async function POST(request) {
   }
 
   const caseStudy = await CaseStudy.create(data);
+  await pingIndexNow("/projects");
   return Response.json(caseStudy, { status: 201 });
 }

@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickBlogPayload = (body = {}) => {
   const payload = {
@@ -97,5 +98,8 @@ export async function POST(request) {
   }
 
   const post = await BlogPost.create(data);
+  // Awaited (not fire-and-forget) — Vercel can freeze the function as soon
+  // as the response is sent, killing any pending unawaited work.
+  await pingIndexNow(["/blog", `/blog/${post._id}`]);
   return Response.json(post, { status: 201 });
 }

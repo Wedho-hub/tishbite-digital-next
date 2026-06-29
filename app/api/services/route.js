@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Service from "@/models/Service";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const allowedCategories = new Set(["general", "bundle"]);
 
@@ -77,5 +78,6 @@ export async function POST(request) {
     ...(imageData?.imagePublicId ? { imagePublicId: imageData.imagePublicId } : {}),
   });
 
+  await pingIndexNow("/services");
   return Response.json(service, { status: 201 });
 }

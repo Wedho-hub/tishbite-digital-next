@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import CaseStudy from "@/models/CaseStudy";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickCaseStudyPayload = (body = {}) => {
   const payload = {
@@ -77,6 +78,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existing.image, imagePublicId: existing.imagePublicId });
   }
 
+  await pingIndexNow("/projects");
   return Response.json(caseStudy);
 }
 
@@ -91,5 +93,6 @@ export async function DELETE(request, { params }) {
 
   await deleteStoredImage({ image: caseStudy.image, imagePublicId: caseStudy.imagePublicId });
 
+  await pingIndexNow("/projects");
   return Response.json({ message: "Case study deleted" });
 }

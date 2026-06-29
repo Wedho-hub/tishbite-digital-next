@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Testimonial from "@/models/Testimonial";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickTestimonialPayload = (body = {}) => {
   const payload = {
@@ -62,5 +63,6 @@ export async function POST(request) {
   }
 
   const testimonial = await Testimonial.create(data);
+  await pingIndexNow("/");
   return Response.json(testimonial, { status: 201 });
 }

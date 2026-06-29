@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickBlogPayload = (body = {}) => {
   const payload = {
@@ -71,6 +72,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existingPost.image, imagePublicId: existingPost.imagePublicId });
   }
 
+  await pingIndexNow(["/blog", `/blog/${id}`]);
   return Response.json(post);
 }
 
@@ -85,5 +87,8 @@ export async function DELETE(request, { params }) {
 
   await deleteStoredImage({ image: post.image, imagePublicId: post.imagePublicId });
 
+  // Ping the now-gone URL too — IndexNow treats this as a signal to
+  // recrawl and notice the removal sooner than the next scheduled crawl.
+  await pingIndexNow(["/blog", `/blog/${id}`]);
   return Response.json({ message: "Blog post deleted" });
 }

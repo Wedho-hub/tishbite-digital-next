@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Project from "@/models/Project";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 export async function GET(request) {
   await connectDB();
@@ -64,5 +65,6 @@ export async function POST(request) {
   }
 
   const project = await Project.create(data);
+  await pingIndexNow("/projects");
   return Response.json(project, { status: 201 });
 }

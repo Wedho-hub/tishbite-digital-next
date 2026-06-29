@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Service from "@/models/Service";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const allowedCategories = new Set(["general", "bundle"]);
 const normalizeCategory = (value) => {
@@ -66,6 +67,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existingService.image, imagePublicId: existingService.imagePublicId });
   }
 
+  await pingIndexNow("/services");
   return Response.json({ ...service.toObject(), category: service.category || "general" });
 }
 
@@ -80,5 +82,6 @@ export async function DELETE(request, { params }) {
 
   await deleteStoredImage({ image: service.image, imagePublicId: service.imagePublicId });
 
+  await pingIndexNow("/services");
   return Response.json({ message: "Service deleted" });
 }

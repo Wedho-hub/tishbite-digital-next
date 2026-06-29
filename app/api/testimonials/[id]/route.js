@@ -2,6 +2,7 @@ import connectDB from "@/lib/db";
 import Testimonial from "@/models/Testimonial";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
+import { pingIndexNow } from "@/lib/indexNow";
 
 const pickTestimonialPayload = (body = {}) => {
   const payload = {
@@ -70,6 +71,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existing.image, imagePublicId: existing.imagePublicId });
   }
 
+  await pingIndexNow("/");
   return Response.json(testimonial);
 }
 
@@ -84,5 +86,6 @@ export async function DELETE(request, { params }) {
 
   await deleteStoredImage({ image: testimonial.image, imagePublicId: testimonial.imagePublicId });
 
+  await pingIndexNow("/");
   return Response.json({ message: "Testimonial deleted" });
 }
