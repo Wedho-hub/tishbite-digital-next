@@ -157,10 +157,10 @@ export default function OnboardingPageContent() {
             >
               <p className="text-4xl mb-3">✅</p>
               <h2 className="font-bold text-primary-dark text-xl mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                Thank you — we've got everything we need
+                Thank you — we&apos;ve got everything we need
               </h2>
               <p className="text-text-muted text-sm mb-5">
-                We'll review your answers and come back to you within 24 hours with next steps and a tailored quote.
+                We&apos;ll review your answers and come back to you within 24 hours with next steps and a tailored quote.
               </p>
               <motion.a
                 href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20just%20completed%20the%20onboarding%20form."

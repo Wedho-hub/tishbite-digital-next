@@ -1,48 +1,52 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
-import Link from "next/link";
+import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 import { FaArrowRight, FaCalendarAlt } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
+import connectDB from "@/lib/db";
+import BlogPost from "@/models/BlogPost";
 
-export default function BlogDetailPage() {
-  const params = useParams();
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+export const revalidate = 300;
 
-  useEffect(() => {
-    if (!params?.slug) return;
-    let mounted = true;
-    fetch(`/api/blogs/${params.slug}`)
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((data) => { if (mounted) setPost(data); })
-      .catch(() => { if (mounted) setError(true); })
-      .finally(() => { if (mounted) setLoading(false); });
-    return () => { mounted = false; };
-  }, [params?.slug]);
-
-  if (loading) {
-    return (
-      <section className="min-h-[60vh] flex items-center justify-center">
-        <p className="text-text-muted text-sm">Loading article...</p>
-      </section>
-    );
+async function getPost(id) {
+  try {
+    await connectDB();
+    const post = await BlogPost.findById(id).lean();
+    return post;
+  } catch {
+    return null;
   }
+}
 
-  if (error || !post) {
-    return (
-      <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
-        <h1 className="text-2xl font-bold text-primary-dark mb-4">Article not found</h1>
-        <Link href="/blog" className="inline-flex items-center gap-2 text-primary font-semibold no-underline hover:text-primary-dark">
-          ← Back to Blog
-        </Link>
-      </section>
-    );
-  }
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  if (!post) return { title: "Article Not Found" };
+
+  const plainContent = String(post.content || "").replace(/[#>*_`~[\]()]/g, "").trim();
+  const description = post.metaDescription || `${plainContent.slice(0, 155)}…`;
+  const url = `https://tishbitedigital.co.za/blog/${slug}`;
+
+  return {
+    title: post.metaTitle || post.title,
+    description,
+    alternates: { canonical: url },
+    keywords: post.keywords?.length ? post.keywords : undefined,
+    openGraph: {
+      title: post.metaTitle || post.title,
+      description,
+      url,
+      type: "article",
+      images: post.image ? [{ url: post.image }] : undefined,
+    },
+  };
+}
+
+export default async function BlogDetailPage({ params }) {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  if (!post) notFound();
 
   const imageUrl = post.image || null;
 
