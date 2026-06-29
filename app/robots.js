@@ -1,4 +1,4 @@
-const BASE_URL = "https://tishbitedigital.co.za";
+const BASE_URL = "https://www.tishbitedigital.co.za";
 
 export default function robots() {
   return {

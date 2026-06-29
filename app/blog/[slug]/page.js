@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
 
   const plainContent = String(post.content || "").replace(/[#>*_`~[\]()]/g, "").trim();
   const description = post.metaDescription || `${plainContent.slice(0, 155)}…`;
-  const url = `https://tishbitedigital.co.za/blog/${slug}`;
+  const url = `https://www.tishbitedigital.co.za/blog/${slug}`;
 
   return {
     title: post.metaTitle || post.title,

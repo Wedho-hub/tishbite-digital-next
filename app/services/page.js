@@ -13,14 +13,14 @@ export const metadata = {
     "web development South Africa",
   ],
   alternates: {
-    canonical: "https://tishbitedigital.co.za/services",
+    canonical: "https://www.tishbitedigital.co.za/services",
   },
   openGraph: {
     title: "Website Design, SEO & Digital Marketing Services",
     description:
       "Growth-focused digital services for Cape Town businesses.",
-    url: "https://tishbitedigital.co.za/services",
-    images: [{ url: "https://tishbitedigital.co.za/assets/tishbiteHero.png" }],
+    url: "https://www.tishbitedigital.co.za/services",
+    images: [{ url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png" }],
   },
 };
 
@@ -30,8 +30,8 @@ const servicesStructuredData = {
   name: "Digital Services — Tishbite Digital",
   description:
     "Website design, SEO, digital marketing, and automation services for Cape Town businesses.",
-  url: "https://tishbitedigital.co.za/services",
-  provider: { "@id": "https://tishbitedigital.co.za/#organization" },
+  url: "https://www.tishbitedigital.co.za/services",
+  provider: { "@id": "https://www.tishbitedigital.co.za/#organization" },
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Lead-Generating Website Development" },
     { "@type": "ListItem", position: 2, name: "Local SEO & Google Visibility" },

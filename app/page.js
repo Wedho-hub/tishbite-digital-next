@@ -14,16 +14,16 @@ export const metadata = {
     "small business web design South Africa",
   ],
   alternates: {
-    canonical: "https://tishbitedigital.co.za/",
+    canonical: "https://www.tishbitedigital.co.za/",
   },
   openGraph: {
     title: "We Help Cape Town Businesses Get More Clients Online",
     description:
       "Websites. SEO. Ads. Built to generate leads, calls and WhatsApp enquiries for Cape Town businesses.",
-    url: "https://tishbitedigital.co.za/",
+    url: "https://www.tishbitedigital.co.za/",
     images: [
       {
-        url: "https://tishbitedigital.co.za/assets/tishbiteHero.png",
+        url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png",
         width: 1200,
         height: 630,
         alt: "Tishbite Digital — Cape Town Digital Marketing Agency",
@@ -32,7 +32,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["https://tishbitedigital.co.za/assets/tishbiteHero.png"],
+    images: ["https://www.tishbitedigital.co.za/assets/tishbiteHero.png"],
   },
 };
 
@@ -48,19 +48,19 @@ const homeStructuredData = {
   "@graph": [
     {
       "@type": "WebSite",
-      "@id": "https://tishbitedigital.co.za/#website",
+      "@id": "https://www.tishbitedigital.co.za/#website",
       name: "Tishbite Digital",
       alternateName: "Tishbite Digital Cape Town",
-      url: "https://tishbitedigital.co.za/",
+      url: "https://www.tishbitedigital.co.za/",
     },
     {
       "@type": "Organization",
-      "@id": "https://tishbitedigital.co.za/#organization",
+      "@id": "https://www.tishbitedigital.co.za/#organization",
       name: "Tishbite Digital",
-      url: "https://tishbitedigital.co.za/",
+      url: "https://www.tishbitedigital.co.za/",
       logo: {
         "@type": "ImageObject",
-        url: "https://tishbitedigital.co.za/assets/tishbite_digital_logo.svg",
+        url: "https://www.tishbitedigital.co.za/assets/tishbite_digital_logo.svg",
         caption: "Tishbite Digital Logo",
       },
       contactPoint: {
@@ -74,9 +74,9 @@ const homeStructuredData = {
     },
     {
       "@type": ["LocalBusiness", "ProfessionalService"],
-      "@id": "https://tishbitedigital.co.za/#localbusiness",
+      "@id": "https://www.tishbitedigital.co.za/#localbusiness",
       name: "Tishbite Digital",
-      url: "https://tishbitedigital.co.za/",
+      url: "https://www.tishbitedigital.co.za/",
       telephone: "+27791684548",
       priceRange: "R2500 – R30000+",
       currenciesAccepted: "ZAR",
@@ -111,7 +111,7 @@ const homeStructuredData = {
         opens: "09:00",
         closes: "17:00",
       },
-      image: "https://tishbitedigital.co.za/assets/tishbiteHero.png",
+      image: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png",
       sameAs: SOCIAL_PROFILES,
     },
   ],

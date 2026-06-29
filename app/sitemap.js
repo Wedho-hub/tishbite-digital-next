@@ -1,7 +1,7 @@
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
 
-const BASE_URL = "https://tishbitedigital.co.za";
+const BASE_URL = "https://www.tishbitedigital.co.za";
 
 // Without this, Next.js statically generates the sitemap once at build
 // time and freezes it until the next deploy. A sitemap is low-traffic

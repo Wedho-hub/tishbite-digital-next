@@ -9,12 +9,12 @@ export const metadata = {
   title: "Blog — Digital Growth Insights",
   description:
     "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
-  alternates: { canonical: "https://tishbitedigital.co.za/blog" },
+  alternates: { canonical: "https://www.tishbitedigital.co.za/blog" },
   openGraph: {
     title: "Digital Growth Insights — Tishbite Digital Blog",
     description:
       "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
-    url: "https://tishbitedigital.co.za/blog",
+    url: "https://www.tishbitedigital.co.za/blog",
   },
 };
 

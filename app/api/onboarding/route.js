@@ -77,7 +77,7 @@ function buildNotificationHtml(data) {
         ${row("Success Looks Like", data.successDefinition)}
       </table>
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;">
-        <a href="https://tishbitedigital.co.za/admin/onboarding" style="display:inline-block;background:#1b4332;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">
+        <a href="https://www.tishbitedigital.co.za/admin/onboarding" style="display:inline-block;background:#1b4332;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">
           View Full Submission
         </a>
       </div>

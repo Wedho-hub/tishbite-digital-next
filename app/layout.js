@@ -28,7 +28,7 @@ export const metadata = {
   },
   description:
     "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
-  metadataBase: new URL("https://tishbitedigital.co.za"),
+  metadataBase: new URL("https://www.tishbitedigital.co.za"),
   openGraph: {
     siteName: "Tishbite Digital",
     locale: "en_ZA",
