@@ -25,17 +25,18 @@ export const metadata = {
   },
 
   description:
-    "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, WhatsApp funnels, and growth-focused digital systems.",
+    "Tishbite Digital helps small businesses and new entrepreneurs in Cape Town get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
 
   keywords: [
     "web development Cape Town",
     "SEO Cape Town",
+    "small business website South Africa",
+    "entrepreneur digital marketing",
     "digital marketing agency South Africa",
-    "Next.js web design",
     "lead generation websites",
     "WhatsApp marketing",
+    "startup website Cape Town",
     "Google Business Profile optimization",
-    "small business website South Africa",
   ],
 
   icons: {

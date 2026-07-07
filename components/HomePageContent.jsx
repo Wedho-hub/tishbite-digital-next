@@ -49,21 +49,21 @@ const VIEW = { once: true, amount: 0.2 };
 const GROWTH_PILLARS = [
   {
     Icon: FaSearch,
-    title: "Rank for local buying searches",
+    title: "Rank for searches your buyers are already making",
     description:
-      "Get found when Cape Town clients search for the exact service you offer, with SEO-ready pages and conversion-focused structure.",
+      "Get found when Cape Town customers search for what you sell or offer, with SEO-ready pages and conversion-focused structure built for your market.",
   },
   {
     Icon: FaWhatsapp,
-    title: "Turn clicks into WhatsApp conversations",
+    title: "Turn clicks into enquiries and sales",
     description:
-      "Make it easier for high-intent prospects to contact you immediately with fast, mobile-first lead flows and clear offers.",
+      "Make it easy for new customers to contact you, place an order, or book a consultation — with fast, mobile-first flows and clear next steps.",
   },
   {
     Icon: FaGlobeAfrica,
     title: "Build a business asset that keeps working",
     description:
-      "We create websites and digital systems that support enquiries, follow-up, trust-building, and long-term growth instead of one-off visibility.",
+      "We create websites and digital systems that support enquiries, follow-up, trust-building, and long-term growth — not just a once-off launch.",
   },
 ];
 
@@ -71,7 +71,7 @@ const FAQ_ITEMS = [
   {
     question: "Do you only work with Cape Town businesses?",
     answer:
-      "Cape Town is a core focus because local search intent is strong here, but we also work with businesses across the Western Cape and South Africa.",
+      "Cape Town is a core focus because local search intent is strong here, but we work with small businesses and entrepreneurs across the Western Cape and South Africa — at any stage.",
   },
   {
     question: "What does the free Website and SEO audit include?",
@@ -208,23 +208,23 @@ export default function HomePageContent() {
             </motion.div>
 
             <motion.div variants={fadeRight} className="lg:w-1/2 order-2 flex flex-col">
-              <SectionKicker>Local SEO + Lead Generation</SectionKicker>
+              <SectionKicker>Digital Growth for Small Businesses</SectionKicker>
               <SectionTitle id="home-about-heading">
-                We build digital systems that help service businesses win more
-                enquiries
+                We help small businesses and new entrepreneurs get found,
+                get leads, and grow online
               </SectionTitle>
               <p className="text-text-muted text-base leading-relaxed mb-4">
-                If your business depends on phone calls, quote requests,
-                bookings, or WhatsApp messages, your website should be helping
-                you close more business. We combine persuasive messaging, SEO
-                structure, ad-ready landing pages, and automation to help you
-                turn online attention into qualified leads.
+                Whether you are launching your first business, selling products,
+                running a service, or scaling an existing brand — your website
+                and digital presence should be working for you around the clock.
+                We combine persuasive messaging, SEO structure, ad-ready pages,
+                and automation to turn online attention into real revenue.
               </p>
               <ul className="space-y-2 mb-6 list-none p-0 m-0">
                 {[
-                  "Position your offer clearly so visitors know why to choose you",
-                  "Capture more enquiries with strong calls to action and WhatsApp paths",
-                  "Improve search visibility for local, high-intent services in Cape Town",
+                  "Position your business clearly so customers know why to choose you",
+                  "Capture more leads and sales with strong calls to action and WhatsApp paths",
+                  "Improve search visibility for local, high-intent buyers in Cape Town",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-text-muted text-sm">
                     <FaCheckCircle className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
@@ -319,7 +319,7 @@ export default function HomePageContent() {
                 Icon: FaBullhorn,
                 title: "FREE Website & SEO Audit",
                 body: "We review your website, search visibility, mobile user journey, and lead-capture flow so you know exactly what is stopping more enquiries.",
-                meta: "For Cape Town businesses ready to attract and convert better traffic",
+                meta: "For small businesses and entrepreneurs ready to attract and convert more customers",
                 cta: "Claim Your Free Audit",
                 href: "/contact",
                 highlight: true,
@@ -327,8 +327,8 @@ export default function HomePageContent() {
               {
                 Icon: FaBlog,
                 title: "Read Client-Attracting Insights",
-                body: "Find practical content on SEO, websites, automation, and digital growth strategies that help service businesses win more local trust online.",
-                meta: "Built to answer the questions your future clients are already searching",
+                body: "Practical content on SEO, websites, automation, and digital growth strategies for small businesses and new entrepreneurs building their presence online.",
+                meta: "Built to answer the questions your future customers are already searching",
                 cta: "Read Latest Insights",
                 href: "/blog",
                 highlight: false,
@@ -537,7 +537,7 @@ export default function HomePageContent() {
           <div className="text-center flex flex-col items-center mb-10">
             <SectionKicker center>Questions We Solve</SectionKicker>
             <SectionTitle id="home-faq-heading">
-              Frequently asked by growing businesses
+              Questions from small businesses and first-time entrepreneurs
             </SectionTitle>
           </div>
           <motion.div

@@ -3,23 +3,24 @@ import HomePageContent from "@/components/HomePageContent";
 export const metadata = {
   title: "Cape Town Web Design, SEO & Lead Generation | Tishbite Digital",
   description:
-    "Lead-generating websites, SEO, and WhatsApp-ready digital systems built to turn Cape Town traffic into real client enquiries.",
+    "Websites, SEO, and digital systems built for small businesses and new entrepreneurs in Cape Town — turn online traffic into real leads and sales.",
   keywords: [
     "Cape Town web design",
     "Cape Town SEO",
+    "small business website Cape Town",
+    "new entrepreneur digital marketing",
     "lead generation",
     "WhatsApp marketing",
-    "website audit",
+    "startup website South Africa",
     "digital marketing Cape Town",
-    "small business web design South Africa",
   ],
   alternates: {
     canonical: "https://www.tishbitedigital.co.za/",
   },
   openGraph: {
-    title: "We Help Cape Town Businesses Get More Clients Online",
+    title: "Digital Growth for Cape Town Small Businesses & Entrepreneurs",
     description:
-      "Websites. SEO. Ads. Built to generate leads, calls and WhatsApp enquiries for Cape Town businesses.",
+      "Websites. SEO. Ads. Built to generate leads, sales, and WhatsApp enquiries for small businesses and new entrepreneurs.",
     url: "https://www.tishbitedigital.co.za/",
     images: [
       {
@@ -92,7 +93,7 @@ const homeStructuredData = {
         { "@type": "Country", name: "South Africa" },
       ],
       description:
-        "Tishbite Digital helps Cape Town businesses get more clients online through websites, SEO, ads, WhatsApp lead generation, and automation.",
+        "Tishbite Digital helps small businesses and new entrepreneurs in Cape Town get more clients online through websites, SEO, ads, WhatsApp lead generation, and automation.",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Cape Town",

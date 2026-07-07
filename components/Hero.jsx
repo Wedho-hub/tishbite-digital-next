@@ -97,11 +97,11 @@ export default function Hero() {
               variants={itemVariants}
               className="text-[1.05rem] text-[#2e4037] max-w-135 mb-5 leading-relaxed"
             >
-              Websites. SEO. Ads. Built to generate leads, calls, bookings, and
-              WhatsApp enquiries — not just look good. We help Cape Town service
-              businesses build high-converting websites, improve Google
-              visibility, and turn digital traffic into real client
-              opportunities.
+              Websites. SEO. Ads. Built to generate leads, sales, bookings, and
+              WhatsApp enquiries — not just look good. Whether you are a small
+              business owner, a new entrepreneur, or a growing brand, we help
+              you build a digital presence that turns online attention into real
+              clients.
             </motion.p>
 
             <motion.div
@@ -181,8 +181,8 @@ export default function Hero() {
               variants={itemVariants}
               className="mt-3 text-[#486154] text-sm leading-relaxed max-w-140"
             >
-              Serving Cape Town, the Western Cape, and South African businesses
-              that want growth systems, not brochure websites.
+              Serving small businesses, startups, and entrepreneurs across Cape
+              Town, the Western Cape, and South Africa — at any stage.
             </motion.p>
           </motion.div>
 

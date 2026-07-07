@@ -3,14 +3,15 @@ import ServicesPageContent from "@/components/ServicesPageContent";
 export const metadata = {
   title: "Website Design, SEO & Marketing in Cape Town",
   description:
-    "Website design, SEO, ads, and WhatsApp automation built to turn Cape Town businesses into lead-generating machines.",
+    "Website design, SEO, ads, and WhatsApp automation built for small businesses and new entrepreneurs in Cape Town who want real growth, not just a website.",
   keywords: [
     "website design Cape Town",
-    "SEO services",
-    "digital marketing",
+    "SEO services small business",
+    "digital marketing entrepreneurs",
     "lead generation",
     "WhatsApp marketing",
     "web development South Africa",
+    "startup digital services Cape Town",
   ],
   alternates: {
     canonical: "https://www.tishbitedigital.co.za/services",
