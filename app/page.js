@@ -118,12 +118,58 @@ const homeStructuredData = {
   ],
 };
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Do you only work with Cape Town businesses?",
+      acceptedAnswer: { "@type": "Answer", text: "Cape Town is a core focus because local search intent is strong here, but we work with small businesses and entrepreneurs across the Western Cape and South Africa — at any stage." },
+    },
+    {
+      "@type": "Question",
+      name: "What does the free Website and SEO audit include?",
+      acceptedAnswer: { "@type": "Answer", text: "We review your website speed, mobile experience, offer clarity, conversion flow, Google visibility, and lead capture opportunities so you know what is blocking more enquiries and sales." },
+    },
+    {
+      "@type": "Question",
+      name: "Can you help if I need more than just a website?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. We build complete growth systems including websites, SEO, Google Business optimization, Meta ads support, WhatsApp lead handling, and CRM automation." },
+    },
+    {
+      "@type": "Question",
+      name: "How much does a website cost in Cape Town?",
+      acceptedAnswer: { "@type": "Answer", text: "Our general services start from R2,500 and our bundled growth packages start from R8,500. Every project is scoped to your specific goals and we offer flexible installment plans so you can get started without paying everything upfront." },
+    },
+    {
+      "@type": "Question",
+      name: "How long does it take to build a website?",
+      acceptedAnswer: { "@type": "Answer", text: "A standard lead-generating website typically takes 2 to 4 weeks from strategy to launch. More complex builds with integrations or e-commerce can take 4 to 8 weeks. We give you a clear timeline before we start." },
+    },
+    {
+      "@type": "Question",
+      name: "Do you offer payment plans or installments?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Most of our packages include 3 to 6 monthly installment options so your business can invest in growth without a large upfront cost." },
+    },
+    {
+      "@type": "Question",
+      name: "Can I see examples of your work before hiring you?",
+      acceptedAnswer: { "@type": "Answer", text: "Absolutely. Visit our Projects page to see websites and digital systems we have built for Cape Town businesses. We are happy to walk you through the results each project achieved." },
+    },
+  ],
+};
+
 export default function HomePage() {
   return (
     <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <HomePageContent />
     </>

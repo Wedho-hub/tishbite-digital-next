@@ -14,6 +14,12 @@ import {
   FaSearch,
   FaWhatsapp,
   FaGlobeAfrica,
+  FaRocket,
+  FaShoppingCart,
+  FaBriefcase,
+  FaUserMd,
+  FaHammer,
+  FaBuilding,
 } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
@@ -132,6 +138,39 @@ const PROJECTS = [
   },
 ];
 
+const WHO_WE_HELP = [
+  {
+    Icon: FaRocket,
+    label: "New Entrepreneurs",
+    desc: "Launch your idea with a credible brand, website, and digital presence from day one.",
+  },
+  {
+    Icon: FaShoppingCart,
+    label: "Retail & Product Businesses",
+    desc: "Drive traffic to your store or online shop and turn browsers into paying customers.",
+  },
+  {
+    Icon: FaBriefcase,
+    label: "Freelancers & Consultants",
+    desc: "Build authority, attract better clients, and stop relying on word-of-mouth alone.",
+  },
+  {
+    Icon: FaUserMd,
+    label: "Health & Wellness Providers",
+    desc: "Connect with clients searching for your treatments, sessions, or products online.",
+  },
+  {
+    Icon: FaHammer,
+    label: "Trades, Crafts & Creatives",
+    desc: "Show your work professionally and get enquiries from clients who value quality.",
+  },
+  {
+    Icon: FaBuilding,
+    label: "Growing SMEs & Startups",
+    desc: "Scale your systems, reach new markets, and compete with bigger players digitally.",
+  },
+];
+
 const LOCAL_SEO_POINTS = [
   "Cape Town service-area messaging with clearer intent matching",
   "Answer-focused copy for users searching in Google and AI assistants",
@@ -174,6 +213,10 @@ export default function HomePageContent() {
         className="py-16 bg-bg"
         role="region"
         aria-labelledby="home-about-heading"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(27,67,50,0.055) 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+        }}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <motion.div
@@ -209,10 +252,24 @@ export default function HomePageContent() {
 
             <motion.div variants={fadeRight} className="lg:w-1/2 order-2 flex flex-col">
               <SectionKicker>Digital Growth for Small Businesses</SectionKicker>
-              <SectionTitle id="home-about-heading">
-                We help small businesses and new entrepreneurs get found,
-                get leads, and grow online
-              </SectionTitle>
+              <h2
+                id="home-about-heading"
+                className="text-3xl lg:text-4xl font-extrabold leading-tight mb-4 text-primary-dark"
+                style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+              >
+                We help{" "}
+                <span
+                  style={{
+                    backgroundImage: "linear-gradient(135deg, #1b4332 0%, #2d6a4f 45%, #c49219 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
+                  small businesses &amp; entrepreneurs
+                </span>{" "}
+                get found and grow online
+              </h2>
               <p className="text-text-muted text-base leading-relaxed mb-4">
                 Whether you are launching your first business, selling products,
                 running a service, or scaling an existing brand — your website
@@ -289,11 +346,77 @@ export default function HomePageContent() {
         </div>
       </section>
 
-      {/* ── Lead Magnets / Promo ── */}
+      {/* ── Who We Help ── */}
       <section
         className="py-16 bg-white"
         role="region"
+        aria-labelledby="who-we-help-heading"
+      >
+        <div className="container mx-auto px-4 max-w-7xl">
+          <div className="text-center flex flex-col items-center mb-10">
+            <SectionKicker center>Who We Serve</SectionKicker>
+            <h2
+              id="who-we-help-heading"
+              className="text-3xl lg:text-4xl font-extrabold leading-tight mb-4 text-primary-dark"
+              style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            >
+              Built for every business,{" "}
+              <span
+                style={{
+                  backgroundImage: "linear-gradient(135deg, #2d6a4f 0%, #c49219 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                not just one kind
+              </span>
+            </h2>
+            <p className="text-text-muted max-w-xl text-base">
+              Whether you are just starting out or scaling an existing brand, we
+              have a path that fits where you are right now.
+            </p>
+          </div>
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6"
+          >
+            {WHO_WE_HELP.map((item) => (
+              <motion.div
+                key={item.label}
+                variants={cardVariants}
+                whileHover={{ y: -5, boxShadow: "0 14px 32px rgba(27,67,50,0.12)" }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                className="flex flex-col items-start gap-3 p-5 rounded-2xl border border-primary/8 bg-bg hover:bg-white transition-colors duration-300"
+              >
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(27,67,50,0.10) 0%, rgba(27,67,50,0.04) 100%)" }}>
+                  <item.Icon className="text-primary text-base" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="font-bold text-primary-dark text-sm leading-snug mb-1" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    {item.label}
+                  </p>
+                  <p className="text-text-muted text-xs leading-relaxed m-0">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Lead Magnets / Promo ── */}
+      <section
+        className="py-16 bg-bg"
+        role="region"
         aria-labelledby="home-promo-heading"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(27,67,50,0.055) 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+        }}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-10 flex flex-col items-center">
@@ -373,12 +496,19 @@ export default function HomePageContent() {
 
       {/* ── Growth Pillars ── */}
       <section
-        className="py-16 bg-bg"
+        className="py-16 bg-white"
         role="region"
         aria-labelledby="growth-pillars-heading"
       >
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center flex flex-col items-center mb-10">
+          <div className="text-center flex flex-col items-center mb-10 relative">
+            <span
+              aria-hidden="true"
+              className="absolute -top-4 left-1/2 -translate-x-1/2 text-[7rem] font-black leading-none select-none pointer-events-none"
+              style={{ color: "rgba(27,67,50,0.04)", fontFamily: "var(--font-montserrat)", letterSpacing: "-0.04em" }}
+            >
+              GROW
+            </span>
             <SectionKicker center>What We Improve</SectionKicker>
             <SectionTitle id="growth-pillars-heading">
               Built for rankings, trust, and lead flow
@@ -395,8 +525,10 @@ export default function HomePageContent() {
               <motion.article
                 key={pillar.title}
                 variants={cardVariants}
+                whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(27,67,50,0.13)" }}
                 whileTap={{ scale: 0.97 }}
-                className="bg-white rounded-2xl p-7 border border-primary/8 hover:shadow-md hover:-translate-y-1 transition-all duration-300"
+                transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                className="bg-bg rounded-2xl p-7 border border-primary/8"
               >
                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
                   <pillar.Icon className="text-primary text-xl" aria-hidden="true" />
@@ -480,9 +612,13 @@ export default function HomePageContent() {
 
       {/* ── Local SEO ── */}
       <section
-        className="py-16 bg-white"
+        className="py-16 bg-bg"
         role="region"
         aria-labelledby="local-seo-heading"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(27,67,50,0.055) 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+        }}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-center gap-10">
@@ -532,6 +668,10 @@ export default function HomePageContent() {
         className="py-16 bg-bg"
         role="region"
         aria-labelledby="home-faq-heading"
+        style={{
+          backgroundImage: "radial-gradient(circle, rgba(27,67,50,0.055) 1.5px, transparent 1.5px)",
+          backgroundSize: "24px 24px",
+        }}
       >
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center flex flex-col items-center mb-10">

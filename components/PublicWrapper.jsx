@@ -5,6 +5,8 @@ import { MotionConfig } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import WhatsAppFloat from "./WhatsAppFloat";
+import ScrollProgress from "./ScrollProgress";
+import MobileStickyBar from "./MobileStickyBar";
 
 export default function PublicWrapper({ children }) {
   const pathname = usePathname();
@@ -22,15 +24,17 @@ export default function PublicWrapper({ children }) {
         >
           Skip to main content
         </a>
+        <ScrollProgress />
         <Navbar />
         <main
           id="main-content"
-          className="flex-1 pt-(--nav-height-mobile) lg:pt-(--nav-height)"
+          className="flex-1 pt-(--nav-height-mobile) lg:pt-(--nav-height) pb-20 md:pb-0"
         >
           {children}
         </main>
         <Footer />
         <WhatsAppFloat />
+        <MobileStickyBar />
       </>
     </MotionConfig>
   );
