@@ -205,10 +205,18 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-white/10 pt-5 text-center">
+        <div className="border-t border-white/10 pt-5 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-center">
           <p className="text-white/40 text-xs m-0">
             © {new Date().getFullYear()} Tishbite Digital. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy-policy" className="text-white/40 hover:text-accent text-xs no-underline transition-colors">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="text-white/40 hover:text-accent text-xs no-underline transition-colors">
+              Terms of Service
+            </Link>
+          </div>
         </div>
       </div>
     </motion.footer>
