@@ -4,7 +4,8 @@ const SECTIONS = [
   {
     heading: "1. Who We Are",
     body: [
-      "Tishbite Digital (\"we\", \"us\", \"our\") is a Cape Town-based digital agency operated by Wellington Dhliwayo, providing web design, SEO, advertising, and related digital services to small businesses and entrepreneurs in South Africa.",
+      "Tishbite Digital (\"we\", \"us\", \"our\") is a Cape Town-based digital agency providing web design, SEO, advertising, and related digital services to small businesses and entrepreneurs in South Africa.",
+      "Tishbite Digital is currently operated directly by its founder, Wellington Dhliwayo, who acts as the Information Officer responsible for data protection compliance under POPIA. As the business grows, staff or contractors may join to help handle client communication and project delivery — anyone who does will be bound by the same confidentiality and data protection obligations set out in this Policy.",
       "This Privacy Policy explains what personal information we collect through this website, how we use it, and the rights you have over it under the Protection of Personal Information Act 4 of 2013 (POPIA).",
     ],
   },
@@ -74,7 +75,7 @@ const SECTIONS = [
   {
     heading: "9. Contact Us",
     body: [
-      "For any privacy-related requests or questions, contact us at info@tishbitedigital.co.za or +27 79 168 4548.",
+      "For any privacy-related requests or questions, contact our Information Officer, Wellington Dhliwayo, at info@tishbitedigital.co.za or +27 79 168 4548.",
     ],
   },
   {

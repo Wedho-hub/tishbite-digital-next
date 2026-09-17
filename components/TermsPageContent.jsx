@@ -5,7 +5,7 @@ const SECTIONS = [
     heading: "1. Introduction",
     body: [
       "These Terms of Service (\"Terms\") govern your use of the Tishbite Digital website and any services you engage us to provide. By using this website, submitting an enquiry, or purchasing a service, you agree to these Terms.",
-      "Tishbite Digital is operated by Wellington Dhliwayo, based in Cape Town, South Africa.",
+      "Tishbite Digital is currently operated directly by its founder, Wellington Dhliwayo, based in Cape Town, South Africa. As the business grows, staff or contractors may act on our behalf to handle client communication, project delivery, or support — any such team members remain bound by these same Terms.",
     ],
   },
   {

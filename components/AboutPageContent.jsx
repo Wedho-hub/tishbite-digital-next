@@ -130,6 +130,9 @@ export default function AboutPageContent() {
                   I built Tishbite Digital to bridge a real gap: small and growing businesses across South Africa deserve the same digital quality as large corporates. Every system I deliver — from websites and SEO to CRM automation — is engineered to produce <strong className="text-text-dark">measurable results</strong>, not just aesthetics.
                 </p>
                 <p>
+                  Right now, I personally handle every client relationship end-to-end — from the first WhatsApp message to the final launch — so when you reach out, you're talking directly to the person doing the work. As Tishbite Digital grows, I'm bringing on people to help manage client communication and project delivery, but the same standards and accountability I've built the business on will stay exactly the same.
+                </p>
+                <p>
                   Inspired by the story of Elijah from the small town of Tishbe, I believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>. Technology and a commitment to continuous learning are the tools that make this possible — and every system I build is designed to produce results that last.
                 </p>
               </div>
