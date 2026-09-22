@@ -56,6 +56,10 @@ const BLUEPRINTS = {
     displayTitle: "Lead-Generating Website Development",
     description: "**Problem:** Many websites get visits but fail to turn visitors into enquiries.\n\n**Solution:** We build fast, mobile-optimized websites with conversion-focused structure and clear calls to action.\n\n**Result Focus:** More qualified enquiries, better user experience, and stronger digital authority.\n\n- Responsive, speed-conscious design\n- SEO-ready page structure\n- Contact and WhatsApp conversion pathways",
   },
+  "custom web application development": {
+    displayTitle: "Custom Web Application Development",
+    description: "**Problem:** Off-the-shelf tools and template websites often can't handle the specific workflows a growing business needs — bookings, client portals, dashboards, internal tools.\n\n**Solution:** We design and build custom, full-stack web applications tailored to your exact process, complete with logins, databases, admin dashboards, and integrations with the tools you already use.\n\n**Result Focus:** A purpose-built system that fits how your business actually works, cuts down manual admin, and scales as you grow.\n\n- Full-stack builds on modern frameworks (React, Next.js, Node.js)\n- Secure logins, dashboards, and database-backed features\n- Payment, CRM, and third-party API integrations",
+  },
   "google business profile & local seo optimization": {
     displayTitle: "Google Business Profile & Local SEO Growth",
     description: "**Problem:** Local customers cannot choose your business if you do not appear in map and local search results.\n\n**Solution:** We optimize your Google Business Profile and local SEO signals to improve findability in your service area.\n\n**Result Focus:** Increased local discovery, stronger profile trust signals, and more nearby enquiries.\n\n- Profile optimization and service mapping\n- Local keyword and category refinement\n- Visibility improvements for map-based searches",
@@ -114,6 +118,7 @@ const FALLBACK_GENERAL = [
   { _id:"fb-reg",    title:"Company Registration & Compliance Setup",           category:"general" },
   { _id:"fb-brand",  title:"Brand Identity & Business Design",                  category:"general" },
   { _id:"fb-web",    title:"Professional Website Development",                   category:"general" },
+  { _id:"fb-webapp", title:"Custom Web Application Development",                category:"general" },
   { _id:"fb-seo",    title:"Google Business Profile & Local SEO Optimization",  category:"general" },
   { _id:"fb-meta",   title:"Meta Business Suite & Social Platform Integration",  category:"general" },
   { _id:"fb-social", title:"Social Media Growth Strategy & Management",          category:"general" },

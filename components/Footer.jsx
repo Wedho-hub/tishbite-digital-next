@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   FaFacebookF,
@@ -100,13 +101,16 @@ export default function Footer() {
             transition={{ duration: 0.4 }}
           >
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="inline-block">
-              <Link href="/" className="inline-flex flex-col gap-1 mb-4 no-underline group">
-                <img
-                  src="/assets/tishbite_digital_logo.svg"
-                  alt="Tishbite Digital"
-                  className="h-12 w-auto"
-                  loading="lazy"
-                />
+              <Link href="/" className="inline-flex flex-col gap-2 mb-4 no-underline group">
+                <span className="inline-block rounded-xl bg-white px-3 py-2 shadow-sm w-fit">
+                  <Image
+                    src="/assets/tishbiteFullLogo.png"
+                    alt="Tishbite Digital"
+                    width={200}
+                    height={100}
+                    className="h-9 w-auto"
+                  />
+                </span>
                 <span className="text-accent/70 text-xs font-medium group-hover:text-accent transition-colors duration-200">
                   Growing Together
                 </span>

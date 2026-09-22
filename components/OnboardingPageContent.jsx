@@ -9,6 +9,7 @@ const MARKETING_CHANNELS = ["Google/SEO", "Facebook/Instagram", "WhatsApp", "Ref
 const GOALS = ["More leads/enquiries", "Better Google visibility", "Professional rebrand", "Automate follow-up", "Sell products online", "Other"];
 const SERVICES = [
   "Website Development",
+  "Web App Development",
   "Local SEO",
   "Brand Identity",
   "Paid Ads",

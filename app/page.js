@@ -61,7 +61,7 @@ const homeStructuredData = {
       url: "https://www.tishbitedigital.co.za/",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.tishbitedigital.co.za/assets/tishbite_digital_logo.svg",
+        url: "https://www.tishbitedigital.co.za/assets/tishbiteFullLogo.png",
         caption: "Tishbite Digital Logo",
       },
       contactPoint: {

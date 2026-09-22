@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -97,12 +98,14 @@ export default function Navbar() {
 
             {/* Logo */}
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="shrink-0">
-              <Link href="/" className="shrink-0 block">
-                <img
-                  src="/assets/tishbite_digital_logo.svg"
+              <Link href="/" className="shrink-0 block rounded-xl bg-white px-3 py-2 shadow-sm">
+                <Image
+                  src="/assets/tishbiteFullLogo.png"
                   alt="Tishbite Digital"
-                  className="h-14 w-auto"
-                  loading="eager"
+                  width={200}
+                  height={100}
+                  priority
+                  className="h-9 w-auto"
                 />
               </Link>
             </motion.div>
@@ -217,11 +220,13 @@ export default function Navbar() {
             <div className="flex items-center justify-between">
               <motion.div whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}>
                 <Link href="/" className="flex items-center gap-2 no-underline group">
-                  <img
-                    src="/assets/tishbite_digital_favicon.svg"
+                  <Image
+                    src="/assets/icon.png"
                     alt="Tishbite Digital"
-                    className="h-10 w-10"
-                    loading="eager"
+                    width={40}
+                    height={40}
+                    priority
+                    className="h-10 w-10 rounded-lg"
                   />
                   <span className="text-white font-bold text-sm leading-tight">
                     Tishbite Digital

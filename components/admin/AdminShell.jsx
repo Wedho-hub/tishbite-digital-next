@@ -57,10 +57,11 @@ export default function AdminShell({ children }) {
         <div className="px-5 py-5 border-b border-white/8">
           <Link href="/admin" className="flex items-center gap-2 no-underline">
             <Image
-              src="/assets/tishbite_digital_favicon.svg"
+              src="/assets/icon.png"
               alt="Tishbite Digital"
               width={28}
               height={28}
+              className="rounded-md"
             />
             <span
               className="text-sm font-extrabold text-white leading-tight"

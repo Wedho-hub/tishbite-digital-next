@@ -8,6 +8,7 @@ import PageHeader from "@/components/PageHeader";
 
 const SERVICES_OPTIONS = [
   "Lead-Generating Website Development",
+  "Custom Web App Development",
   "Google Business Profile & Local SEO",
   "Brand Identity & Market Positioning",
   "Meta Suite Setup & Social Integration",

@@ -39,12 +39,6 @@ export const metadata = {
     "Google Business Profile optimization",
   ],
 
-  icons: {
-    icon: "/assets/tishbite_digital_favicon.svg",
-    shortcut: "/assets/tishbite_digital_favicon.svg",
-    apple: "/assets/tishbite_digital_favicon.svg",
-  },
-
   alternates: {
     canonical: "/",
   },
