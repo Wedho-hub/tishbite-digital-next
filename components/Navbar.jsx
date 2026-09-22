@@ -98,14 +98,14 @@ export default function Navbar() {
 
             {/* Logo */}
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="shrink-0">
-              <Link href="/" className="shrink-0 block rounded-xl bg-white px-3 py-2 shadow-sm">
+              <Link href="/" className="shrink-0 block rounded-xl bg-white px-3 py-1.5 shadow-sm">
                 <Image
                   src="/assets/tishbiteFullLogo.png"
                   alt="Tishbite Digital"
                   width={200}
                   height={100}
                   priority
-                  className="h-9 w-auto"
+                  className="h-12 w-auto"
                 />
               </Link>
             </motion.div>

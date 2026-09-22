@@ -108,7 +108,7 @@ export default function Footer() {
                     alt="Tishbite Digital"
                     width={200}
                     height={100}
-                    className="h-9 w-auto"
+                    className="h-13 w-auto"
                   />
                 </span>
                 <span className="text-accent/70 text-xs font-medium group-hover:text-accent transition-colors duration-200">
