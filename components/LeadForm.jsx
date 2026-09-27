@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
@@ -29,21 +29,19 @@ export default function LeadForm({ offer }) {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [utm, setUtm] = useState({ utm_source: "", utm_medium: "", utm_campaign: "", utm_content: "" });
+  // Lazy initializer (not an effect) so this runs once on mount without an
+  // extra render — guarded because it also runs during server rendering,
+  // where `window` doesn't exist.
+  const [utm] = useState(() => {
+    const empty = { utm_source: "", utm_medium: "", utm_campaign: "", utm_content: "" };
+    if (typeof window === "undefined") return empty;
+    const params = new URLSearchParams(window.location.search);
+    UTM_KEYS.forEach((key) => {
+      empty[key] = params.get(key) || "";
+    });
+    return empty;
+  });
   const honeypotRef = useRef(null);
-
-  useEffect(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const next = {};
-      UTM_KEYS.forEach((key) => {
-        next[key] = params.get(key) || "";
-      });
-      setUtm(next);
-    } catch {
-      /* no-op: URL parsing can't fail here, but never block the form on it */
-    }
-  }, []);
 
   const zoho = ZOHO_LISTS[offer.listKey];
   const configured = isZohoConfigured(offer.listKey);
