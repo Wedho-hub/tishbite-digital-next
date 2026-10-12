@@ -96,7 +96,7 @@ export default function Testimonials() {
             className="text-3xl lg:text-4xl font-extrabold text-white mb-3"
             style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
           >
-            What Cape Town businesses say about us
+            What South African businesses say about us
           </h2>
           <p className="text-white/60 max-w-xl mx-auto text-base">
             Real outcomes from real businesses. Here's what our clients achieved

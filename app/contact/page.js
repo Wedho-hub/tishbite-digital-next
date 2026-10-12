@@ -3,12 +3,12 @@ import ContactPageContent from "@/components/ContactPageContent";
 export const metadata = {
   title: "Get Your Free Website & SEO Audit — Contact Us",
   description:
-    "Schedule your free website and SEO audit. Ask about our digital growth systems for Cape Town service businesses. Chat via WhatsApp or fill out our form.",
+    "Schedule your free website and SEO audit. Ask about our digital growth systems for South African service businesses. Chat via WhatsApp or fill out our form.",
   keywords: [
     "contact Tishbite Digital",
-    "free website audit Cape Town",
+    "free website audit South Africa",
     "free SEO audit South Africa",
-    "Cape Town digital agency contact",
+    "South Africa digital agency contact",
   ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/contact" },
   openGraph: {

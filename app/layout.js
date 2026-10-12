@@ -20,23 +20,25 @@ export const metadata = {
   metadataBase: new URL("https://www.tishbitedigital.co.za"),
 
   title: {
-    default: "Tishbite Digital | Cape Town Web Design & SEO",
+    default: "Tishbite Digital | Web Design, SEO & Digital Growth in South Africa",
     template: "%s | Tishbite Digital",
   },
 
   description:
-    "Tishbite Digital helps small businesses and new entrepreneurs in Cape Town get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
+    "Tishbite Digital helps small businesses and new entrepreneurs across South Africa get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
 
   keywords: [
-    "web development Cape Town",
-    "SEO Cape Town",
+    "web development South Africa",
+    "SEO services South Africa",
     "small business website South Africa",
-    "entrepreneur digital marketing",
+    "entrepreneur digital marketing South Africa",
     "digital marketing agency South Africa",
-    "lead generation websites",
-    "WhatsApp marketing",
-    "startup website Cape Town",
-    "Google Business Profile optimization",
+    "lead generation websites South Africa",
+    "WhatsApp marketing South Africa",
+    "startup website South Africa",
+    "website design company South Africa",
+    "Google Business Profile optimization South Africa",
+    "SME digital marketing South Africa",
   ],
 
   alternates: {
@@ -44,9 +46,9 @@ export const metadata = {
   },
 
   openGraph: {
-    title: "Tishbite Digital | Cape Town Web Design & SEO",
+    title: "Tishbite Digital | Web Design, SEO & Digital Growth in South Africa",
     description:
-      "Tishbite Digital helps Cape Town businesses get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
+      "Tishbite Digital helps small businesses and new entrepreneurs across South Africa get more clients online with lead-generating websites, SEO, Google visibility, and growth-focused digital systems.",
     url: "/",
     siteName: "Tishbite Digital",
     locale: "en_ZA",

@@ -5,7 +5,7 @@ export const metadata = {
   description: "Tell us about your business so Tishbite Digital can prepare an accurate quote and a tailored growth strategy.",
   keywords: [
     "new client onboarding",
-    "request a quote Cape Town",
+    "request a quote South Africa",
     "Tishbite Digital onboarding form",
   ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/onboarding" },

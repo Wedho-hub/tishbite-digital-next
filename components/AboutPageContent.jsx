@@ -85,7 +85,7 @@ export default function AboutPageContent() {
             initial="hidden"
             animate="visible"
           >
-            Full-Stack Web Developer · Digital Agency Founder · Cape Town, SA
+            Full-Stack Web Developer · Digital Agency Founder · South Africa
           </motion.p>
           <motion.h1
             className="text-4xl lg:text-5xl font-extrabold text-white mb-3 leading-tight"
@@ -124,7 +124,7 @@ export default function AboutPageContent() {
               <SectionTitle id="founder-heading">Wellington Dhliwayo</SectionTitle>
               <div className="space-y-4 text-text-muted text-base leading-relaxed">
                 <p>
-                  I am a <strong className="text-text-dark">full-stack web developer</strong> and founder of Tishbite Digital, based in Cape Town. I graduated as a <strong className="text-text-dark">top student at HyperionDev</strong>, where I completed an intensive web development programme covering modern JavaScript, React, Node.js, and full-stack application architecture.
+                  I am a <strong className="text-text-dark">full-stack web developer</strong> and founder of Tishbite Digital, based in Cape Town and serving clients across South Africa. I graduated as a <strong className="text-text-dark">top student at HyperionDev</strong>, where I completed an intensive web development programme covering modern JavaScript, React, Node.js, and full-stack application architecture.
                 </p>
                 <p>
                   I built Tishbite Digital to bridge a real gap: small and growing businesses across South Africa deserve the same digital quality as large corporates. Every system I deliver — from websites and SEO to CRM automation — is engineered to produce <strong className="text-text-dark">measurable results</strong>, not just aesthetics.
@@ -142,7 +142,7 @@ export default function AboutPageContent() {
               <div className="relative inline-block">
                 <Image
                   src="/assets/profilePic.jpg"
-                  alt="Wellington Dhliwayo — Founder of Tishbite Digital, web developer Cape Town"
+                  alt="Wellington Dhliwayo — Founder of Tishbite Digital, web developer South Africa"
                   width={350}
                   height={350}
                   className="rounded-2xl shadow-xl object-cover"

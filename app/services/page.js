@@ -1,17 +1,17 @@
 import ServicesPageContent from "@/components/ServicesPageContent";
 
 export const metadata = {
-  title: "Website Design, SEO & Marketing in Cape Town",
+  title: "Website Design, SEO & Marketing in South Africa",
   description:
-    "Website design, SEO, ads, and WhatsApp automation built for small businesses and new entrepreneurs in Cape Town who want real growth, not just a website.",
+    "Website design, SEO, ads, and WhatsApp automation built for small businesses and new entrepreneurs across South Africa who want real growth, not just a website.",
   keywords: [
-    "website design Cape Town",
-    "SEO services small business",
-    "digital marketing entrepreneurs",
-    "lead generation",
-    "WhatsApp marketing",
+    "website design South Africa",
+    "SEO services small business South Africa",
+    "digital marketing entrepreneurs South Africa",
+    "lead generation South Africa",
+    "WhatsApp marketing South Africa",
     "web development South Africa",
-    "startup digital services Cape Town",
+    "startup digital services South Africa",
   ],
   alternates: {
     canonical: "https://www.tishbitedigital.co.za/services",
@@ -19,7 +19,7 @@ export const metadata = {
   openGraph: {
     title: "Website Design, SEO & Digital Marketing Services",
     description:
-      "Growth-focused digital services for Cape Town businesses.",
+      "Growth-focused digital services for South African businesses.",
     url: "https://www.tishbitedigital.co.za/services",
     images: [{ url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png" }],
   },
@@ -30,7 +30,7 @@ const servicesStructuredData = {
   "@type": "ItemList",
   name: "Digital Services — Tishbite Digital",
   description:
-    "Website design, SEO, digital marketing, and automation services for Cape Town businesses.",
+    "Website design, SEO, digital marketing, and automation services for South African businesses.",
   url: "https://www.tishbitedigital.co.za/services",
   provider: { "@id": "https://www.tishbitedigital.co.za/#organization" },
   itemListElement: [

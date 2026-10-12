@@ -8,18 +8,18 @@ export const revalidate = 300;
 export const metadata = {
   title: "Blog — Digital Growth Insights",
   description:
-    "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
+    "Practical strategies for South African businesses to improve visibility, attract leads, and grow online.",
   keywords: [
-    "Cape Town digital marketing blog",
+    "digital marketing blog South Africa",
     "SEO tips South Africa",
-    "WhatsApp lead generation",
-    "small business growth strategies",
+    "WhatsApp lead generation South Africa",
+    "small business growth strategies South Africa",
   ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/blog" },
   openGraph: {
     title: "Digital Growth Insights — Tishbite Digital Blog",
     description:
-      "Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online.",
+      "Practical strategies for South African businesses to improve visibility, attract leads, and grow online.",
     url: "https://www.tishbitedigital.co.za/blog",
     images: [{ url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png" }],
   },
@@ -28,9 +28,9 @@ export const metadata = {
 const FALLBACK_POSTS = [
   {
     _id: "fb-seo",
-    title: "How to Get Your Cape Town Business Found on Google",
-    slug: "get-cape-town-business-found-google",
-    excerpt: "Learn the key local SEO strategies that help service businesses in Cape Town rank higher and attract more qualified enquiries.",
+    title: "How to Get Your South African Business Found on Google",
+    slug: "get-your-south-african-business-found-on-google",
+    excerpt: "Learn the key local and national SEO strategies that help service businesses across South Africa rank higher and attract more qualified enquiries.",
     category: "SEO",
     image: null,
     createdAt: new Date().toISOString(),
@@ -80,7 +80,7 @@ export default async function BlogPage() {
     <>
       <PageHeader
         title="Digital Growth Insights"
-        subtitle="Practical strategies for Cape Town businesses to improve visibility, attract leads, and grow online."
+        subtitle="Practical strategies for South African businesses to improve visibility, attract leads, and grow online."
         background="dark"
       />
 

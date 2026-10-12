@@ -144,7 +144,7 @@ const PRICING_ROWS = [
 ];
 
 const HERO_FEATURES = [
-  { Icon:FaMapMarkerAlt,  label:"Cape Town Based"       },
+  { Icon:FaMapMarkerAlt,  label:"Serving All of South Africa" },
   { Icon:FaCalendarCheck, label:"Installment Plans"     },
   { Icon:FaShieldAlt,     label:"1 Month Free Support"  },
   { Icon:FaCheckCircle,   label:"Results Focused"       },
@@ -316,7 +316,7 @@ export default function ServicesPageContent() {
                 variants={fadeRight}
                 className="inline-flex self-start items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary font-extrabold text-xs uppercase tracking-wider mb-4"
               >
-                Cape Town Digital Agency
+                South African Digital Agency
               </motion.p>
 
               <motion.h2

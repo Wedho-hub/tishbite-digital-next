@@ -1,33 +1,34 @@
 import HomePageContent from "@/components/HomePageContent";
 
 export const metadata = {
-  title: "Cape Town Web Design, SEO & Lead Generation | Tishbite Digital",
+  title: "South Africa Web Design, SEO & Lead Generation | Tishbite Digital",
   description:
-    "Websites, SEO, and digital systems built for small businesses and new entrepreneurs in Cape Town — turn online traffic into real leads and sales.",
+    "Websites, SEO, and digital systems built for small businesses and new entrepreneurs across South Africa — turn online traffic into real leads and sales.",
   keywords: [
-    "Cape Town web design",
-    "Cape Town SEO",
-    "small business website Cape Town",
-    "new entrepreneur digital marketing",
-    "lead generation",
-    "WhatsApp marketing",
+    "web design South Africa",
+    "SEO South Africa",
+    "small business website South Africa",
+    "new entrepreneur digital marketing South Africa",
+    "lead generation website South Africa",
+    "WhatsApp marketing South Africa",
     "startup website South Africa",
-    "digital marketing Cape Town",
+    "digital marketing agency South Africa",
+    "website design company South Africa",
   ],
   alternates: {
     canonical: "https://www.tishbitedigital.co.za/",
   },
   openGraph: {
-    title: "Digital Growth for Cape Town Small Businesses & Entrepreneurs",
+    title: "Digital Growth for South African Small Businesses & Entrepreneurs",
     description:
-      "Websites. SEO. Ads. Built to generate leads, sales, and WhatsApp enquiries for small businesses and new entrepreneurs.",
+      "Websites. SEO. Ads. Built to generate leads, sales, and WhatsApp enquiries for small businesses and new entrepreneurs across South Africa.",
     url: "https://www.tishbitedigital.co.za/",
     images: [
       {
         url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png",
         width: 1200,
         height: 630,
-        alt: "Tishbite Digital — Cape Town Digital Marketing Agency",
+        alt: "Tishbite Digital — South Africa Digital Marketing Agency",
       },
     ],
   },
@@ -51,7 +52,6 @@ const homeStructuredData = {
       "@type": "WebSite",
       "@id": "https://www.tishbitedigital.co.za/#website",
       name: "Tishbite Digital",
-      alternateName: "Tishbite Digital Cape Town",
       url: "https://www.tishbitedigital.co.za/",
     },
     {
@@ -83,17 +83,17 @@ const homeStructuredData = {
       currenciesAccepted: "ZAR",
       paymentAccepted: "Cash, EFT, Installment Plans",
       areaServed: [
+        { "@type": "Country", name: "South Africa" },
+        { "@type": "State", name: "Western Cape" },
         { "@type": "City", name: "Cape Town" },
         { "@type": "City", name: "Bellville" },
         { "@type": "City", name: "Claremont" },
         { "@type": "City", name: "Stellenbosch" },
         { "@type": "City", name: "Somerset West" },
         { "@type": "City", name: "Paarl" },
-        { "@type": "State", name: "Western Cape" },
-        { "@type": "Country", name: "South Africa" },
       ],
       description:
-        "Tishbite Digital helps small businesses and new entrepreneurs in Cape Town get more clients online through websites, SEO, ads, WhatsApp lead generation, and automation.",
+        "Tishbite Digital helps small businesses and new entrepreneurs across South Africa get more clients online through websites, SEO, ads, WhatsApp lead generation, and automation.",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Cape Town",
@@ -124,8 +124,8 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Do you only work with Cape Town businesses?",
-      acceptedAnswer: { "@type": "Answer", text: "Cape Town is a core focus because local search intent is strong here, but we work with small businesses and entrepreneurs across the Western Cape and South Africa — at any stage." },
+      name: "Do you only work with businesses in Cape Town?",
+      acceptedAnswer: { "@type": "Answer", text: "No. We're based in Cape Town, but we work with small businesses and entrepreneurs across South Africa — our web design, SEO, and digital growth services are fully remote-friendly, wherever your business is based." },
     },
     {
       "@type": "Question",
@@ -139,7 +139,7 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "How much does a website cost in Cape Town?",
+      name: "How much does a website cost in South Africa?",
       acceptedAnswer: { "@type": "Answer", text: "Our general services start from R2,500 and our bundled growth packages start from R8,500. Every project is scoped to your specific goals and we offer flexible installment plans so you can get started without paying everything upfront." },
     },
     {
@@ -155,7 +155,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "Can I see examples of your work before hiring you?",
-      acceptedAnswer: { "@type": "Answer", text: "Absolutely. Visit our Projects page to see websites and digital systems we have built for Cape Town businesses. We are happy to walk you through the results each project achieved." },
+      acceptedAnswer: { "@type": "Answer", text: "Absolutely. Visit our Projects page to see websites and digital systems we have built for South African businesses. We are happy to walk you through the results each project achieved." },
     },
   ],
 };

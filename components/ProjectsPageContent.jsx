@@ -35,6 +35,13 @@ const FALLBACK_PROJECTS = [
     image: "/assets/churchWebPic.png",
     link: "https://inkosiyezasdachurch.netlify.app/",
   },
+  {
+    _id: "fallback-kupuma",
+    title: "Kupuma",
+    description: "Funeral and repatriation services website with transparent package pricing and instant WhatsApp/call booking for families.",
+    image: "/assets/kupumaPic.png",
+    link: "https://kupuma.vercel.app/",
+  },
 ];
 
 const OPTIMIZED_DESCRIPTIONS = [
@@ -67,6 +74,16 @@ const OPTIMIZED_DESCRIPTIONS = [
 **Result Focus:** Stronger digital engagement, easier communication with members, and improved discoverability for visitors searching online.
 
 **SEO & GEO Angle:** Structured content and local relevance signals help improve search visibility for faith-community and regional church discovery queries.`,
+  },
+  {
+    matcher: /kupuma/i,
+    content: `**Problem:** Families arranging funeral and repatriation services needed clear, trustworthy pricing and a fast way to reach the team during an already stressful, time-sensitive moment.
+
+**Solution:** We built a calm, professional website with transparent package tiers — from essential care through full-service cross-border SADC repatriation — paired with always-visible WhatsApp and phone call-to-actions so families never have to search for how to get help.
+
+**Result Focus:** Clear, upfront pricing reduces back-and-forth enquiries, and the one-tap contact options mean families can reach the team the moment they need to.
+
+**SEO & GEO Angle:** Structured service and pricing content improves visibility for funeral and repatriation service searches across South Africa and the wider SADC region.`,
   },
   {
     matcher: /(nozuko|fog educare|educare)/i,

@@ -115,7 +115,7 @@ export default function Footer() {
               </Link>
             </motion.div>
             <p className="text-white/60 text-sm leading-relaxed m-0">
-              Cape Town digital agency helping small businesses and new
+              South African digital agency helping small businesses and new
               entrepreneurs get more clients, better Google visibility, and
               sustainable online growth.
             </p>

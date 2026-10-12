@@ -57,7 +57,7 @@ const GROWTH_PILLARS = [
     Icon: FaSearch,
     title: "Rank for searches your buyers are already making",
     description:
-      "Get found when Cape Town customers search for what you sell or offer, with SEO-ready pages and conversion-focused structure built for your market.",
+      "Get found when customers across South Africa search for what you sell or offer, with SEO-ready pages and conversion-focused structure built for your market.",
   },
   {
     Icon: FaWhatsapp,
@@ -75,9 +75,9 @@ const GROWTH_PILLARS = [
 
 const FAQ_ITEMS = [
   {
-    question: "Do you only work with Cape Town businesses?",
+    question: "Do you only work with businesses in Cape Town?",
     answer:
-      "Cape Town is a core focus because local search intent is strong here, but we work with small businesses and entrepreneurs across the Western Cape and South Africa — at any stage.",
+      "No. We're based in Cape Town, but we work with small businesses and entrepreneurs across South Africa — our web design, SEO, and digital growth services are fully remote-friendly, wherever your business is based.",
   },
   {
     question: "What does the free Website and SEO audit include?",
@@ -90,7 +90,7 @@ const FAQ_ITEMS = [
       "Yes. We build complete growth systems including websites, SEO, Google Business optimization, Meta ads support, WhatsApp lead handling, and CRM automation.",
   },
   {
-    question: "How much does a website cost in Cape Town?",
+    question: "How much does a website cost in South Africa?",
     answer:
       "Our general services start from R2,500 and our bundled growth packages start from R8,500. Every project is scoped to your specific goals — we offer flexible installment plans so you can get started without paying everything upfront.",
   },
@@ -107,7 +107,7 @@ const FAQ_ITEMS = [
   {
     question: "Can I see examples of your work before hiring you?",
     answer:
-      "Absolutely. Visit our Projects page to see websites and digital systems we have built for Cape Town businesses. We are happy to walk you through the results each project achieved.",
+      "Absolutely. Visit our Projects page to see websites and digital systems we have built for South African businesses. We are happy to walk you through the results each project achieved.",
   },
 ];
 
@@ -135,6 +135,12 @@ const PROJECTS = [
     name: "Church Website",
     desc: "Community & ministry web presence",
     link: "https://inkosiyezasdachurch.netlify.app/",
+  },
+  {
+    img: "/assets/kupumaPic.png",
+    name: "Kupuma",
+    desc: "Funeral & repatriation services website",
+    link: "https://kupuma.vercel.app/",
   },
 ];
 
@@ -172,7 +178,7 @@ const WHO_WE_HELP = [
 ];
 
 const LOCAL_SEO_POINTS = [
-  "Cape Town service-area messaging with clearer intent matching",
+  "Service-area messaging tuned for South Africa-wide search intent",
   "Answer-focused copy for users searching in Google and AI assistants",
   "Lead magnets and WhatsApp conversion paths that reduce friction",
 ];
@@ -281,7 +287,7 @@ export default function HomePageContent() {
                 {[
                   "Position your business clearly so customers know why to choose you",
                   "Capture more leads and sales with strong calls to action and WhatsApp paths",
-                  "Improve search visibility for local, high-intent buyers in Cape Town",
+                  "Improve search visibility for high-intent buyers across South Africa",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2 text-text-muted text-sm">
                     <FaCheckCircle className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
@@ -629,7 +635,7 @@ export default function HomePageContent() {
               viewport={VIEW}
               className="lg:w-5/12 flex flex-col"
             >
-              <SectionKicker>Cape Town Focus</SectionKicker>
+              <SectionKicker>South Africa Focus</SectionKicker>
               <SectionTitle id="local-seo-heading">
                 Better GEO starts with clearer local relevance
               </SectionTitle>

@@ -42,7 +42,7 @@ export default function Hero() {
   return (
     <section
       className="relative overflow-hidden bg-linear-to-br from-[#f3f9f5] via-white to-[#e6f2eb] pt-1 pb-14"
-      aria-label="Tishbite Digital helping Cape Town businesses get more clients online"
+      aria-label="Tishbite Digital helping South African businesses get more clients online"
     >
       {/* Animated background glows */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -90,7 +90,7 @@ export default function Hero() {
               className="text-[clamp(2.1rem,4vw,3.2rem)] font-extrabold leading-[1.18] tracking-tight text-primary-dark mb-4"
               style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
             >
-              We Help Cape Town Businesses Get More Clients Online
+              We Help South African Businesses Get More Clients Online
             </motion.h1>
 
             <motion.p
@@ -181,8 +181,9 @@ export default function Hero() {
               variants={itemVariants}
               className="mt-3 text-[#486154] text-sm leading-relaxed max-w-140"
             >
-              Serving small businesses, startups, and entrepreneurs across Cape
-              Town, the Western Cape, and South Africa — at any stage.
+              Serving small businesses, startups, and entrepreneurs across
+              South Africa — from Cape Town to anywhere in the country, at
+              any stage.
             </motion.p>
           </motion.div>
 
@@ -208,7 +209,7 @@ export default function Hero() {
               >
                 <Image
                   src="/assets/tishbiteHero.png"
-                  alt="Cape Town digital professional surrounded by analytics dashboards, social media growth metrics and website results — Tishbite Digital"
+                  alt="South African digital professional surrounded by analytics dashboards, social media growth metrics and website results — Tishbite Digital"
                   width={860}
                   height={484}
                   priority

@@ -3,9 +3,9 @@ import HowWeWorkPageContent from "@/components/HowWeWorkPageContent";
 export const metadata = {
   title: "Our Process: How We Build Digital Growth Systems",
   description:
-    "Discover our transparent, collaborative 4-step process: Discovery, Strategy, Development, and Launch. Built to deliver measurable results for Cape Town businesses.",
+    "Discover our transparent, collaborative 4-step process: Discovery, Strategy, Development, and Launch. Built to deliver measurable results for South African businesses.",
   keywords: [
-    "web design process Cape Town",
+    "web design process South Africa",
     "digital agency workflow",
     "how Tishbite Digital works",
     "website development process South Africa",
