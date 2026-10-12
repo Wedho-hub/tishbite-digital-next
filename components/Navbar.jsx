@@ -50,9 +50,14 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const togglerRef = useRef(null);
 
-  useEffect(() => {
+  // Close the menu on route change — adjusted during render (React's own
+  // pattern for "reset state when a prop changes") rather than in an
+  // effect, so it doesn't cost an extra commit.
+  const [prevPathname, setPrevPathname] = useState(pathname);
+  if (pathname !== prevPathname) {
+    setPrevPathname(pathname);
     setMenuOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 40);
@@ -98,15 +103,21 @@ export default function Navbar() {
 
             {/* Logo */}
             <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="shrink-0">
-              <Link href="/" className="shrink-0 block rounded-xl bg-white px-3 py-1.5 shadow-sm">
+              <Link href="/" className="shrink-0 flex items-center gap-2.5 no-underline group">
                 <Image
-                  src="/assets/tishbiteFullLogo.png"
+                  src="/assets/tishbiteIcon.png"
                   alt="Tishbite Digital"
-                  width={200}
-                  height={100}
+                  width={56}
+                  height={56}
                   priority
-                  className="h-12 w-auto"
+                  className="h-11 w-11 drop-shadow-sm"
                 />
+                <span className="text-white font-bold text-base leading-tight">
+                  Tishbite Digital
+                  <span className="block text-accent/70 font-normal text-xs group-hover:text-accent transition-colors duration-200">
+                    Growing Together
+                  </span>
+                </span>
               </Link>
             </motion.div>
 
@@ -221,12 +232,12 @@ export default function Navbar() {
               <motion.div whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}>
                 <Link href="/" className="flex items-center gap-2 no-underline group">
                   <Image
-                    src="/assets/icon.png"
+                    src="/assets/tishbiteIcon.png"
                     alt="Tishbite Digital"
                     width={40}
                     height={40}
                     priority
-                    className="h-10 w-10 rounded-lg"
+                    className="h-10 w-10 drop-shadow-sm"
                   />
                   <span className="text-white font-bold text-sm leading-tight">
                     Tishbite Digital
