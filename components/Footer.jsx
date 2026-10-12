@@ -101,16 +101,14 @@ export default function Footer() {
             transition={{ duration: 0.4 }}
           >
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 300, damping: 18 }} className="inline-block">
-              <Link href="/" className="inline-flex flex-col gap-2 mb-4 no-underline group">
-                <span className="inline-block rounded-xl bg-white px-3 py-2 shadow-sm w-fit">
-                  <Image
-                    src="/assets/tishbiteFullLogo.png"
-                    alt="Tishbite Digital"
-                    width={200}
-                    height={100}
-                    className="h-13 w-auto"
-                  />
-                </span>
+              <Link href="/" className="inline-flex flex-col items-start gap-2 mb-4 no-underline group">
+                <Image
+                  src="/assets/tishbiteFullLogo.png"
+                  alt="Tishbite Digital"
+                  width={1254}
+                  height={1254}
+                  className="w-32 h-32 drop-shadow-md"
+                />
                 <span className="text-accent/70 text-xs font-medium group-hover:text-accent transition-colors duration-200">
                   Growing Together
                 </span>

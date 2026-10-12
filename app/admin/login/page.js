@@ -47,11 +47,11 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
           <Image
-            src="/assets/icon.png"
+            src="/assets/tishbiteIcon.png"
             alt="Tishbite Digital"
             width={48}
             height={48}
-            className="mb-3 rounded-xl"
+            className="mb-3"
           />
           <h1
             className="text-xl font-extrabold text-white"

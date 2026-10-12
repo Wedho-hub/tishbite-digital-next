@@ -210,7 +210,7 @@ export default function Hero() {
                   src="/assets/tishbiteHero.png"
                   alt="Cape Town digital professional surrounded by analytics dashboards, social media growth metrics and website results — Tishbite Digital"
                   width={860}
-                  height={640}
+                  height={484}
                   priority
                   className="w-full rounded-2xl shadow-2xl object-cover hover:shadow-[0_36px_60px_rgba(27,67,50,0.2)] transition-shadow duration-500"
                   style={{
