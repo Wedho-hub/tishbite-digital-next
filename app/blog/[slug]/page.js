@@ -9,6 +9,23 @@ import BlogPost from "@/models/BlogPost";
 
 export const revalidate = 300;
 
+// Accepts watch?v=, youtu.be/, embed/, and shorts/ URL formats.
+function getYoutubeEmbedId(url) {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes("youtu.be")) return parsed.pathname.slice(1) || null;
+    if (parsed.hostname.includes("youtube.com")) {
+      if (parsed.pathname === "/watch") return parsed.searchParams.get("v");
+      const match = parsed.pathname.match(/^\/(embed|shorts)\/([^/?]+)/);
+      if (match) return match[2];
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 async function getPost(id) {
   try {
     await connectDB();
@@ -49,6 +66,7 @@ export default async function BlogDetailPage({ params }) {
   if (!post) notFound();
 
   const imageUrl = post.image || null;
+  const youtubeId = getYoutubeEmbedId(post.videoUrl);
 
   return (
     <>
@@ -86,6 +104,19 @@ export default async function BlogDetailPage({ params }) {
               </span>
             )}
           </div>
+
+          {youtubeId && (
+            <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-8 shadow-md">
+              <iframe
+                src={`https://www.youtube.com/embed/${youtubeId}`}
+                title={post.title}
+                className="absolute inset-0 w-full h-full"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                loading="lazy"
+              />
+            </div>
+          )}
 
           <div className="prose prose-base max-w-none prose-headings:font-bold prose-headings:text-primary-dark prose-a:text-primary prose-strong:text-text-dark prose-img:rounded-xl text-text-dark">
             {post.content ? (

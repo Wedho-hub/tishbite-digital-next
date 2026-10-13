@@ -8,6 +8,9 @@ const pickBlogPayload = (body = {}) => {
   const payload = {
     title: body.title,
     content: body.content,
+    excerpt: body.excerpt,
+    category: body.category,
+    videoUrl: body.videoUrl,
     author: body.author,
     metaTitle: body.metaTitle,
     metaDescription: body.metaDescription,
@@ -35,8 +38,8 @@ export async function GET(request) {
 
   const query = BlogPost.find()
     .select(summaryMode
-      ? "title content author image createdAt"
-      : "title content author image metaTitle metaDescription keywords createdAt updatedAt")
+      ? "title content excerpt category author image createdAt"
+      : "title content excerpt category videoUrl author image metaTitle metaDescription keywords createdAt updatedAt")
     .sort({ createdAt: -1 })
     .skip(skip);
 

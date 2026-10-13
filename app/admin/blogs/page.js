@@ -16,6 +16,7 @@ export default function ManageBlogsPage() {
   const [content, setContent] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [category, setCategory] = useState("");
+  const [videoUrl, setVideoUrl] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [currentImageUrl, setCurrentImageUrl] = useState("");
@@ -38,7 +39,7 @@ export default function ManageBlogsPage() {
 
   const resetForm = () => {
     setEditing(null);
-    setTitle(""); setContent(""); setExcerpt(""); setCategory("");
+    setTitle(""); setContent(""); setExcerpt(""); setCategory(""); setVideoUrl("");
     setImage(null); setImagePreview(""); setCurrentImageUrl("");
     setError("");
   };
@@ -60,6 +61,7 @@ export default function ManageBlogsPage() {
     formData.append("content", content);
     if (excerpt.trim()) formData.append("excerpt", excerpt);
     if (category.trim()) formData.append("category", category);
+    if (videoUrl.trim()) formData.append("videoUrl", videoUrl);
     if (image) formData.append("image", image);
 
     setSubmitting(true);
@@ -88,6 +90,7 @@ export default function ManageBlogsPage() {
     setContent(blog.content || "");
     setExcerpt(blog.excerpt || "");
     setCategory(blog.category || "");
+    setVideoUrl(blog.videoUrl || "");
     setCurrentImageUrl(resolveUploadUrl(blog.image) || "");
     setImage(null);
     setImagePreview("");
@@ -155,6 +158,13 @@ export default function ManageBlogsPage() {
               className={inputBase}
             />
           </div>
+          <input
+            value={videoUrl}
+            onChange={(e) => setVideoUrl(e.target.value)}
+            placeholder="YouTube video URL (optional)"
+            disabled={submitting}
+            className={inputBase}
+          />
           <div>
             <p className="text-[#0f2016]/50 text-xs mb-1.5">
               Markdown supported: `**bold**`, `- list`, `# heading`, blank line for new paragraph

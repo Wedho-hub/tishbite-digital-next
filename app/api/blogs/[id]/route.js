@@ -8,6 +8,9 @@ const pickBlogPayload = (body = {}) => {
   const payload = {
     title: body.title,
     content: body.content,
+    excerpt: body.excerpt,
+    category: body.category,
+    videoUrl: body.videoUrl,
     author: body.author,
     metaTitle: body.metaTitle,
     metaDescription: body.metaDescription,

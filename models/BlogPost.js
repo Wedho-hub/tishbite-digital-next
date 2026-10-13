@@ -4,6 +4,9 @@ const blogPostSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true },
     content: { type: String, required: true },
+    excerpt: { type: String, required: false, trim: true },
+    category: { type: String, required: false, trim: true },
+    videoUrl: { type: String, required: false, trim: true },
     author: { type: String, required: false },
     image: { type: String, required: false },
     imagePublicId: { type: String, required: false },
