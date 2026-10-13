@@ -67,7 +67,7 @@ export default function ScorecardQuiz({ offer }) {
           </p>
           <p className="text-text-muted text-sm leading-relaxed m-0">{band.blurb}</p>
         </div>
-        <LeadForm offer={offer} />
+        <LeadForm offer={offer} extraData={{ score, band: band.label }} />
       </div>
     );
   }

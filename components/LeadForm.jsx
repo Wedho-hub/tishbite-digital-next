@@ -4,7 +4,6 @@ import { useId, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
-import { ZOHO_LISTS, isZohoConfigured } from "@/lib/zohoLists";
 
 const NEED_OPTIONS = ["Website", "Social Media", "Branding", "Ads", "Not sure"];
 
@@ -12,71 +11,45 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content"];
 
-// Zoho's embedded-form action URL lives on their domain, so a plain fetch()
-// would be blocked by CORS and we can't read a cross-origin response anyway.
-// Submitting into a hidden iframe is the standard way to post straight to a
-// free-plan Zoho Campaigns form while staying on our own page and controlling
-// our own thank-you experience. We can't confirm Zoho accepted it (no
-// readable response), so "success" here means "the request left the
-// browser" — that's the trade-off of the no-API approach.
-export default function LeadForm({ offer }) {
+// `extraData` carries offer-specific fields beyond the standard form (e.g.
+// the scorecard's computed score/band), merged straight into the POST body.
+export default function LeadForm({ offer, extraData }) {
   const router = useRouter();
   const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
-  const iframeName = `zf-${rawId}`;
-  const formRef = useRef(null);
 
   const [form, setForm] = useState({ firstName: "", email: "", whatsapp: "", need: "", preferredTime: "" });
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  // Lazy initializer (not an effect) so this runs once on mount without an
-  // extra render — guarded because it also runs during server rendering,
-  // where `window` doesn't exist.
-  const [utm] = useState(() => {
-    const empty = { utm_source: "", utm_medium: "", utm_campaign: "", utm_content: "" };
-    if (typeof window === "undefined") return empty;
-    const params = new URLSearchParams(window.location.search);
-    UTM_KEYS.forEach((key) => {
-      empty[key] = params.get(key) || "";
-    });
-    return empty;
-  });
+  const [submitError, setSubmitError] = useState("");
   const honeypotRef = useRef(null);
 
-  const zoho = ZOHO_LISTS[offer.listKey];
-  const configured = isZohoConfigured(offer.listKey);
-
-  const validate = (name, value) => {
-    if (name === "firstName") return value.trim() ? "" : "Please enter your first name.";
-    if (name === "email") {
+  const validate = (field, value) => {
+    if (field === "firstName") return value.trim() ? "" : "Please enter your first name.";
+    if (field === "email") {
       if (!value.trim()) return "Please enter your email address.";
       return emailRegex.test(value) ? "" : "Enter a valid email address.";
     }
     return "";
   };
 
-  // Keyed off data-field (our internal state key), not the DOM `name` — the
-  // visible inputs' `name` attributes are display-only placeholders so they
-  // never collide with the hidden inputs that actually carry Zoho's field
-  // names, so we can't rely on e.target.name here.
   const handleChange = (e) => {
-    const { field } = e.target.dataset;
-    const { value } = e.target;
-    setForm((prev) => ({ ...prev, [field]: value }));
-    if (touched[field]) {
-      setErrors((prev) => ({ ...prev, [field]: validate(field, value) }));
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    if (touched[name]) {
+      setErrors((prev) => ({ ...prev, [name]: validate(name, value) }));
     }
   };
 
   const handleBlur = (e) => {
-    const { field } = e.target.dataset;
-    const { value } = e.target;
-    setTouched((prev) => ({ ...prev, [field]: true }));
-    setErrors((prev) => ({ ...prev, [field]: validate(field, value) }));
+    const { name, value } = e.target;
+    setTouched((prev) => ({ ...prev, [name]: true }));
+    setErrors((prev) => ({ ...prev, [name]: validate(name, value) }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError("");
 
     const nextErrors = {
       firstName: validate("firstName", form.firstName),
@@ -86,58 +59,52 @@ export default function LeadForm({ offer }) {
     setTouched({ firstName: true, email: true });
     if (nextErrors.firstName || nextErrors.email) return;
 
-    setSubmitting(true);
-
-    const isBot = Boolean(honeypotRef.current?.value);
-    if (!isBot) {
-      formRef.current?.submit();
+    if (honeypotRef.current?.value) {
+      // Bot caught by the honeypot — fake a normal success without hitting
+      // the API, so it has no signal it was blocked.
+      router.push(`/thank-you?offer=${encodeURIComponent(offer.slug)}`);
+      return;
     }
 
-    // Give the hidden-iframe POST a moment to actually leave the browser
-    // before we navigate away from this page.
-    window.setTimeout(() => {
+    setSubmitting(true);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const utm = {};
+      UTM_KEYS.forEach((key) => { utm[key] = params.get(key) || ""; });
+
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          offerSlug: offer.slug,
+          ...utm,
+          ...extraData,
+        }),
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setSubmitError(data?.error || "Something went wrong. Please try again.");
+        setSubmitting(false);
+        return;
+      }
+
       router.push(`/thank-you?offer=${encodeURIComponent(offer.slug)}`);
-    }, 700);
+    } catch {
+      setSubmitError("Couldn't reach the server. Check your connection and try again.");
+      setSubmitting(false);
+    }
   };
 
   return (
     <div className="bg-white rounded-2xl p-4 sm:p-6 border border-primary/10 shadow-lg">
-      {!configured && (
-        <p className="mb-2.5 text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5">
-          Zoho list not connected yet — update <code>lib/zohoLists.js</code> with the real embed values for &ldquo;{zoho.label}&rdquo;.
-        </p>
-      )}
-
       <h2 className="text-base sm:text-lg font-bold text-primary-dark mb-2.5 sm:mb-4" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
         {offer.formHeading}
       </h2>
 
-      <iframe name={iframeName} title="" hidden />
-
-      <form
-        ref={formRef}
-        action={zoho.actionUrl}
-        method="POST"
-        target={iframeName}
-        onSubmit={handleSubmit}
-        noValidate
-        className="flex flex-col gap-2"
-      >
-        {zoho.hiddenFields.map((field) => (
-          <input key={field.name} type="hidden" name={field.name} value={field.value} />
-        ))}
-        <input type="hidden" name={zoho.fieldNames.firstName} value={form.firstName} />
-        <input type="hidden" name={zoho.fieldNames.email} value={form.email} />
-        <input type="hidden" name={zoho.fieldNames.whatsapp} value={form.whatsapp} />
-        <input type="hidden" name={zoho.fieldNames.need} value={form.need} />
-        <input type="hidden" name={zoho.fieldNames.utmSource} value={utm.utm_source} />
-        <input type="hidden" name={zoho.fieldNames.utmMedium} value={utm.utm_medium} />
-        <input type="hidden" name={zoho.fieldNames.utmCampaign} value={utm.utm_campaign} />
-        <input type="hidden" name={zoho.fieldNames.utmContent} value={utm.utm_content} />
-
-        {/* Honeypot — hidden from sighted users, real browsers never fill it in.
-            Off-screen instead of display:none so simple bots that skip hidden
-            fields still see (and fill) it. */}
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-2">
+        {/* Honeypot — hidden from sighted users, real browsers never fill it in. */}
         <div className="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
           <label htmlFor={`${rawId}-company`}>Company</label>
           <input
@@ -157,8 +124,7 @@ export default function LeadForm({ offer }) {
           <input
             id={`${rawId}-firstName`}
             type="text"
-            name="firstName_display"
-            data-field="firstName"
+            name="firstName"
             value={form.firstName}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -187,8 +153,7 @@ export default function LeadForm({ offer }) {
           <input
             id={`${rawId}-email`}
             type="email"
-            name="email_display"
-            data-field="email"
+            name="email"
             value={form.email}
             onChange={handleChange}
             onBlur={handleBlur}
@@ -217,8 +182,7 @@ export default function LeadForm({ offer }) {
           <input
             id={`${rawId}-whatsapp`}
             type="tel"
-            name="whatsapp_display"
-            data-field="whatsapp"
+            name="whatsapp"
             value={form.whatsapp}
             onChange={handleChange}
             autoComplete="tel"
@@ -235,14 +199,12 @@ export default function LeadForm({ offer }) {
             <input
               id={`${rawId}-preferredTime`}
               type="text"
-              name="preferredTime_display"
-              data-field="preferredTime"
+              name="preferredTime"
               value={form.preferredTime}
               onChange={handleChange}
               placeholder="e.g. Weekday mornings"
               className="w-full rounded-xl border border-primary/15 bg-white px-3.5 py-2.5 text-sm text-text-dark placeholder-text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
             />
-            <input type="hidden" name={zoho.fieldNames.preferredTime || "preferred_time_fallback"} value={form.preferredTime} />
           </div>
         )}
 
@@ -252,8 +214,7 @@ export default function LeadForm({ offer }) {
           </label>
           <select
             id={`${rawId}-need`}
-            name="need_display"
-            data-field="need"
+            name="need"
             value={form.need}
             onChange={handleChange}
             className="w-full rounded-xl border border-primary/15 bg-white px-3.5 py-2.5 text-sm text-text-dark focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
@@ -276,6 +237,12 @@ export default function LeadForm({ offer }) {
           {submitting ? "Sending..." : offer.ctaText}
           {!submitting && <FaArrowRight size={14} aria-hidden="true" />}
         </motion.button>
+
+        {submitError && (
+          <p className="text-red-500 text-xs text-center" role="alert">
+            {submitError}
+          </p>
+        )}
 
         <p className="text-text-muted text-xs text-center leading-relaxed m-0">
           We&rsquo;ll email you the {offer.offerLabel}. Unsubscribe anytime.{" "}

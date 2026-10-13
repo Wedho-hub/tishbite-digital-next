@@ -15,6 +15,8 @@ import {
   FaChartLine,
   FaStar,
   FaClipboardList,
+  FaUsers,
+  FaPaperPlane,
 } from "react-icons/fa";
 
 const NAV_LINKS = [
@@ -26,6 +28,8 @@ const NAV_LINKS = [
   { href: "/admin/services", label: "Services", icon: FaCogs },
   { href: "/admin/testimonials", label: "Testimonials", icon: FaStar },
   { href: "/admin/enquiries", label: "Enquiries", icon: FaEnvelope },
+  { href: "/admin/subscribers", label: "Subscribers", icon: FaUsers },
+  { href: "/admin/campaigns", label: "Email Campaigns", icon: FaPaperPlane },
 ];
 
 export default function AdminShell({ children }) {
