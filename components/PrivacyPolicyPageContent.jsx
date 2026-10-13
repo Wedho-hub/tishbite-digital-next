@@ -15,7 +15,7 @@ const SECTIONS = [
       "We collect personal information you provide directly to us, including:",
     ],
     list: [
-      "Name, email address, phone number and business details submitted via our contact form, onboarding form, or WhatsApp",
+      "Name, email address, phone number and business details submitted via our contact form, onboarding form, free-resource signup forms (e.g. our audit, scorecard, pricing guide, checklist or call-booking pages), or WhatsApp",
       "Project or enquiry details you share with us to request a quote or service",
       "Billing and transaction details processed when you pay for services online (handled by our payment processor, PayFast — see Section 4)",
       "Basic usage data such as pages visited and general location, collected automatically via standard web analytics",
@@ -28,6 +28,7 @@ const SECTIONS = [
       "Respond to enquiries and provide quotes for our services",
       "Deliver, manage and invoice the services you have engaged us for",
       "Communicate with you about your project via email, phone or WhatsApp",
+      "Send you the free resource you requested (e.g. an audit, guide or checklist), and occasional follow-up emails, tips or offers related to it — you can unsubscribe from these at any time using the link in any such email",
       "Improve our website and service offering",
       "Meet legal, accounting and tax obligations",
     ],
@@ -68,7 +69,7 @@ const SECTIONS = [
       "Request access to the personal information we hold about you",
       "Request correction of inaccurate or outdated information",
       "Request deletion of your personal information, subject to our legal retention obligations",
-      "Object to the processing of your information, or withdraw consent where processing is based on consent",
+      "Object to the processing of your information, or withdraw consent where processing is based on consent — for marketing emails specifically, you can unsubscribe instantly using the link included in every email we send",
       "Lodge a complaint with the Information Regulator of South Africa if you believe your information has been mishandled",
     ],
   },
@@ -96,7 +97,7 @@ export default function PrivacyPolicyPageContent() {
       <section className="py-14 bg-bg">
         <div className="container mx-auto px-4 max-w-3xl">
           <p className="text-text-muted text-sm mb-10">
-            Last updated: 17 September 2026
+            Last updated: 13 October 2026
           </p>
 
           <div className="space-y-10">
