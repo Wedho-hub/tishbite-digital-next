@@ -186,7 +186,7 @@ export default function LeadForm({ offer, extraData }) {
             value={form.whatsapp}
             onChange={handleChange}
             autoComplete="tel"
-            placeholder="e.g. 079 168 4548"
+            placeholder="e.g. 064 058 4229"
             className="w-full rounded-xl border border-primary/15 bg-white px-3.5 py-2.5 text-sm text-text-dark placeholder-text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all duration-200"
           />
         </div>

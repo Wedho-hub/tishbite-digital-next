@@ -164,7 +164,7 @@ export default function OnboardingPageContent() {
                 We&apos;ll review your answers and come back to you within 24 hours with next steps and a tailored quote.
               </p>
               <motion.a
-                href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20just%20completed%20the%20onboarding%20form."
+                href="https://wa.me/27640584229?text=Hi%20Tishbite%20Digital,%20I%20just%20completed%20the%20onboarding%20form."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-5 py-3 rounded-xl text-sm no-underline"

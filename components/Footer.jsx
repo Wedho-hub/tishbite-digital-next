@@ -169,12 +169,12 @@ export default function Footer() {
             </h6>
             <div className="space-y-2 mb-4">
               <motion.a
-                href="tel:+27791684548"
+                href="tel:+27640584229"
                 className="block text-white/60 text-sm no-underline"
                 whileHover={{ color: "var(--color-accent, #f4c95d)", x: 3 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                📞 +27 79 168 4548
+                📞 +27 64 058 4229
               </motion.a>
               <motion.a
                 href="mailto:info@tishbitedigital.co.za"

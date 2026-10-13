@@ -20,7 +20,7 @@ export default function ThankYouPageContent({ offerSlug }) {
   const offerLabelJson = JSON.stringify(offerLabel);
 
   const waMessage = `Hi Tishbite, I just requested my free ${offerLabel}`;
-  const waHref = `https://wa.me/27791684548?text=${encodeURIComponent(waMessage)}`;
+  const waHref = `https://wa.me/27640584229?text=${encodeURIComponent(waMessage)}`;
 
   return (
     <>

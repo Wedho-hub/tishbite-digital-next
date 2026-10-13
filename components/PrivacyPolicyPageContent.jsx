@@ -76,7 +76,7 @@ const SECTIONS = [
   {
     heading: "9. Contact Us",
     body: [
-      "For any privacy-related requests or questions, contact our Information Officer, Wellington Dhliwayo, at info@tishbitedigital.co.za or +27 79 168 4548.",
+      "For any privacy-related requests or questions, contact our Information Officer, Wellington Dhliwayo, at info@tishbitedigital.co.za or +27 64 058 4229.",
     ],
   },
   {

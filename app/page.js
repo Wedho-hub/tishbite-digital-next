@@ -66,7 +66,7 @@ const homeStructuredData = {
       },
       contactPoint: {
         "@type": "ContactPoint",
-        telephone: "+27791684548",
+        telephone: "+27640584229",
         contactType: "customer service",
         availableLanguage: ["English"],
         areaServed: "ZA",
@@ -78,7 +78,7 @@ const homeStructuredData = {
       "@id": "https://www.tishbitedigital.co.za/#localbusiness",
       name: "Tishbite Digital",
       url: "https://www.tishbitedigital.co.za/",
-      telephone: "+27791684548",
+      telephone: "+27640584229",
       priceRange: "R2500 – R30000+",
       currenciesAccepted: "ZAR",
       paymentAccepted: "Cash, EFT, Installment Plans",

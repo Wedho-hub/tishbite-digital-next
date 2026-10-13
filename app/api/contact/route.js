@@ -50,7 +50,7 @@ function buildNotificationHtml({ name, email, service, message }) {
     </div>
 
     <div style="background:#f9fafb;padding:16px 32px;text-align:center;font-size:12px;color:#9ca3af;border-top:1px solid #e5e7eb;">
-      Tishbite Digital · info@tishbitedigital.co.za · +27 79 168 4548
+      Tishbite Digital · info@tishbitedigital.co.za · +27 64 058 4229
     </div>
   </div>
 </body>
@@ -83,7 +83,7 @@ function buildAutoReplyHtml({ name, service, message }) {
         <ul style="margin:0;padding-left:18px;color:#555;font-size:13px;">
           <li style="margin-bottom:6px;">We'll review your enquiry and prepare a tailored response</li>
           <li style="margin-bottom:6px;">One of our specialists will contact you within 24 hours</li>
-          <li>For urgent matters, WhatsApp us at <a href="https://wa.me/27791684548" style="color:#1b4332;font-weight:bold;">+27 79 168 4548</a></li>
+          <li>For urgent matters, WhatsApp us at <a href="https://wa.me/27640584229" style="color:#1b4332;font-weight:bold;">+27 64 058 4229</a></li>
         </ul>
       </div>
 
@@ -95,7 +95,7 @@ function buildAutoReplyHtml({ name, service, message }) {
 
     <div style="background:#1b4332;padding:20px 32px;text-align:center;">
       <p style="margin:0 0 8px;color:rgba(255,255,255,0.9);font-weight:bold;font-size:14px;">Tishbite Digital</p>
-      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;">info@tishbitedigital.co.za · +27 79 168 4548 · tishbitedigital.co.za</p>
+      <p style="margin:0;color:rgba(255,255,255,0.6);font-size:12px;">info@tishbitedigital.co.za · +27 64 058 4229 · tishbitedigital.co.za</p>
     </div>
   </div>
 </body>

@@ -443,7 +443,7 @@ function CheckoutForm({ selectedService, onBack }) {
                   autoComplete="tel"
                   value={form.phone}
                   onChange={handleChange}
-                  placeholder="+27 79 168 4548"
+                  placeholder="+27 64 058 4229"
                   disabled={loading}
                   className={`${inputBase} ${errors.phone ? "border-red-400 focus:ring-red-200" : "border-primary/20"}`}
                 />

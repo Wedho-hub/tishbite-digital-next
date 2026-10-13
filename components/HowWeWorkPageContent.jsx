@@ -187,7 +187,7 @@ export default function HowWeWorkPageContent() {
             </motion.div>
 
             <motion.a
-              href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20want%20to%20understand%20your%20process%20and%20see%20if%20we%20are%20a%20good%20fit."
+              href="https://wa.me/27640584229?text=Hi%20Tishbite%20Digital,%20I%20want%20to%20understand%20your%20process%20and%20see%20if%20we%20are%20a%20good%20fit."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold border border-white/20 no-underline"

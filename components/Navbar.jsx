@@ -42,7 +42,7 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-const PHONE = { href: "tel:+27791684548", number: "+27 79 168 4548" };
+const PHONE = { href: "tel:+27640584229", number: "+27 64 058 4229" };
 
 export default function Navbar() {
   const pathname = usePathname();

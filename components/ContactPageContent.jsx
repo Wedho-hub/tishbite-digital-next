@@ -124,11 +124,11 @@ export default function ContactPageContent() {
                   Whether you need a professional website, CRM integration, automation system, or SEO-driven marketing strategy — we structure systems that scale your business.
                 </p>
                 <div className="space-y-3 mb-5">
-                  <a href="tel:+27791684548" className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors no-underline text-sm">
+                  <a href="tel:+27640584229" className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors no-underline text-sm">
                     <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
                       <FaPhone size={14} aria-hidden="true" />
                     </div>
-                    +27 79 168 4548
+                    +27 64 058 4229
                   </a>
                   <a href="mailto:info@tishbitedigital.co.za" className="flex items-center gap-3 text-white/80 hover:text-accent transition-colors no-underline text-sm">
                     <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
@@ -138,7 +138,7 @@ export default function ContactPageContent() {
                   </a>
                 </div>
                 <motion.a
-                  href="https://wa.me/27791684548?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
+                  href="https://wa.me/27640584229?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 bg-[#25d366] text-white font-bold py-3 rounded-xl no-underline text-sm"
@@ -322,7 +322,7 @@ export default function ContactPageContent() {
                         We'll be in touch within <strong>24 hours</strong>. Want a faster response?
                       </p>
                       <motion.a
-                        href="https://wa.me/27791684548?text=Hi%20Tishbite%20Digital,%20I%20just%20submitted%20an%20enquiry%20and%20would%20love%20to%20chat."
+                        href="https://wa.me/27640584229?text=Hi%20Tishbite%20Digital,%20I%20just%20submitted%20an%20enquiry%20and%20would%20love%20to%20chat."
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-4 py-2 rounded-lg text-sm no-underline"

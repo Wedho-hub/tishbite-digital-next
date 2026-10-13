@@ -153,7 +153,7 @@ export default function Hero() {
               </motion.div>
 
               <motion.a
-                href="https://wa.me/27791684548?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
+                href="https://wa.me/27640584229?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3.5 rounded-xl bg-linear-to-r from-accent to-accent-light text-primary-dark border border-[rgba(196,146,28,0.35)] font-bold text-[0.98rem] no-underline"

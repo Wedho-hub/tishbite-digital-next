@@ -56,7 +56,7 @@ export default function PaymentCancelContent() {
             </Link>
           </motion.div>
           <motion.a
-            href="https://wa.me/27791684548"
+            href="https://wa.me/27640584229"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm no-underline"

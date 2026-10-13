@@ -28,7 +28,7 @@ export default function MobileStickyBar() {
         <FaArrowRight size={11} aria-hidden="true" />
       </Link>
       <motion.a
-        href="https://wa.me/27791684548?text=Hello%20Tishbite%20Digital,%20I%20am%20interested%20in%20your%20services."
+        href="https://wa.me/27640584229?text=Hello%20Tishbite%20Digital,%20I%20am%20interested%20in%20your%20services."
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
