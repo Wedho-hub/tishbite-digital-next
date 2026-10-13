@@ -13,13 +13,17 @@ const SOURCE_LABELS = {
 };
 
 function toCsv(rows) {
-  const header = ["First Name", "Email", "WhatsApp", "Need", "Source", "Status", "Signed Up"];
+  const header = ["First Name", "Email", "WhatsApp", "Need", "Source", "UTM Source", "UTM Medium", "UTM Campaign", "UTM Content", "Status", "Signed Up"];
   const lines = rows.map((s) => [
     s.firstName,
     s.email,
     s.whatsapp || "",
     s.need || "",
     SOURCE_LABELS[s.source] || s.source || "",
+    s.utmSource || "",
+    s.utmMedium || "",
+    s.utmCampaign || "",
+    s.utmContent || "",
     s.status,
     new Date(s.createdAt).toLocaleDateString("en-ZA"),
   ].map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","));
@@ -32,6 +36,7 @@ export default function ManageSubscribersPage() {
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [sourceFilter, setSourceFilter] = useState("all");
+  const [utmFilter, setUtmFilter] = useState("all");
 
   const fetchSubscribers = async () => {
     setError("");
@@ -49,13 +54,19 @@ export default function ManageSubscribersPage() {
 
   useEffect(() => { (async () => { await fetchSubscribers(); })(); }, []);
 
+  const utmSources = useMemo(() => {
+    const set = new Set(subscribers.map((s) => s.utmSource).filter(Boolean));
+    return Array.from(set).sort();
+  }, [subscribers]);
+
   const filtered = useMemo(() => {
     return subscribers.filter((s) => {
       if (statusFilter !== "all" && s.status !== statusFilter) return false;
       if (sourceFilter !== "all" && s.source !== sourceFilter) return false;
+      if (utmFilter !== "all" && s.utmSource !== utmFilter) return false;
       return true;
     });
-  }, [subscribers, statusFilter, sourceFilter]);
+  }, [subscribers, statusFilter, sourceFilter, utmFilter]);
 
   const activeCount = subscribers.filter((s) => s.status === "subscribed").length;
 
@@ -120,6 +131,14 @@ export default function ManageSubscribersPage() {
             <option key={value} value={value}>{label}</option>
           ))}
         </select>
+        {utmSources.length > 0 && (
+          <select value={utmFilter} onChange={(e) => setUtmFilter(e.target.value)} className={selectBase}>
+            <option value="all">All traffic sources</option>
+            {utmSources.map((value) => (
+              <option key={value} value={value}>{value}</option>
+            ))}
+          </select>
+        )}
         <button
           onClick={handleExport}
           disabled={filtered.length === 0}
@@ -147,6 +166,7 @@ export default function ManageSubscribersPage() {
                 <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Email</th>
                 <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">WhatsApp</th>
                 <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Offer</th>
+                <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Via</th>
                 <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Status</th>
                 <th className="px-4 py-3 text-[#0f2016]/50 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">Signed Up</th>
                 <th className="px-4 py-3"></th>
@@ -175,6 +195,9 @@ export default function ManageSubscribersPage() {
                     <span className="inline-block text-xs font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                       {SOURCE_LABELS[s.source] || s.source || "—"}
                     </span>
+                  </td>
+                  <td className="px-4 py-3 whitespace-nowrap text-[#0f2016]/50 text-xs">
+                    {s.utmSource ? `${s.utmSource}${s.utmMedium ? ` / ${s.utmMedium}` : ""}` : "—"}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
                     <span className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full ${
