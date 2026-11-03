@@ -1,7 +1,11 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import ReactMarkdown from "react-markdown";
+import dynamic from "next/dynamic";
+
+// Code-split react-markdown into this route's own chunk instead of a
+// shared/common one — it was previously loading on every page site-wide.
+const ReactMarkdown = dynamic(() => import("react-markdown"));
 import { FaArrowRight, FaCalendarAlt } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 import connectDB from "@/lib/db";
@@ -72,7 +76,7 @@ export default async function BlogDetailPage({ params }) {
     <>
       {imageUrl && (
         <div className="relative h-72 lg:h-96 overflow-hidden">
-          <Image src={imageUrl} alt={post.title} fill className="object-cover" priority />
+          <Image src={imageUrl} alt={post.title} fill sizes="100vw" className="object-cover" priority />
           <div className="absolute inset-0 bg-primary-dark/50" />
         </div>
       )}

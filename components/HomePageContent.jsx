@@ -783,6 +783,7 @@ export default function HomePageContent() {
                         alt={`${project.name} — ${project.desc}`}
                         width={300}
                         height={225}
+                        sizes="(max-width: 1024px) 50vw, 300px"
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />

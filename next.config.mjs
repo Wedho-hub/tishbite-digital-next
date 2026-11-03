@@ -1,5 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    // react-icons is already optimized by Next.js by default; framer-motion
+    // isn't, and it's used on nearly every page for the site's animations.
+    // Purely a build-time import-rewriting setting — no component code or
+    // rendered output changes.
+    optimizePackageImports: ["framer-motion"],
+  },
   images: {
     remotePatterns: [
       {

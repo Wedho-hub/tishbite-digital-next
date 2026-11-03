@@ -3,7 +3,12 @@
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/navigation";
-import ReactMarkdown from "react-markdown";
+import dynamic from "next/dynamic";
+
+// Code-split react-markdown into this route's own chunk instead of a
+// shared/common one — it was previously loading on every page site-wide.
+// SSR stays on (default), so rendered output/SEO is unaffected.
+const ReactMarkdown = dynamic(() => import("react-markdown"));
 import CountUp from "react-countup";
 import Link from "next/link";
 import { motion } from "framer-motion";

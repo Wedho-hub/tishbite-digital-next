@@ -3,7 +3,14 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import ReactMarkdown from "react-markdown";
+import dynamic from "next/dynamic";
+
+// Code-split react-markdown into this route's own chunk instead of a
+// shared/common one — it was previously loading on every page site-wide
+// even though only Projects, Services, and blog posts use it. SSR stays on
+// (default), so rendered output/SEO is unaffected — this only changes which
+// JS chunk the code lives in.
+const ReactMarkdown = dynamic(() => import("react-markdown"));
 import { FaArrowRight, FaTimes, FaGlobe } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
