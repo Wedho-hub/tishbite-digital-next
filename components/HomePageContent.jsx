@@ -20,6 +20,9 @@ import {
   FaUserMd,
   FaHammer,
   FaBuilding,
+  FaCode,
+  FaPaintBrush,
+  FaPen,
 } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
@@ -177,6 +180,13 @@ const WHO_WE_HELP = [
   },
 ];
 
+const TEAM_SKILLS = [
+  { Icon: FaCode, label: "Web Development" },
+  { Icon: FaBullhorn, label: "Digital Marketing" },
+  { Icon: FaPaintBrush, label: "Design & Branding" },
+  { Icon: FaPen, label: "Content & Editing" },
+];
+
 const LOCAL_SEO_POINTS = [
   "Service-area messaging tuned for South Africa-wide search intent",
   "Answer-focused copy for users searching in Google and AI assistants",
@@ -234,26 +244,39 @@ export default function HomePageContent() {
           >
             <motion.div
               variants={fadeLeft}
-              className="lg:w-1/2 text-center order-1"
+              className="lg:w-1/2 w-full order-1"
             >
-              <motion.div whileHover={{ y: -4 }} whileTap={{ scale: 0.98 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}>
-                <Link href="/about" className="inline-block no-underline group">
-                  <div className="relative overflow-hidden rounded-2xl shadow-xl group-hover:shadow-2xl transition-shadow duration-300">
-                    <Image
-                      src="/assets/profilePic.jpg"
-                      alt="Wellington Dhliwayo — Founder of Tishbite Digital"
-                      width={500}
-                      height={500}
-                      className="w-full max-w-sm mx-auto object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-primary-dark/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  </div>
-                  <p className="mt-3 text-text-muted text-sm font-semibold group-hover:text-primary transition-colors duration-200">
-                    Meet Our Founder
+              <Link href="/about" className="block no-underline group">
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 18 }}
+                  className="rounded-2xl border border-primary/10 bg-white shadow-xl group-hover:shadow-2xl transition-shadow duration-300 p-8"
+                >
+                  <p className="text-primary-dark font-bold text-lg mb-1" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    A small team, built for results
                   </p>
-                </Link>
-              </motion.div>
+                  <p className="text-text-muted text-sm leading-relaxed mb-6">
+                    Led by our founder and backed by a growing team covering every
+                    part of your digital presence — from code to content.
+                  </p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {TEAM_SKILLS.map(({ Icon, label }) => (
+                      <div
+                        key={label}
+                        className="flex items-center gap-2.5 bg-bg border border-primary/8 rounded-xl px-3.5 py-3"
+                      >
+                        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                          <Icon className="text-primary text-sm" aria-hidden="true" />
+                        </div>
+                        <span className="text-text-dark text-sm font-semibold leading-tight">{label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-6 text-primary font-semibold text-sm group-hover:text-primary-dark transition-colors duration-200">
+                    Meet the team behind it →
+                  </p>
+                </motion.div>
+              </Link>
             </motion.div>
 
             <motion.div variants={fadeRight} className="lg:w-1/2 order-2 flex flex-col">

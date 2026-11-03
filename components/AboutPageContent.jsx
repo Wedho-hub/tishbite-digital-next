@@ -7,7 +7,7 @@ import {
   FaCheckCircle, FaLightbulb, FaRocket, FaUsers,
   FaReact, FaNodeJs, FaGitAlt, FaHtml5, FaCss3Alt,
   FaDatabase, FaServer, FaExternalLinkAlt, FaMedal,
-  FaArrowRight, FaCode,
+  FaArrowRight, FaCode, FaBullhorn, FaPaintBrush, FaPen,
 } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 
@@ -39,6 +39,13 @@ const VALUES = [
   { Icon: FaLightbulb,   title: "Continuous Learning", body: "Technology moves fast. Staying current with best practices and emerging tools keeps every client's solution modern and effective." },
   { Icon: FaUsers,       title: "Partnership",         body: "Clients are treated as long-term partners. Transparent communication and honest reporting are non-negotiable." },
   { Icon: FaRocket,      title: "Measurable Results",  body: "Strategies are tied to real KPIs: enquiries, rankings, conversions. Beautiful design without outcomes is not enough." },
+];
+
+const TEAM_CAPABILITIES = [
+  { Icon: FaCode, title: "Development", body: "Full-stack engineering — the technical foundation every project is built on." },
+  { Icon: FaBullhorn, title: "Digital Marketing", body: "SEO, ads, and growth strategy to turn visibility into enquiries." },
+  { Icon: FaPaintBrush, title: "Design & Brand Identity", body: "Visual identity and design that makes a business look credible from the first glance." },
+  { Icon: FaPen, title: "Content & Editing", body: "Copy, content, and editing that communicates clearly and converts." },
 ];
 
 const SERVICES = [
@@ -85,7 +92,7 @@ export default function AboutPageContent() {
             initial="hidden"
             animate="visible"
           >
-            Full-Stack Web Developer · Digital Agency Founder · South Africa
+            Web Design · Digital Marketing · Growth Systems · South Africa
           </motion.p>
           <motion.h1
             className="text-4xl lg:text-5xl font-extrabold text-white mb-3 leading-tight"
@@ -104,7 +111,7 @@ export default function AboutPageContent() {
             animate="visible"
             transition={{ delay: 0.2 }}
           >
-            Building modern web applications and empowering South African businesses to compete and grow online.
+            A small, skilled team building modern digital systems and empowering South African businesses to compete and grow online.
           </motion.p>
         </div>
       </motion.section>
@@ -120,20 +127,20 @@ export default function AboutPageContent() {
             className="flex flex-col lg:flex-row items-center gap-10"
           >
             <motion.div variants={fadeUp} className="lg:w-1/2 flex flex-col">
-              <Eyebrow>Meet the Founder</Eyebrow>
-              <SectionTitle id="founder-heading">Wellington Dhliwayo</SectionTitle>
+              <Eyebrow>Our Story</Eyebrow>
+              <SectionTitle id="founder-heading">A Small Team Built Around Results</SectionTitle>
               <div className="space-y-4 text-text-muted text-base leading-relaxed">
                 <p>
-                  I am a <strong className="text-text-dark">full-stack web developer</strong> and founder of Tishbite Digital, based in Cape Town and serving clients across South Africa. I graduated as a <strong className="text-text-dark">top student at HyperionDev</strong>, where I completed an intensive web development programme covering modern JavaScript, React, Node.js, and full-stack application architecture.
+                  Tishbite Digital was founded by <strong className="text-text-dark">Wellington Dhliwayo</strong>, a full-stack web developer based in Cape Town, who graduated as a <strong className="text-text-dark">top student at HyperionDev</strong> after completing an intensive programme covering modern JavaScript, React, Node.js, and full-stack application architecture.
                 </p>
                 <p>
-                  I built Tishbite Digital to bridge a real gap: small and growing businesses across South Africa deserve the same digital quality as large corporates. Every system I deliver — from websites and SEO to CRM automation — is engineered to produce <strong className="text-text-dark">measurable results</strong>, not just aesthetics.
+                  Wellington built Tishbite Digital to bridge a real gap: small and growing businesses across South Africa deserve the same digital quality as large corporates. Every system we deliver — from websites and SEO to CRM automation — is engineered to produce <strong className="text-text-dark">measurable results</strong>, not just aesthetics.
                 </p>
                 <p>
-                  Right now, I personally handle every client relationship end-to-end — from the first WhatsApp message to the final launch — so when you reach out, you're talking directly to the person doing the work. As Tishbite Digital grows, I'm bringing on people to help manage client communication and project delivery, but the same standards and accountability I've built the business on will stay exactly the same.
+                  What started as a one-person operation has grown into a small, multi-skilled team. Wellington leads technical delivery, with team members bringing dedicated skills in <strong className="text-text-dark">digital marketing, design and brand identity, and content and editing</strong> — so every project gets a complete, specialist approach rather than one person wearing every hat.
                 </p>
                 <p>
-                  Inspired by the story of Elijah from the small town of Tishbe, I believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>. Technology and a commitment to continuous learning are the tools that make this possible — and every system I build is designed to produce results that last.
+                  Inspired by the story of Elijah from the small town of Tishbe, we believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>. Technology and a commitment to continuous learning are the tools that make this possible — and every system we build is designed to produce results that last.
                 </p>
               </div>
             </motion.div>
@@ -149,7 +156,7 @@ export default function AboutPageContent() {
                   loading="lazy"
                 />
               </div>
-              <p className="mt-3 text-text-muted text-sm font-semibold">Founder &amp; Full-Stack Developer</p>
+              <p className="mt-3 text-text-muted text-sm font-semibold">Founder &amp; Lead Developer</p>
               <p className="text-text-muted text-sm italic mt-1">Wellington Dhliwayo (Wedho)</p>
 
               <a
@@ -175,10 +182,10 @@ export default function AboutPageContent() {
       <section className="py-16 bg-white" aria-labelledby="stack-heading">
         <div className="container mx-auto px-4 max-w-7xl">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} className="text-center flex flex-col items-center mb-10">
-            <Eyebrow>Developer Profile</Eyebrow>
+            <Eyebrow>Our Toolkit</Eyebrow>
             <SectionTitle id="stack-heading">Technology Stack</SectionTitle>
             <p className="text-text-muted text-base max-w-lg">
-              Technologies I work with daily to build production-ready web applications.
+              Technologies our team works with daily to build production-ready web applications.
             </p>
           </motion.div>
 
@@ -201,6 +208,42 @@ export default function AboutPageContent() {
               >
                 <Icon className="text-3xl" style={{ color }} aria-hidden="true" />
                 <span className="text-sm font-semibold text-text-dark text-center">{label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Team Capabilities ── */}
+      <section className="py-16 bg-white border-t border-primary/8" aria-labelledby="capabilities-heading">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} className="text-center flex flex-col items-center mb-10">
+            <Eyebrow>Beyond the Code</Eyebrow>
+            <SectionTitle id="capabilities-heading">A Multi-Skilled Team</SectionTitle>
+            <p className="text-text-muted text-base max-w-lg">
+              A complete digital presence takes more than development — our team covers each discipline directly.
+            </p>
+          </motion.div>
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={vp}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+          >
+            {TEAM_CAPABILITIES.map(({ Icon, title, body }) => (
+              <motion.div
+                key={title}
+                variants={fadeUp}
+                className="flex flex-col items-center text-center p-6 bg-bg rounded-2xl border border-primary/8 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                  <Icon className="text-primary text-2xl" aria-hidden="true" />
+                </div>
+                <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                  {title}
+                </h3>
+                <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -337,7 +380,7 @@ export default function AboutPageContent() {
               Ready to Build Something Great?
             </h2>
             <p className="text-white/70 text-base max-w-lg mb-6">
-              Whether you need a full-stack developer or a growth partner for your business — let's talk about what's possible.
+              Whether you need a web development team or a growth partner for your business — let's talk about what's possible.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <motion.div

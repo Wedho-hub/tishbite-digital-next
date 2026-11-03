@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import CountUp from "react-countup";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   FaBullhorn, FaCode, FaSearch, FaCogs, FaLayerGroup, FaRocket,
   FaArrowRight, FaCheckCircle, FaMapMarkerAlt, FaCalendarCheck, FaShieldAlt,
+  FaUsers, FaPaintBrush, FaPen,
 } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 
@@ -141,6 +141,13 @@ const PRICING_ROWS = [
   { service:"Growth Acceleration Suite",        startingPrice:"R12,500",         subscription:"3–6 monthly installments",                maintenance:"1 month free social media support",           notes:"Social media growth + lead generation",      checkoutService:"Growth Acceleration Suite",     price:12500 },
   { service:"Revenue Automation Suite",         startingPrice:"R15,000",         subscription:"3–6 monthly installments",                maintenance:"1 month free automation & CRM support",       notes:"CRM, automation & conversion optimization",  checkoutService:"Revenue Automation Suite",      price:15000 },
   { service:"Tishbite Enterprise Growth System",startingPrice:"R28,000+",        subscription:"Custom subscription or installments",     maintenance:"2 months free maintenance & support",         notes:"All 8 services included, enterprise-grade",  checkoutService:"Tishbite Enterprise Growth System", price:28000 },
+];
+
+const TEAM_CAPABILITIES = [
+  { Icon: FaCode, label: "Web Development & Engineering" },
+  { Icon: FaBullhorn, label: "SEO & Digital Marketing" },
+  { Icon: FaPaintBrush, label: "Design & Brand Identity" },
+  { Icon: FaPen, label: "Content & Copywriting" },
 ];
 
 const HERO_FEATURES = [
@@ -278,7 +285,7 @@ export default function ServicesPageContent() {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-center gap-12">
 
-            {/* Image — LEFT on desktop */}
+            {/* Team capability card — LEFT on desktop */}
             <motion.div
               className="lg:w-2/5 w-full"
               variants={fadeLeft}
@@ -292,15 +299,26 @@ export default function ServicesPageContent() {
                   animate={{ opacity: [0.35, 0.65, 0.35] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <Image
-                  src="/assets/profilePic.jpg"
-                  alt="Wellington Dhliwayo — Founder of Tishbite Digital"
-                  width={480}
-                  height={520}
-                  priority
-                  className="relative w-full rounded-2xl shadow-2xl object-cover object-top"
-                  style={{ maxHeight: "460px" }}
-                />
+                <div className="relative rounded-2xl shadow-2xl bg-white border border-primary/10 p-7">
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <FaUsers className="text-primary text-lg" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-primary-dark mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    A Small Team, Full Capability
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed mb-5">
+                    Every service on this page is delivered by a small, skilled
+                    team — not outsourced piecemeal.
+                  </p>
+                  <ul className="space-y-3 list-none p-0 m-0">
+                    {TEAM_CAPABILITIES.map(({ Icon, label }) => (
+                      <li key={label} className="flex items-center gap-3 text-sm font-semibold text-text-dark">
+                        <Icon className="text-primary shrink-0" aria-hidden="true" />
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </motion.div>
 

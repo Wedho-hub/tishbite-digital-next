@@ -1,21 +1,21 @@
 import AboutPageContent from "@/components/AboutPageContent";
 
 export const metadata = {
-  title: "Meet Our Founder — South Africa Web Design Agency",
+  title: "About Us — South Africa Web Design Agency",
   description:
-    "Tishbite Digital is led by Wellington Dhliwayo, building websites and digital growth systems for small businesses and entrepreneurs across South Africa.",
+    "Tishbite Digital is a small, multi-skilled team led by founder Wellington Dhliwayo, building websites and digital growth systems for small businesses and entrepreneurs across South Africa.",
   keywords: [
     "Tishbite Digital",
     "Wellington Dhliwayo",
-    "web developer South Africa",
-    "full-stack developer South Africa",
+    "web development team South Africa",
+    "digital marketing team Cape Town",
     "digital agency founder South Africa",
   ],
   alternates: { canonical: "https://www.tishbitedigital.co.za/about" },
   openGraph: {
-    title: "Wellington Dhliwayo — Web Developer & Founder | Tishbite Digital",
+    title: "About Tishbite Digital — A Small Team Built for Results",
     description:
-      "HyperionDev Top Student building real-world full-stack applications and growing South African businesses online.",
+      "Founded by a HyperionDev Top Student, now a small multi-skilled team building real-world applications and growing South African businesses online.",
     url: "https://www.tishbitedigital.co.za/about",
     images: [{ url: "https://www.tishbitedigital.co.za/assets/tishbiteHero.png" }],
   },

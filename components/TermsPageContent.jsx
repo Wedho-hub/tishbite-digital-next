@@ -5,7 +5,7 @@ const SECTIONS = [
     heading: "1. Introduction",
     body: [
       "These Terms of Service (\"Terms\") govern your use of the Tishbite Digital website and any services you engage us to provide. By using this website, submitting an enquiry, or purchasing a service, you agree to these Terms.",
-      "Tishbite Digital is currently operated directly by its founder, Wellington Dhliwayo, based in Cape Town, South Africa. As the business grows, staff or contractors may act on our behalf to handle client communication, project delivery, or support — any such team members remain bound by these same Terms.",
+      "Tishbite Digital is led by its founder, Wellington Dhliwayo, based in Cape Town, South Africa, supported by a small team who act on our behalf to handle client communication, project delivery, and support — all team members remain bound by these same Terms.",
     ],
   },
   {
@@ -83,7 +83,7 @@ export default function TermsPageContent() {
       <section className="py-14 bg-bg">
         <div className="container mx-auto px-4 max-w-3xl">
           <p className="text-text-muted text-sm mb-10">
-            Last updated: 17 September 2026
+            Last updated: 3 November 2026
           </p>
 
           <div className="space-y-10">

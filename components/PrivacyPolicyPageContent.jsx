@@ -5,7 +5,7 @@ const SECTIONS = [
     heading: "1. Who We Are",
     body: [
       "Tishbite Digital (\"we\", \"us\", \"our\") is a Cape Town-based digital agency providing web design, SEO, advertising, and related digital services to small businesses and entrepreneurs in South Africa.",
-      "Tishbite Digital is currently operated directly by its founder, Wellington Dhliwayo, who acts as the Information Officer responsible for data protection compliance under POPIA. As the business grows, staff or contractors may join to help handle client communication and project delivery — anyone who does will be bound by the same confidentiality and data protection obligations set out in this Policy.",
+      "Tishbite Digital is led by its founder, Wellington Dhliwayo, who acts as the Information Officer responsible for data protection compliance under POPIA, supported by a small team handling client communication, project delivery, and specialist work such as marketing, design, and content. Everyone on the team is bound by the same confidentiality and data protection obligations set out in this Policy.",
       "This Privacy Policy explains what personal information we collect through this website, how we use it, and the rights you have over it under the Protection of Personal Information Act 4 of 2013 (POPIA).",
     ],
   },
@@ -97,7 +97,7 @@ export default function PrivacyPolicyPageContent() {
       <section className="py-14 bg-bg">
         <div className="container mx-auto px-4 max-w-3xl">
           <p className="text-text-muted text-sm mb-10">
-            Last updated: 13 October 2026
+            Last updated: 3 November 2026
           </p>
 
           <div className="space-y-10">
