@@ -372,6 +372,83 @@ export default function HomePageContent() {
               </div>
             </motion.div>
           </motion.div>
+
+          {/* What We Improve + South Africa focus (merged from two former standalone sections) */}
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="mt-16 pt-16 border-t border-primary/8"
+          >
+            <div className="text-center flex flex-col items-center mb-10">
+              <SectionKicker center>What We Improve</SectionKicker>
+              <h3
+                className="text-2xl lg:text-3xl font-extrabold leading-tight mb-4 text-primary-dark"
+                style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+              >
+                Built for rankings, trust, and lead flow — wherever your customers search
+              </h3>
+              <p className="text-text-muted max-w-2xl text-base">
+                We strengthen location signals, service relevance, trust
+                content, and conversion paths so both search engines and
+                AI-driven discovery tools can understand who you help, where
+                you help them, and why your business is worth contacting.
+              </p>
+            </div>
+
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEW}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+            >
+              {GROWTH_PILLARS.map((pillar) => (
+                <motion.article
+                  key={pillar.title}
+                  variants={cardVariants}
+                  whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(27,67,50,0.13)" }}
+                  whileTap={{ scale: 0.97 }}
+                  transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                  className="bg-white rounded-2xl p-7 border border-primary/8"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <pillar.Icon className="text-primary text-xl" aria-hidden="true" />
+                  </div>
+                  <h4
+                    className="text-base font-bold text-primary-dark mb-2"
+                    style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                  >
+                    {pillar.title}
+                  </h4>
+                  <p className="text-text-muted text-sm leading-relaxed m-0">
+                    {pillar.description}
+                  </p>
+                </motion.article>
+              ))}
+            </motion.div>
+
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEW}
+              className="flex flex-wrap justify-center gap-3"
+            >
+              {LOCAL_SEO_POINTS.map((point) => (
+                <motion.div
+                  key={point}
+                  variants={fadeUp}
+                  whileTap={{ scale: 0.98 }}
+                  className="flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-white border border-primary/8 text-text-dark text-sm font-medium"
+                >
+                  <FaMapMarkerAlt className="text-primary shrink-0" aria-hidden="true" />
+                  {point}
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
@@ -523,60 +600,6 @@ export default function HomePageContent() {
         </div>
       </section>
 
-      {/* ── Growth Pillars ── */}
-      <section
-        className="py-16 bg-white"
-        role="region"
-        aria-labelledby="growth-pillars-heading"
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="text-center flex flex-col items-center mb-10 relative">
-            <span
-              aria-hidden="true"
-              className="absolute -top-4 left-1/2 -translate-x-1/2 text-[7rem] font-black leading-none select-none pointer-events-none"
-              style={{ color: "rgba(27,67,50,0.04)", fontFamily: "var(--font-montserrat)", letterSpacing: "-0.04em" }}
-            >
-              GROW
-            </span>
-            <SectionKicker center>What We Improve</SectionKicker>
-            <SectionTitle id="growth-pillars-heading">
-              Built for rankings, trust, and lead flow
-            </SectionTitle>
-          </div>
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEW}
-            className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          >
-            {GROWTH_PILLARS.map((pillar) => (
-              <motion.article
-                key={pillar.title}
-                variants={cardVariants}
-                whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(27,67,50,0.13)" }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                className="bg-bg rounded-2xl p-7 border border-primary/8"
-              >
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                  <pillar.Icon className="text-primary text-xl" aria-hidden="true" />
-                </div>
-                <h3
-                  className="text-base font-bold text-primary-dark mb-2"
-                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
-                >
-                  {pillar.title}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed m-0">
-                  {pillar.description}
-                </p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
       {/* ── Stats ── */}
       <section
         className="py-16 bg-linear-to-r from-primary-dark via-primary to-primary-light"
@@ -638,59 +661,6 @@ export default function HomePageContent() {
       </section>
 
       <Testimonials />
-
-      {/* ── Local SEO ── */}
-      <section
-        className="py-16 bg-bg"
-        role="region"
-        aria-labelledby="local-seo-heading"
-        style={{
-          backgroundImage: "radial-gradient(circle, rgba(27,67,50,0.055) 1.5px, transparent 1.5px)",
-          backgroundSize: "24px 24px",
-        }}
-      >
-        <div className="container mx-auto px-4 max-w-7xl">
-          <div className="flex flex-col lg:flex-row items-center gap-10">
-            <motion.div
-              variants={fadeLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEW}
-              className="lg:w-5/12 flex flex-col"
-            >
-              <SectionKicker>South Africa Focus</SectionKicker>
-              <SectionTitle id="local-seo-heading">
-                Better GEO starts with clearer local relevance
-              </SectionTitle>
-              <p className="text-text-muted text-base leading-relaxed m-0">
-                We strengthen location signals, service relevance, trust
-                content, and conversion paths so both search engines and
-                AI-driven discovery tools can understand who you help, where
-                you help them, and why your business is worth contacting.
-              </p>
-            </motion.div>
-            <motion.div
-              variants={stagger}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEW}
-              className="lg:w-7/12 space-y-4"
-            >
-              {LOCAL_SEO_POINTS.map((point) => (
-                <motion.div
-                  key={point}
-                  variants={fadeRight}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex items-start gap-3 p-4 rounded-xl bg-bg border border-primary/8"
-                >
-                  <FaMapMarkerAlt className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
-                  <span className="text-text-dark text-sm font-medium">{point}</span>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </div>
-      </section>
 
       {/* ── FAQ ── */}
       <section
