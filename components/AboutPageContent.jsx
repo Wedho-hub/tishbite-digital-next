@@ -140,7 +140,7 @@ export default function AboutPageContent() {
                   What started as a one-person operation has grown into a small, multi-skilled team. Wellington leads technical delivery, with team members bringing dedicated skills in <strong className="text-text-dark">digital marketing, design and brand identity, and content and editing</strong> — so every project gets a complete, specialist approach rather than one person wearing every hat.
                 </p>
                 <p>
-                  Inspired by the story of Elijah from the small town of Tishbe, we believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>. Technology and a commitment to continuous learning are the tools that make this possible — and every system we build is designed to produce results that last.
+                  Inspired by the story of Elijah from the small town of Tishbe, we believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>.
                 </p>
               </div>
             </motion.div>
