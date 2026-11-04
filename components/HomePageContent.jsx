@@ -186,7 +186,16 @@ const STATS = [
    Projects (light). Never the same surface twice in a row. ──────────── */
 export default function HomePageContent() {
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.3 });
-  const projectsCarousel = useSwipeCarousel(PROJECTS.length);
+  const {
+    containerRef: projectsContainerRef,
+    trackRef: projectsTrackRef,
+    activeIndex: projectsActiveIndex,
+    goTo: projectsGoTo,
+    next: projectsNext,
+    prev: projectsPrev,
+    canPrev: projectsCanPrev,
+    canNext: projectsCanNext,
+  } = useSwipeCarousel(PROJECTS.length);
 
   return (
     <>
@@ -199,7 +208,7 @@ export default function HomePageContent() {
             initial={{ opacity: 0, x: -36 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={VIEW}
-            transition={{ duration: 0.5, ease: "power2.out" }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="lg:w-1/2 w-full order-1"
           >
             <Link href="/about" className="block no-underline group">
@@ -209,7 +218,7 @@ export default function HomePageContent() {
                 className="rounded-2xl border border-primary/10 bg-white shadow-xl group-hover:shadow-2xl transition-shadow duration-300 p-8"
               >
                 <p className="text-primary-dark font-bold text-lg mb-1" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                  A small team, built for results
+                  A small team, built for big results
                 </p>
                 <p className="text-text-muted text-sm leading-relaxed mb-6">
                   Led by our founder and backed by a growing team covering every
@@ -239,7 +248,7 @@ export default function HomePageContent() {
             initial={{ opacity: 0, x: 36 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={VIEW}
-            transition={{ duration: 0.5, ease: "power2.out", delay: 0.08 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.08 }}
             className="lg:w-1/2 order-2 flex flex-col"
           >
             <SectionHeading id="home-about-heading" kicker="Digital Growth for Small Businesses">
@@ -495,9 +504,9 @@ export default function HomePageContent() {
       {/* ── Selected Projects (light) ── */}
       <Section surface="light">
         <SectionHeading center>Selected Projects</SectionHeading>
-        <div ref={projectsCarousel.containerRef} className="overflow-hidden -mx-4 px-4 mb-6">
+        <div ref={projectsContainerRef} className="overflow-hidden -mx-4 px-4 mb-6">
           <div
-            ref={projectsCarousel.trackRef}
+            ref={projectsTrackRef}
             className="flex w-max gap-4 cursor-grab active:cursor-grabbing select-none"
             style={{ touchAction: "pan-y" }}
           >
@@ -557,8 +566,8 @@ export default function HomePageContent() {
         <div className="flex items-center justify-center gap-5 mb-8">
           <button
             type="button"
-            onClick={projectsCarousel.prev}
-            disabled={!projectsCarousel.canPrev}
+            onClick={projectsPrev}
+            disabled={!projectsCanPrev}
             aria-label="Previous project"
             className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/8 border border-primary/15 text-primary-dark hover:bg-primary/15 disabled:opacity-30 disabled:hover:bg-primary/8 transition-colors duration-200"
           >
@@ -571,11 +580,11 @@ export default function HomePageContent() {
                 key={project.name}
                 type="button"
                 role="tab"
-                aria-selected={i === projectsCarousel.activeIndex}
+                aria-selected={i === projectsActiveIndex}
                 aria-label={`Show project ${i + 1}`}
-                onClick={() => projectsCarousel.goTo(i)}
+                onClick={() => projectsGoTo(i)}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  i === projectsCarousel.activeIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
+                  i === projectsActiveIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
                 }`}
               />
             ))}
@@ -583,8 +592,8 @@ export default function HomePageContent() {
 
           <button
             type="button"
-            onClick={projectsCarousel.next}
-            disabled={!projectsCarousel.canNext}
+            onClick={projectsNext}
+            disabled={!projectsCanNext}
             aria-label="Next project"
             className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/8 border border-primary/15 text-primary-dark hover:bg-primary/15 disabled:opacity-30 disabled:hover:bg-primary/8 transition-colors duration-200"
           >

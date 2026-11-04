@@ -392,7 +392,7 @@ export default function AboutPageContent() {
       <section className="py-16 bg-linear-to-r from-primary-dark via-primary to-primary-light" aria-labelledby="about-cta-heading">
         <div className="container mx-auto px-4 max-w-3xl text-center">
           <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={vp} className="flex flex-col items-center">
-            <Eyebrow light>Let's Work Together</Eyebrow>
+            <Eyebrow light>Let&apos;s Work Together</Eyebrow>
             <h2
               id="about-cta-heading"
               className="text-3xl lg:text-4xl font-extrabold text-white mb-3"
@@ -401,7 +401,7 @@ export default function AboutPageContent() {
               Ready to Build Something Great?
             </h2>
             <p className="text-white/70 text-base max-w-lg mb-6">
-              Whether you need a web development team or a growth partner for your business — let's talk about what's possible.
+              Whether you need a web development team or a growth partner for your business — let&apos;s talk about what&apos;s possible.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <motion.div
