@@ -18,7 +18,7 @@ const SECTIONS = [
     heading: "3. Quotes, Payments & Refunds",
     body: [
       "Quoted prices are valid for the period stated in the quote and are in South African Rand (ZAR) unless otherwise agreed. Online payments made through our checkout are processed securely by PayFast.",
-      "Deposits and installment payments are non-refundable once work has commenced, as they cover time and resources already committed to your project. Refunds for services not yet started may be considered at our discretion, on a case-by-case basis.",
+      "Deposits and instalment payments are non-refundable once work has commenced, as they cover time and resources already committed to your project. Refunds for services not yet started may be considered at our discretion, on a case-by-case basis.",
     ],
   },
   {

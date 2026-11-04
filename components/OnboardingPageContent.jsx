@@ -354,7 +354,7 @@ export default function OnboardingPageContent() {
                 </select>
               </Field>
               <div className="grid sm:grid-cols-2 gap-4">
-                <Field label="Open to an installment plan?">
+                <Field label="Open to an instalment plan?">
                   <select name="openToInstallments" value={form.openToInstallments} onChange={handleChange} className={inputBase}>
                     <option value="maybe">Maybe</option>
                     <option value="yes">Yes</option>

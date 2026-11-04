@@ -49,7 +49,7 @@ export async function POST(request) {
       m_payment_id: internalRef,
       amount: parsedAmount.toFixed(2),
       item_name: service,
-      item_description: `${paymentType === "installment" ? "Installment payment" : "Once-off payment"} for ${service}`,
+      item_description: `${paymentType === "installment" ? "Instalment payment" : "Once-off payment"} for ${service}`,
     };
 
     pfData.signature = generateSignature(pfData, PASSPHRASE);

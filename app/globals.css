@@ -6,9 +6,24 @@
   --color-primary-light: #40916c;
   --color-accent: #f4c95d;
   --color-accent-light: #ffe08a;
+  --color-accent-dark: #c49219;
   --color-bg: #f5faf7;
   --color-text-dark: #122820;
   --color-text-muted: #5b6f67;
+
+  /* ── Section surface tokens ──────────────────────────────
+     Consolidates the ~5 ad hoc near-black greens already in use
+     (#0f2016, #122820, #17281f, #0a1b12, #173828) into one canonical
+     dark surface, and gives the site a second, more clearly tinted
+     light surface so "light → light" never reads as the same band
+     twice. surface-break is reserved for CTA sections only — see
+     RULES in Section.jsx/Card.jsx. */
+  --color-surface-dark: #0f2016;
+  --color-surface-dark-2: #17281f; /* secondary dark tone — cards/gradients on surface-dark */
+  --color-surface-light: #f5faf7; /* alias of --color-bg, kept explicit for the surface system */
+  --color-surface-tint: #eaf4ee;
+  --color-surface-break: #f4c95d; /* alias of --color-accent, CTA sections ONLY */
+  --color-surface-break-dark: #c49219;
 
   --font-display: var(--font-montserrat), sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
@@ -60,4 +75,25 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ── CTA pattern-break ───────────────────────────────────
+   Reserved for the single primary button inside a surface="break"
+   section (see Card.jsx / Section.jsx usage notes). Never apply to
+   anything else — the whole point is isolation, exactly one thing
+   on a break section is allowed to move on its own. Already covered
+   by the prefers-reduced-motion block above (animation-duration
+   collapses to ~0), so no separate override is needed here. */
+@keyframes cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(27, 67, 50, 0.35); }
+  50% { box-shadow: 0 0 0 14px rgba(27, 67, 50, 0); }
+}
+@keyframes cta-gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.cta-break {
+  background-image: linear-gradient(110deg, var(--color-primary-dark), var(--color-primary), var(--color-primary-dark));
+  background-size: 200% 100%;
+  animation: cta-pulse 2.4s ease-in-out infinite, cta-gradient-shift 4.8s ease-in-out infinite;
 }

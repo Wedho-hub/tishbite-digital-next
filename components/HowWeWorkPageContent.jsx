@@ -35,7 +35,7 @@ const STEPS = [
     body: "We map out a tailored plan with clear deliverables, timelines, and milestones. You'll know exactly what you're getting, when, and what it costs — no surprises.",
     bullets: [
       "Scoped proposal with itemised deliverables",
-      "Installment payment plan options available",
+      "Instalment payment plan options available",
       "Project timeline agreed before work begins",
     ],
   },
@@ -56,7 +56,7 @@ const STEPS = [
     title: "Launch & Ongoing Support",
     body: "We review everything together, make final adjustments, and launch with confidence. Our support continues after launch — we don't disappear once the project goes live.",
     bullets: [
-      "1 month free post-launch support on all packages",
+      "1 month free post-launch support on our growth bundles (Business Launch, Digital Foundation, Growth Acceleration, Revenue Automation and Enterprise)",
       "SEO monitoring and ranking checks",
       "Ongoing retainer or update plans available",
     ],
@@ -137,8 +137,8 @@ export default function HowWeWorkPageContent() {
           {[
             "No lock-in contracts",
             "Clear pricing upfront",
-            "Installment plans available",
-            "1 month free post-launch support",
+            "Instalment plans available",
+            "1 month free support on growth bundles",
           ].map((t) => (
             <span
               key={t}

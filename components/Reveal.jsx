@@ -8,15 +8,28 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Two deliberate entrance patterns used site-wide, so motion reads as a
-// consistent design language rather than random per-component choices:
-//   "slide"  — directional, alternates left/right by index. Used for
-//              informational/feature cards (calmer, reads left-to-right).
-//   "bounce" — scale + overshoot. Used for product/pricing/stat cards,
-//              where we want a little more "pop" to grab attention.
+// Named motion tokens for the Section/Card design system — one duration,
+// one easing, one translate distance, used identically by every card so
+// the rhythm reads as deliberate rather than per-component guesswork.
+// Pattern-break motion (CTA pulse/gradient-shift) is defined separately
+// in globals.css (.cta-break) and is the only thing allowed to deviate.
+export const MOTION = {
+  duration: 0.5,
+  ease: "power2.out",
+  distance: 28,
+  stagger: 0.08,
+};
+
+// Entrance patterns:
+//   "up"     — fade + slide up, MOTION tokens exactly as specified.
+//              The default for the Section/Card system — every card
+//              uses this same reveal so the motion is predictable.
+//   "slide"  — directional, alternates left/right by index. Pre-dates
+//              the Card system; kept for components not yet migrated.
+//   "bounce" — scale + overshoot. Same — kept for backward compat.
 export default function Reveal({
   children,
-  variant = "slide",
+  variant = "up",
   index = 0,
   className = "",
   as: Tag = "div",
@@ -32,17 +45,21 @@ export default function Reveal({
       const from =
         variant === "bounce"
           ? { opacity: 0, y: 36, scale: 0.86 }
-          : { opacity: 0, x: index % 2 === 0 ? 44 : -44 };
+          : variant === "slide"
+            ? { opacity: 0, x: index % 2 === 0 ? 44 : -44 }
+            : { opacity: 0, y: MOTION.distance };
 
       const to =
         variant === "bounce"
           ? { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "back.out(1.8)" }
-          : { opacity: 1, x: 0, duration: 0.65, ease: "power3.out" };
+          : variant === "slide"
+            ? { opacity: 1, x: 0, duration: 0.65, ease: "power3.out" }
+            : { opacity: 1, y: 0, duration: MOTION.duration, ease: MOTION.ease };
 
       gsap.set(el, from);
       gsap.to(el, {
         ...to,
-        delay: (index % 4) * 0.09,
+        delay: (index % 4) * MOTION.stagger,
         scrollTrigger: { trigger: el, start: "top 90%" },
       });
     });

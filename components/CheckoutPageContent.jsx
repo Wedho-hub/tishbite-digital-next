@@ -12,7 +12,7 @@ import {
   FaCheckCircle,
   FaShieldAlt,
 } from "react-icons/fa";
-import { PRODUCTS } from "@/lib/products";
+import { PRODUCTS, getProductByTitle, formatZAR } from "@/lib/products";
 
 // Derived from the shared product catalog so the amount charged here always
 // matches what's advertised on the Services page — previously this list was
@@ -27,6 +27,11 @@ const INSTALLMENT_INFO = CHECKOUT_PRODUCTS.reduce((acc, p) => {
 const SERVICES_CATALOGUE = CHECKOUT_PRODUCTS.map((p) => ({
   name: p.title,
   price: p.numericPrice,
+  // "From R18,000" style display vs the exact amount actually charged —
+  // Custom Web App and Enterprise are scoped projects, not a fixed fee.
+  displayPrice: p.price,
+  isFromPrice: p.price.startsWith("From "),
+  freeSupport: p.freeSupport,
   badge: p.badge,
   description: p.shortDescription,
 }));
@@ -97,7 +102,7 @@ function ServicePicker({ onSelect }) {
                 key={svc.name}
                 type="button"
                 variants={fadeUp}
-                onClick={() => onSelect({ name: svc.name, price: svc.price })}
+                onClick={() => onSelect({ name: svc.name, price: svc.price, isFromPrice: svc.isFromPrice, freeSupport: svc.freeSupport })}
                 whileHover={{ y: -4, boxShadow: isFeatured ? "0 12px 28px rgba(27,67,50,0.45)" : "0 10px 24px rgba(27,67,50,0.2)" }}
               whileTap={{ scale: 0.98 }}
               transition={{ type: "spring", stiffness: 300, damping: 18 }}
@@ -134,11 +139,16 @@ function ServicePicker({ onSelect }) {
                     isFeatured ? "text-accent" : "text-primary-dark"
                   }`}
                 >
-                  R{svc.price.toLocaleString("en-ZA")}
+                  {svc.displayPrice}
                 </p>
                 {info && (
-                  <p className={`text-xs mb-3 ${isFeatured ? "text-white/70" : "text-text-muted"}`}>
-                    or {info.months} × R{info.amount.toLocaleString("en-ZA")}/mo
+                  <p className={`text-xs mb-1 ${isFeatured ? "text-white/70" : "text-text-muted"}`}>
+                    or {info.months} × {formatZAR(info.amount)}/mo
+                  </p>
+                )}
+                {svc.freeSupport && (
+                  <p className={`text-xs mb-3 font-semibold ${isFeatured ? "text-accent" : "text-primary"}`}>
+                    Includes 1 month free maintenance &amp; support
                   </p>
                 )}
                 <span
@@ -166,7 +176,7 @@ function ServicePicker({ onSelect }) {
 
 /* ── Checkout form ──────────────────────────────── */
 function CheckoutForm({ selectedService, onBack }) {
-  const { name: service, price: rawPrice } = selectedService;
+  const { name: service, price: rawPrice, isFromPrice, freeSupport } = selectedService;
   const installInfo = INSTALLMENT_INFO[service] || null;
 
   const [paymentType, setPaymentType] = useState("once-off");
@@ -242,6 +252,16 @@ function CheckoutForm({ selectedService, onBack }) {
               <div className="mb-4">
                 <p className="text-white/60 text-xs uppercase tracking-wide mb-1">Service</p>
                 <p className="font-bold text-sm leading-snug">{service}</p>
+                {isFromPrice && (
+                  <p className="text-white/60 text-xs mt-1.5 leading-relaxed">
+                    Deposit / starting price — the final amount is scoped to your project.
+                  </p>
+                )}
+                {freeSupport && (
+                  <p className="text-accent text-xs mt-1.5 font-semibold">
+                    Includes 1 month free maintenance &amp; support
+                  </p>
+                )}
               </div>
 
               {installInfo && (
@@ -261,14 +281,13 @@ function CheckoutForm({ selectedService, onBack }) {
                             : "bg-white/10 text-white/80 hover:bg-white/20"
                         }`}
                       >
-                        {type === "once-off" ? "Once-Off" : "Installment"}
+                        {type === "once-off" ? "Once-Off" : "Instalment"}
                       </button>
                     ))}
                   </div>
                   {paymentType === "installment" && (
                     <p className="text-white/70 text-xs mt-2">
-                      {installInfo.months} monthly payments of R
-                      {installInfo.amount.toLocaleString("en-ZA")} each
+                      {installInfo.months} monthly payments of {formatZAR(installInfo.amount)} each
                     </p>
                   )}
                 </div>
@@ -279,7 +298,7 @@ function CheckoutForm({ selectedService, onBack }) {
                   {paymentType === "installment" ? "Today's Payment" : "Total Amount"}
                 </p>
                 <p className="text-3xl font-extrabold text-accent">
-                  R{displayAmount.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}
+                  {formatZAR(displayAmount)}
                 </p>
               </div>
 
@@ -433,7 +452,7 @@ function CheckoutForm({ selectedService, onBack }) {
                 ) : (
                   <>
                     <FaLock size={14} />
-                    Pay R{displayAmount.toLocaleString("en-ZA", { minimumFractionDigits: 2 })} Securely
+                    Pay {formatZAR(displayAmount)} Securely
                   </>
                 )}
               </button>
@@ -456,11 +475,16 @@ export default function CheckoutPageContent() {
   const paramService = searchParams.get("service");
   const paramPrice = searchParams.get("price");
 
-  const [selectedService, setSelectedService] = useState(() =>
-    paramService && paramPrice
-      ? { name: paramService, price: parseFloat(paramPrice) }
-      : null
-  );
+  const [selectedService, setSelectedService] = useState(() => {
+    if (!paramService || !paramPrice) return null;
+    const product = getProductByTitle(paramService);
+    return {
+      name: paramService,
+      price: parseFloat(paramPrice),
+      isFromPrice: product?.price?.startsWith("From ") ?? false,
+      freeSupport: product?.freeSupport ?? false,
+    };
+  });
 
   if (!selectedService) {
     return (

@@ -19,7 +19,7 @@ import {
 } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import { PRODUCTS, getProductByTitle } from "@/lib/products";
+import { PRODUCTS, getProductByTitle, formatZAR } from "@/lib/products";
 
 /* ── Animation variants ─────────────────────────────── */
 const spring     = { type: "spring", stiffness: 120, damping: 18 };
@@ -77,11 +77,11 @@ const PRICING_ROWS = PRODUCTS.map((p) => ({
   service: p.title,
   startingPrice: p.price,
   subscription: p.installment
-    ? `${p.installment.months} monthly installments (R${p.installment.amount.toLocaleString("en-ZA")} each)`
+    ? `${p.installment.months} monthly instalments (${formatZAR(p.installment.amount)} each)`
     : p.numericPrice
-      ? "Once-off, or ask about installments"
+      ? "Once-off, or ask about instalments"
       : "Ongoing — no long-term contract",
-  maintenance: p.tier === "advanced" ? "Free maintenance/support period included" : "—",
+  maintenance: p.freeSupport ? "1 month free maintenance & support" : "—",
   notes: p.shortDescription,
   checkoutService: p.numericPrice ? p.title : null,
   price: p.numericPrice,
@@ -96,8 +96,8 @@ const TEAM_CAPABILITIES = [
 
 const HERO_FEATURES = [
   { Icon:FaMapMarkerAlt,  label:"Serving All of South Africa" },
-  { Icon:FaCalendarCheck, label:"Installment Plans"     },
-  { Icon:FaShieldAlt,     label:"1 Month Free Support"  },
+  { Icon:FaCalendarCheck, label:"Instalment Plans"     },
+  { Icon:FaShieldAlt,     label:"1 Month Free Support on Growth Bundles" },
   { Icon:FaCheckCircle,   label:"Results Focused"       },
 ];
 
@@ -145,6 +145,7 @@ export default function ServicesPageContent() {
     const isExpanded    = expanded[service._id];
     const badge         = getBadge(service);
     const checkoutPrice = getCheckoutPrice(service);
+    const product       = getProductByTitle(service.title);
     return (
       <Reveal key={service._id} as="li" variant="bounce" index={index}>
       <motion.div
@@ -169,6 +170,11 @@ export default function ServicesPageContent() {
         <p className={`text-sm font-bold mb-1 ${isBundle ? "text-[#8a6500]" : "text-primary"}`}>
           {getServicePrice(service)}
         </p>
+        {product?.installment && (
+          <p className="text-xs text-text-muted mb-2">
+            or {product.installment.months} × {formatZAR(product.installment.amount)}/month
+          </p>
+        )}
 
         <h3
           className="text-base font-bold text-primary-dark mb-3 leading-snug"
@@ -182,6 +188,12 @@ export default function ServicesPageContent() {
             <ReactMarkdown>{getDescription(service)}</ReactMarkdown>
           </div>
         </div>
+
+        {product?.freeSupport && (
+          <p className="flex items-center gap-1.5 text-xs font-semibold text-primary mt-3">
+            <FaShieldAlt className="shrink-0" aria-hidden="true" /> 1 month free maintenance &amp; support
+          </p>
+        )}
 
         <div className="flex items-center gap-3 mt-4 pt-4 border-t border-primary/8">
           <button
@@ -409,6 +421,34 @@ export default function ServicesPageContent() {
             </motion.div>
           </motion.div>
 
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={VIEW}
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 bg-linear-to-br from-primary-dark to-primary rounded-2xl p-6 mb-6 text-white"
+          >
+            <div>
+              <p className="text-xs font-extrabold uppercase tracking-wide text-accent mb-1">Free, No Obligation</p>
+              <h3 className="text-lg font-bold mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                Free Website &amp; SEO Audit
+              </h3>
+              <ul className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-white/80 list-none p-0 m-0">
+                {["Speed & mobile check", "SEO & Google visibility review", "Social profiles audit", "15-min strategy call"].map((b) => (
+                  <li key={b} className="flex items-center gap-1.5">
+                    <FaCheckCircle className="text-accent shrink-0" aria-hidden="true" /> {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <Link
+              href="/contact"
+              className="shrink-0 inline-flex items-center gap-2 bg-accent text-primary-dark font-bold px-5 py-3 rounded-xl text-sm no-underline whitespace-nowrap"
+            >
+              Get Free Audit <FaArrowRight size={11} />
+            </Link>
+          </motion.div>
+
           <motion.ul
             variants={stagger}
             initial="hidden"
@@ -501,6 +541,47 @@ export default function ServicesPageContent() {
       </section>
 
       {/* ═══════════════════════════════════════════════
+          Also Available — quote on request
+      ════════════════════════════════════════════════ */}
+      <section className="py-12 bg-bg border-t border-primary/8" aria-labelledby="also-available-heading">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="visible" viewport={VIEW}>
+            <h2
+              id="also-available-heading"
+              className="text-lg font-bold text-primary-dark mb-1"
+              style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            >
+              Also Available — Quote on Request
+            </h2>
+            <p className="text-text-muted text-sm mb-5 max-w-2xl">
+              A few services are scoped individually rather than priced upfront. Get in touch and we&apos;ll give you a specific quote.
+            </p>
+            <div className="flex flex-wrap gap-2.5">
+              {[
+                "E-commerce Online Store Development",
+                "Landing Page Design for Ads & Promotions",
+                "Business Cards, Flyers & Print Design",
+                "Email Marketing & Newsletters",
+                "Content Creation & Website Copywriting",
+                "Social Media Management",
+                "Google & Meta Ads Lead Generation",
+                "Brand Identity & Logo Design",
+                "Company Registration & Compliance Setup",
+              ].map((item) => (
+                <Link
+                  key={item}
+                  href="/contact"
+                  className="inline-flex items-center px-3.5 py-2 rounded-full bg-white border border-primary/15 text-text-dark text-sm font-medium no-underline hover:border-primary/40 hover:text-primary-dark transition-colors"
+                >
+                  {item}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
           Section 4 — Pricing  (dark)
       ════════════════════════════════════════════════ */}
       <section className="py-16 bg-[#0d1f16]" aria-labelledby="pricing-heading">
@@ -540,7 +621,7 @@ export default function ServicesPageContent() {
               <caption className="sr-only">Pricing and payment options for Tishbite Digital services and bundles</caption>
               <thead>
                 <tr className="bg-white/10 text-white">
-                  {["Service / Bundle", "Starting Price", "Subscription / Installments", "Maintenance / Support", "Notes", ""].map((h) => (
+                  {["Service / Bundle", "Starting Price", "Subscription / Instalments", "Maintenance / Support", "Notes", ""].map((h) => (
                     <th key={h} scope="col" className="text-left px-4 py-3.5 font-semibold text-xs uppercase tracking-wide whitespace-nowrap">
                       {h}
                     </th>

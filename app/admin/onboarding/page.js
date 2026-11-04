@@ -180,7 +180,7 @@ export default function ManageOnboardingPage() {
 
                   <DetailSection title="Budget & Decision Process">
                     <DetailRow label="Budget Range" value={s.budgetRange} />
-                    <DetailRow label="Open to Installments" value={s.openToInstallments} />
+                    <DetailRow label="Open to Instalments" value={s.openToInstallments} />
                     <DetailRow label="Decision Makers" value={s.decisionMakers} />
                   </DetailSection>
 

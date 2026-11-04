@@ -79,9 +79,9 @@ const homeStructuredData = {
       name: "Tishbite Digital",
       url: "https://www.tishbitedigital.co.za/",
       telephone: "+27640584229",
-      priceRange: "R2500 – R30000+",
+      priceRange: "R399 – R28,000+",
       currenciesAccepted: "ZAR",
-      paymentAccepted: "Cash, EFT, Installment Plans",
+      paymentAccepted: "Cash, EFT, Instalment Plans",
       areaServed: [
         { "@type": "Country", name: "South Africa" },
         { "@type": "State", name: "Western Cape" },
@@ -140,7 +140,7 @@ const faqSchema = {
     {
       "@type": "Question",
       name: "How much does a website cost in South Africa?",
-      acceptedAnswer: { "@type": "Answer", text: "Our general services start from R2,500 and our bundled growth packages start from R8,500. Every project is scoped to your specific goals and we offer flexible installment plans so you can get started without paying everything upfront." },
+      acceptedAnswer: { "@type": "Answer", text: "Our individual services start from R1,299, a full 5-page lead-generating website is R7,500, and our bundled packages start from R3,999 (Get Found Starter: one-page website, Google Business Profile and WhatsApp setup). Monthly plans start from R399/month. Most packages can be paid in 3 to 6 monthly instalments, and our growth bundles include 1 month free maintenance & support." },
     },
     {
       "@type": "Question",
@@ -149,8 +149,8 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Do you offer payment plans or installments?",
-      acceptedAnswer: { "@type": "Answer", text: "Yes. Most of our packages include 3 to 6 monthly installment options so your business can invest in growth without a large upfront cost." },
+      name: "Do you offer payment plans or instalments?",
+      acceptedAnswer: { "@type": "Answer", text: "Yes. Most of our packages include 3 to 6 monthly instalment options so your business can invest in growth without a large upfront cost." },
     },
     {
       "@type": "Question",
