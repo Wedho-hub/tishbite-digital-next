@@ -15,6 +15,7 @@ export default function ManageServicesPage() {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("general");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
 
   const fetchServices = async () => {
     setError("");
@@ -39,6 +40,7 @@ export default function ManageServicesPage() {
     setTitle("");
     setCategory("general");
     setDescription("");
+    setPrice("");
     setError("");
   };
 
@@ -50,7 +52,7 @@ export default function ManageServicesPage() {
     setSubmitting(true);
     setError("");
     try {
-      const body = JSON.stringify({ title, category, description });
+      const body = JSON.stringify({ title, category, description, price });
       const res = editing
         ? await authFetch(`/api/services/${editing}`, {
             method: "PUT",
@@ -81,6 +83,7 @@ export default function ManageServicesPage() {
     setTitle(svc.title);
     setCategory(svc.category || "general");
     setDescription(svc.description);
+    setPrice(svc.price || "");
     setSuccess("");
     setError("");
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -138,6 +141,15 @@ export default function ManageServicesPage() {
             <option value="general">General Service</option>
             <option value="bundle">Bundled Service</option>
           </select>
+          <div>
+            <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price (e.g. From R4,500) — leave blank to show as Custom pricing"
+              disabled={submitting}
+              className={inputBase}
+            />
+          </div>
           <div>
             <p className="text-[#0f2016]/50 text-xs mb-1.5">
               Markdown supported: `**bold**`, `- list`, headings, paragraphs
@@ -202,6 +214,15 @@ export default function ManageServicesPage() {
               >
                 {(svc.category || "general") === "bundle" ? "Bundle" : "General"}
               </span>
+              {svc.price ? (
+                <span className="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block bg-green-50 text-green-700">
+                  {svc.price}
+                </span>
+              ) : (
+                <span className="ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1 inline-block bg-red-50 text-red-600">
+                  No price set
+                </span>
+              )}
             </div>
             <div className="flex gap-2">
               <button

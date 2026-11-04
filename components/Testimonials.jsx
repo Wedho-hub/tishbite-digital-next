@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { FaStar, FaGoogle } from "react-icons/fa";
+import { FaStar, FaGoogle, FaCheckCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { useSwipeCarousel } from "@/hooks/useSwipeCarousel";
 
 const FALLBACK_REVIEWS = [
   {
@@ -37,16 +38,6 @@ const FALLBACK_REVIEWS = [
 
 const GOOGLE_REVIEW_URL = "https://g.page/r/CcbaVAYMBDDAEBM/review";
 
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.16 } },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.65 } },
-};
-
 function StarRating({ count }) {
   return (
     <div className="flex gap-1 mb-2" aria-label={`${count} out of 5 stars`}>
@@ -63,6 +54,8 @@ function getInitials(name = "") {
 
 export default function Testimonials() {
   const [reviews, setReviews] = useState(FALLBACK_REVIEWS);
+  const { containerRef, trackRef, activeIndex, goTo, next, prev, canPrev, canNext } =
+    useSwipeCarousel(reviews.length);
 
   useEffect(() => {
     let mounted = true;
@@ -105,60 +98,107 @@ export default function Testimonials() {
         </div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65 }}
         >
-          {reviews.map((review) => (
-            <motion.article
-              key={review._id || review.name}
-              variants={fadeUp}
-              className="flex flex-col bg-white/6 border border-white/10 rounded-2xl p-6 hover:bg-white/9 transition-colors duration-300"
+          <div ref={containerRef} className="overflow-hidden -mx-4 px-4">
+            <div
+              ref={trackRef}
+              className="flex w-max gap-5 cursor-grab active:cursor-grabbing select-none"
+              style={{ touchAction: "pan-y" }}
             >
-              {/* Avatar + meta */}
-              <div className="flex items-center gap-3 mb-4">
-                {review.image ? (
-                  <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 relative">
-                    <Image
-                      src={review.image}
-                      alt={review.name}
-                      fill
-                      className="object-cover"
-                      sizes="44px"
-                    />
+              {reviews.map((review) => (
+                <article
+                  key={review._id || review.name}
+                  className="flex flex-col w-[85vw] sm:w-90 shrink-0 bg-white/6 border border-white/10 rounded-2xl p-6 hover:bg-white/9 transition-colors duration-300"
+                >
+                  {/* Avatar + meta */}
+                  <div className="flex items-center gap-3 mb-4">
+                    {review.image ? (
+                      <div className="w-11 h-11 rounded-full overflow-hidden shrink-0 relative">
+                        <Image
+                          src={review.image}
+                          alt={review.name}
+                          fill
+                          className="object-cover"
+                          sizes="44px"
+                          draggable={false}
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm shrink-0"
+                        aria-hidden="true"
+                      >
+                        {getInitials(review.name)}
+                      </div>
+                    )}
+                    <div>
+                      <p className="text-white font-semibold text-sm m-0">
+                        {review.name}
+                      </p>
+                      <p className="text-white/50 text-xs m-0">
+                        {[review.role, review.company].filter(Boolean).join(" · ")}
+                      </p>
+                    </div>
                   </div>
-                ) : (
-                  <div
-                    className="w-11 h-11 rounded-full bg-accent/20 border border-accent/30 flex items-center justify-center text-accent font-bold text-sm shrink-0"
-                    aria-hidden="true"
-                  >
-                    {getInitials(review.name)}
+
+                  <StarRating count={review.rating || 5} />
+
+                  <blockquote className="flex-1 text-white/70 text-sm leading-relaxed italic m-0 mb-4">
+                    &ldquo;{review.quote}&rdquo;
+                  </blockquote>
+
+                  <div className="flex items-center gap-1.5 text-white/30 text-xs border-t border-white/10 pt-3">
+                    <FaCheckCircle aria-hidden="true" />
+                    <span>{review.source || "Client Feedback"}</span>
                   </div>
-                )}
-                <div>
-                  <p className="text-white font-semibold text-sm m-0">
-                    {review.name}
-                  </p>
-                  <p className="text-white/50 text-xs m-0">
-                    {[review.role, review.company].filter(Boolean).join(" · ")}
-                  </p>
-                </div>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          {reviews.length > 1 && (
+            <div className="flex items-center justify-center gap-5 mt-8">
+              <button
+                type="button"
+                onClick={prev}
+                disabled={!canPrev}
+                aria-label="Previous testimonial"
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 border border-white/15 text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-white/10 transition-colors duration-200"
+              >
+                <FaChevronLeft size={13} />
+              </button>
+
+              <div className="flex items-center gap-2" role="tablist" aria-label="Testimonial slides">
+                {reviews.map((review, i) => (
+                  <button
+                    key={review._id || review.name}
+                    type="button"
+                    role="tab"
+                    aria-selected={i === activeIndex}
+                    aria-label={`Show testimonial ${i + 1}`}
+                    onClick={() => goTo(i)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      i === activeIndex ? "w-6 bg-accent" : "w-2 bg-white/25 hover:bg-white/40"
+                    }`}
+                  />
+                ))}
               </div>
 
-              <StarRating count={review.rating || 5} />
-
-              <blockquote className="flex-1 text-white/70 text-sm leading-relaxed italic m-0 mb-4">
-                &ldquo;{review.quote}&rdquo;
-              </blockquote>
-
-              <div className="flex items-center gap-1.5 text-white/30 text-xs border-t border-white/10 pt-3">
-                <FaGoogle aria-hidden="true" />
-                <span>{review.source || "Google"} Review</span>
-              </div>
-            </motion.article>
-          ))}
+              <button
+                type="button"
+                onClick={next}
+                disabled={!canNext}
+                aria-label="Next testimonial"
+                className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 border border-white/15 text-white hover:bg-white/20 disabled:opacity-30 disabled:hover:bg-white/10 transition-colors duration-200"
+              >
+                <FaChevronRight size={13} />
+              </button>
+            </div>
+          )}
         </motion.div>
 
         <div className="text-center mt-10">

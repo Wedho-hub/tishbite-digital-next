@@ -25,8 +25,8 @@ export async function GET(request) {
 
   const filter = requestedCategory ? { category: requestedCategory } : {};
   const selectFields = summaryMode
-    ? "title displayTitle category description image createdAt"
-    : "title displayTitle category description image imagePublicId icon createdAt updatedAt";
+    ? "title displayTitle category description price image createdAt"
+    : "title displayTitle category description price image imagePublicId icon createdAt updatedAt";
 
   const services = await Service.find(filter)
     .select(selectFields)

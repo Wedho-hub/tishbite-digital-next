@@ -1,10 +1,17 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Space_Grotesk } from "next/font/google";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaCheckCircle, FaWhatsapp } from "react-icons/fa";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 // Loaded locally so the bolder, more distinctive display face stays scoped
 // to the hero headline instead of changing heading type site-wide.
@@ -48,36 +55,57 @@ const PROOF_ITEMS = [
   "Faster WhatsApp follow-up",
 ];
 
-// Relative bar heights for the small chart shape inside the browser mockup.
-const CHART_BARS = [40, 65, 48, 85, 60];
-
 export default function Hero() {
+  const sectionRef = useRef(null);
+  const bgRef = useRef(null);
+
+  useEffect(() => {
+    if (!sectionRef.current || !bgRef.current) return;
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.set(bgRef.current, { scale: 1.15 });
+      gsap.to(bgRef.current, {
+        yPercent: 10,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    });
+    return () => mm.revert();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       className={`${spaceGrotesk.variable} relative overflow-hidden isolate bg-[#102015] pt-1 pb-14`}
       aria-label="Tishbite Digital helping South African businesses get more clients online"
     >
-      {/* Background photo, deliberately subdued so it reads as atmosphere, not subject */}
+      {/* Background photo — lightly scrimmed only enough to keep text readable, with a subtle scroll parallax */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <Image
+          ref={bgRef}
           src="/assets/hero-bg.jpg"
           alt=""
           fill
           sizes="100vw"
           priority
           className="object-cover"
-          style={{ objectPosition: "center 32%", filter: "saturate(0.55) brightness(0.8)" }}
+          style={{ objectPosition: "center 32%", filter: "saturate(0.9) brightness(1)" }}
         />
-        <div className="absolute inset-0 bg-linear-to-r from-[#0d2318]/96 via-[#153726]/90 to-primary-dark/68" />
-        <div className="absolute inset-0 bg-linear-to-t from-[#0a1b12]/80 via-transparent to-[#0a1b12]/35" />
+        <div className="absolute inset-0 bg-linear-to-r from-[#0d2318]/85 via-[#153726]/55 to-primary-dark/15" />
+        <div className="absolute inset-0 bg-linear-to-t from-[#0a1b12]/55 via-transparent to-[#0a1b12]/15" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4 max-w-7xl">
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-10 min-h-[clamp(500px,68vh,740px)]">
+        <div className="flex flex-col items-start min-h-[clamp(460px,58vh,660px)] py-10 justify-center">
 
           {/* ── Text content ── */}
           <motion.div
-            className="lg:w-[44%] flex flex-col justify-center order-2 lg:order-1 w-full"
+            className="max-w-2xl w-full"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -194,77 +222,6 @@ export default function Hero() {
               South Africa — from Cape Town to anywhere in the country, at
               any stage.
             </motion.p>
-          </motion.div>
-
-          {/* ── Desktop + mobile device pairing ── */}
-          <motion.div
-            className="lg:w-[56%] flex items-center justify-center order-1 lg:order-2 w-full"
-            initial={{ opacity: 0, x: 40, scale: 0.96 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.75, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <div
-              className="relative w-full max-w-125 py-10 px-6"
-              role="img"
-              aria-label="A website displayed on both a desktop browser and a mobile phone, representing Tishbite Digital's responsive web design"
-            >
-              {/* Ambient glow */}
-              <motion.div
-                className="absolute inset-10 rounded-full bg-linear-to-br from-primary-light/30 to-accent/25 blur-3xl"
-                animate={{ opacity: [0.5, 0.85, 0.5] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-              />
-
-              {/* Browser window */}
-              <motion.div
-                className="relative mx-auto w-full max-w-110 rounded-2xl bg-white shadow-2xl ring-1 ring-black/5 overflow-hidden -rotate-2"
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <div className="flex items-center gap-1.5 px-4 py-3 bg-[#eef3f0] border-b border-black/5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f0a3a3]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-accent" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-primary-light" />
-                  <div className="ml-3 flex-1 h-5 rounded-full bg-white border border-black/5" />
-                </div>
-                <div className="p-4 sm:p-5 space-y-3">
-                  <div className="h-20 sm:h-24 rounded-xl bg-linear-to-br from-primary-dark via-primary to-primary-light" />
-                  <div className="grid grid-cols-3 gap-2.5">
-                    <div className="h-12 sm:h-14 rounded-lg bg-[#eef3f0]" />
-                    <div className="h-12 sm:h-14 rounded-lg bg-[#eef3f0]" />
-                    <div className="h-12 sm:h-14 rounded-lg bg-accent/30" />
-                  </div>
-                  <div className="flex items-end gap-1.5 h-14 sm:h-16 pt-1">
-                    {CHART_BARS.map((h, i) => (
-                      <div
-                        key={i}
-                        style={{ height: `${h}%` }}
-                        className="flex-1 rounded-t-sm bg-linear-to-t from-primary to-accent"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Phone, overlapping bottom-right */}
-              <motion.div
-                className="absolute bottom-2 right-2 sm:right-6 w-27 sm:w-32 rounded-[1.6rem] bg-[#173828] p-1.5 shadow-2xl ring-1 ring-black/10 rotate-6"
-                animate={{ y: [0, -14, 0] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
-              >
-                <div className="rounded-[1.25rem] bg-white overflow-hidden">
-                  <div className="h-4 flex items-center justify-center bg-[#eef3f0]">
-                    <div className="w-8 h-1.5 rounded-full bg-black/15" />
-                  </div>
-                  <div className="p-2 space-y-1.5">
-                    <div className="h-14 sm:h-16 rounded-lg bg-linear-to-br from-accent to-accent-light" />
-                    <div className="h-1.5 rounded-full bg-[#eef3f0] w-4/5" />
-                    <div className="h-1.5 rounded-full bg-[#eef3f0] w-3/5" />
-                    <div className="h-5 sm:h-6 rounded-lg bg-primary" />
-                  </div>
-                </div>
-              </motion.div>
-            </div>
           </motion.div>
 
         </div>

@@ -11,6 +11,7 @@ const serviceSchema = new mongoose.Schema(
       index: true,
     },
     description: { type: String, required: true },
+    price: { type: String, required: false, trim: true, default: null },
     icon: { type: String, required: false },
     image: { type: String, required: false },
     imagePublicId: { type: String, required: false },

@@ -355,7 +355,7 @@ export default function AboutPageContent() {
               <motion.div
                 key={title}
                 variants={fadeUp}
-                className="bg-white rounded-2xl p-6 border-l-4 border-primary border border-primary/8 shadow-sm"
+                className="bg-white rounded-2xl p-6 border-l-4 border-l-primary border border-primary/8 shadow-sm"
               >
                 <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
                   {title}

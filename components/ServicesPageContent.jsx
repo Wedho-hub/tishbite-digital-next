@@ -53,7 +53,7 @@ const BUNDLE_PRICE_MAP = {
   "tishbite enterprise growth system": "From R28,000+",
 };
 const getServicePrice = (s, isBundle) =>
-  isBundle ? (BUNDLE_PRICE_MAP[normalize(s?.title)] || "Custom pricing") : "From R2,500";
+  s?.price || (isBundle ? BUNDLE_PRICE_MAP[normalize(s?.title)] || "Custom pricing" : "Custom pricing");
 
 /* ── Blueprint descriptions ── */
 const BLUEPRINTS = {
@@ -365,7 +365,7 @@ export default function ServicesPageContent() {
                   <div key={label}>
                     <p className="text-4xl font-extrabold text-primary-dark leading-none mb-1"
                        aria-label={`${end} ${label.replace("\n", " ")}`}>
-                      {statsInView ? <CountUp end={end} duration={1.6} /> : 0}
+                      {statsInView ? <CountUp end={end} duration={1.6} /> : end}
                     </p>
                     <p className="text-text-muted text-xs whitespace-pre-line leading-tight">{label}</p>
                   </div>

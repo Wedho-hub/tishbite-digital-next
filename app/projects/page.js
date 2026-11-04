@@ -1,5 +1,27 @@
 import ProjectsPageContent from "@/components/ProjectsPageContent";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
+import connectDB from "@/lib/db";
+import Project from "@/models/Project";
+
+export const revalidate = 300;
+
+async function getProjects() {
+  try {
+    await connectDB();
+    const projects = await Project.find()
+      .select("title description image link createdAt")
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .lean();
+    return projects.map((project) => ({
+      ...project,
+      _id: String(project._id),
+      createdAt: project.createdAt?.toISOString?.() || project.createdAt,
+    }));
+  } catch {
+    return [];
+  }
+}
 
 export const metadata = {
   title: "Web Design Portfolio — South Africa Digital Projects",
@@ -20,10 +42,12 @@ export const metadata = {
   },
 };
 
-export default function ProjectsPage() {
+export default async function ProjectsPage() {
+  const projects = await getProjects();
+
   return (
     <>
-      <ProjectsPageContent />
+      <ProjectsPageContent initialProjects={projects} />
       <CaseStudiesSection />
     </>
   );

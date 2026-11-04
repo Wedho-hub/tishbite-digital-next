@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -309,37 +309,10 @@ function ProjectModal({ project, layoutId, onClose }) {
   );
 }
 
-export default function ProjectsPageContent() {
-  const [projects, setProjects] = useState(FALLBACK_PROJECTS);
-  const [loading, setLoading] = useState(true);
-  const [usedFallback, setUsedFallback] = useState(false);
+export default function ProjectsPageContent({ initialProjects = [] }) {
+  const projects = initialProjects.length > 0 ? initialProjects : FALLBACK_PROJECTS;
+  const usedFallback = initialProjects.length === 0;
   const [selected, setSelected] = useState(null);
-
-  useEffect(() => {
-    let mounted = true;
-    const load = async () => {
-      try {
-        const res = await fetch("/api/projects");
-        if (!res.ok) throw new Error();
-        const data = await res.json();
-        const list = Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
-        if (mounted) {
-          if (list.length > 0) {
-            setProjects(list);
-            setUsedFallback(false);
-          } else {
-            setUsedFallback(true);
-          }
-        }
-      } catch {
-        if (mounted) setUsedFallback(true);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-    load();
-    return () => { mounted = false; };
-  }, []);
 
   const keyOf = (project) => project._id || project.title;
   const selectedKey = selected ? keyOf(selected) : null;
@@ -374,25 +347,13 @@ export default function ProjectsPageContent() {
             </p>
           </motion.div>
 
-          {loading && (
-            <p className="text-text-muted text-sm text-center py-8" aria-live="polite">
-              Loading portfolio...
-            </p>
-          )}
-
-          {!loading && usedFallback && (
+          {usedFallback && (
             <p className="text-text-muted text-sm text-center mb-6" aria-live="polite">
               Showing featured projects while we refresh the latest portfolio data.
             </p>
           )}
 
-          {!loading && projects.length === 0 && (
-            <p className="text-text-muted text-sm text-center py-8">
-              No projects available right now. Please check back soon.
-            </p>
-          )}
-
-          {!loading && projects.length > 0 && (
+          {projects.length > 0 && (
             <motion.div
               className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start"
               variants={containerVariants}

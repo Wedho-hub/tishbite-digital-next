@@ -17,7 +17,7 @@ export default function ManageTestimonialsPage() {
   const [company, setCompany] = useState("");
   const [rating, setRating] = useState("5");
   const [quote, setQuote] = useState("");
-  const [source, setSource] = useState("Google");
+  const [source, setSource] = useState("Client Feedback");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
 
@@ -62,7 +62,7 @@ export default function ManageTestimonialsPage() {
     if (company) formData.append("company", company);
     formData.append("rating", rating);
     formData.append("quote", quote);
-    formData.append("source", source || "Google");
+    formData.append("source", source || "Client Feedback");
     if (image) formData.append("image", image);
 
     setSubmitting(true);
@@ -92,7 +92,7 @@ export default function ManageTestimonialsPage() {
     setCompany(t.company || "");
     setRating(String(t.rating ?? 5));
     setQuote(t.quote);
-    setSource(t.source || "Google");
+    setSource(t.source || "Client Feedback");
     setImage(null);
     setImagePreview("");
     setSuccess("");
@@ -173,7 +173,7 @@ export default function ManageTestimonialsPage() {
             <input
               value={source}
               onChange={(e) => setSource(e.target.value)}
-              placeholder="Source (e.g. Google)"
+              placeholder="Source (e.g. Client Feedback, Google)"
               disabled={submitting}
               className={inputBase}
             />

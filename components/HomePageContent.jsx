@@ -23,9 +23,12 @@ import {
   FaCode,
   FaPaintBrush,
   FaPen,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
+import { useSwipeCarousel } from "@/hooks/useSwipeCarousel";
 
 /* ── Animation variants ─────────────────────────────────── */
 const spring = { type: "spring", stiffness: 120, damping: 18 };
@@ -219,6 +222,7 @@ function SectionTitle({ id, children, light = false }) {
 /* ── Page ───────────────────────────────────────────────── */
 export default function HomePageContent() {
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.3 });
+  const projectsCarousel = useSwipeCarousel(PROJECTS.length);
 
   return (
     <>
@@ -408,13 +412,13 @@ export default function HomePageContent() {
                 <motion.article
                   key={pillar.title}
                   variants={cardVariants}
-                  whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(27,67,50,0.13)" }}
+                  whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(196,146,28,0.35)" }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                  className="bg-white rounded-2xl p-7 border border-primary/8"
+                  className="bg-linear-to-br from-accent to-accent-light rounded-2xl p-7 shadow-md"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <pillar.Icon className="text-primary text-xl" aria-hidden="true" />
+                  <div className="w-12 h-12 rounded-xl bg-white/35 backdrop-blur-sm flex items-center justify-center mb-4">
+                    <pillar.Icon className="text-primary-dark text-xl" aria-hidden="true" />
                   </div>
                   <h4
                     className="text-base font-bold text-primary-dark mb-2"
@@ -422,7 +426,7 @@ export default function HomePageContent() {
                   >
                     {pillar.title}
                   </h4>
-                  <p className="text-text-muted text-sm leading-relaxed m-0">
+                  <p className="text-primary-dark/75 text-sm leading-relaxed m-0">
                     {pillar.description}
                   </p>
                 </motion.article>
@@ -648,7 +652,7 @@ export default function HomePageContent() {
                   className="text-5xl lg:text-6xl font-extrabold text-accent mb-3"
                   aria-label={`${end}${suffix} ${label}`}
                 >
-                  {statsInView ? <CountUp end={end} duration={2.2} /> : 0}
+                  {statsInView ? <CountUp end={end} duration={2.2} /> : end}
                   {suffix}
                 </p>
                 <p className="text-white/70 text-sm max-w-50 mx-auto">
@@ -726,62 +730,103 @@ export default function HomePageContent() {
           >
             Selected Projects
           </motion.h2>
-          <motion.div
-            variants={stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={VIEW}
-            className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8"
-          >
-            {PROJECTS.map((project) => {
-              const card = (
-                <motion.div
-                  variants={cardVariants}
-                  whileHover="hover"
-                  initial="rest"
-                  whileTap={{ scale: 0.96 }}
-                  className="group overflow-hidden rounded-2xl bg-bg border border-primary/8"
-                >
+          <div ref={projectsCarousel.containerRef} className="overflow-hidden -mx-4 px-4 mb-6">
+            <div
+              ref={projectsCarousel.trackRef}
+              className="flex w-max gap-4 cursor-grab active:cursor-grabbing select-none"
+              style={{ touchAction: "pan-y" }}
+            >
+              {PROJECTS.map((project) => {
+                const card = (
                   <motion.div
-                    variants={{ rest: { y: 0, boxShadow: "0 2px 8px rgba(27,67,50,0.08)" }, hover: { y: -5, boxShadow: "0 14px 30px rgba(27,67,50,0.28)" } }}
-                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                    className="rounded-2xl"
+                    whileHover="hover"
+                    initial="rest"
+                    whileTap={{ scale: 0.96 }}
+                    className="group overflow-hidden rounded-2xl bg-bg border border-primary/8"
                   >
-                    <div className="relative aspect-4/3 overflow-hidden">
-                      <Image
-                        src={project.img}
-                        alt={`${project.name} — ${project.desc}`}
-                        width={300}
-                        height={225}
-                        sizes="(max-width: 1024px) 50vw, 300px"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-primary-dark/55 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                    <div className="p-3 text-center">
-                      <p className="font-bold text-primary-dark text-sm m-0 group-hover:text-primary transition-colors duration-200">{project.name}</p>
-                      <p className="text-text-muted text-xs m-0">{project.desc}</p>
-                    </div>
+                    <motion.div
+                      variants={{ rest: { y: 0, boxShadow: "0 2px 8px rgba(27,67,50,0.08)" }, hover: { y: -5, boxShadow: "0 14px 30px rgba(27,67,50,0.28)" } }}
+                      transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                      className="rounded-2xl"
+                    >
+                      <div className="relative aspect-4/3 overflow-hidden">
+                        <Image
+                          src={project.img}
+                          alt={`${project.name} — ${project.desc}`}
+                          width={300}
+                          height={225}
+                          sizes="(max-width: 640px) 70vw, 220px"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          loading="lazy"
+                          draggable={false}
+                        />
+                        <div className="absolute inset-0 bg-linear-to-t from-primary-dark/55 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+                      <div className="p-3 text-center">
+                        <p className="font-bold text-primary-dark text-sm m-0 group-hover:text-primary transition-colors duration-200">{project.name}</p>
+                        <p className="text-text-muted text-xs m-0">{project.desc}</p>
+                      </div>
+                    </motion.div>
                   </motion.div>
-                </motion.div>
-              );
-              return project.link ? (
-                <a
+                );
+                return project.link ? (
+                  <a
+                    key={project.name}
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`View ${project.name} live project (opens in a new tab)`}
+                    className="no-underline block w-45 sm:w-55 shrink-0"
+                  >
+                    {card}
+                  </a>
+                ) : (
+                  <div key={project.name} className="w-45 sm:w-55 shrink-0">
+                    {card}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-5 mb-8">
+            <button
+              type="button"
+              onClick={projectsCarousel.prev}
+              disabled={!projectsCarousel.canPrev}
+              aria-label="Previous project"
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/8 border border-primary/15 text-primary-dark hover:bg-primary/15 disabled:opacity-30 disabled:hover:bg-primary/8 transition-colors duration-200"
+            >
+              <FaChevronLeft size={13} />
+            </button>
+
+            <div className="flex items-center gap-2" role="tablist" aria-label="Project slides">
+              {PROJECTS.map((project, i) => (
+                <button
                   key={project.name}
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.name} live project (opens in a new tab)`}
-                  className="no-underline block"
-                >
-                  {card}
-                </a>
-              ) : (
-                <div key={project.name}>{card}</div>
-              );
-            })}
-          </motion.div>
+                  type="button"
+                  role="tab"
+                  aria-selected={i === projectsCarousel.activeIndex}
+                  aria-label={`Show project ${i + 1}`}
+                  onClick={() => projectsCarousel.goTo(i)}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === projectsCarousel.activeIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              type="button"
+              onClick={projectsCarousel.next}
+              disabled={!projectsCarousel.canNext}
+              aria-label="Next project"
+              className="w-10 h-10 rounded-full flex items-center justify-center bg-primary/8 border border-primary/15 text-primary-dark hover:bg-primary/15 disabled:opacity-30 disabled:hover:bg-primary/8 transition-colors duration-200"
+            >
+              <FaChevronRight size={13} />
+            </button>
+          </div>
+
           <div className="text-center">
             <motion.div
               whileHover="hover"

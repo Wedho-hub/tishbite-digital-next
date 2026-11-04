@@ -9,7 +9,7 @@ const testimonialSchema = new mongoose.Schema(
     quote: { type: String, required: true },
     image: { type: String, required: false },
     imagePublicId: { type: String, required: false },
-    source: { type: String, default: "Google" },
+    source: { type: String, default: "Client Feedback" },
   },
   { timestamps: true }
 );
