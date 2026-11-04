@@ -7,7 +7,7 @@ import {
   FaCheckCircle, FaLightbulb, FaRocket, FaUsers,
   FaReact, FaNodeJs, FaGitAlt, FaHtml5, FaCss3Alt,
   FaDatabase, FaServer, FaExternalLinkAlt, FaMedal,
-  FaArrowRight, FaCode, FaBullhorn, FaPaintBrush, FaPen,
+  FaArrowRight, FaCode, FaBullhorn, FaPaintBrush, FaPen, FaHardHat,
 } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
 
@@ -129,9 +129,15 @@ export default function AboutPageContent() {
             <motion.div variants={fadeUp} className="lg:w-1/2 flex flex-col">
               <Eyebrow>Our Story</Eyebrow>
               <SectionTitle id="founder-heading">A Small Team Built Around Results</SectionTitle>
+              <p className="text-primary-dark font-semibold text-base italic mb-4 border-l-4 border-l-accent pl-4">
+                Built like a tradesman builds — measured, tested, made to last.
+              </p>
               <div className="space-y-4 text-text-muted text-base leading-relaxed">
                 <p>
-                  Tishbite Digital was founded by <strong className="text-text-dark">Wellington Dhliwayo</strong>, a full-stack web developer based in Cape Town, who graduated as a <strong className="text-text-dark">top student at HyperionDev</strong> after completing an intensive programme covering modern JavaScript, React, Node.js, and full-stack application architecture.
+                  Tishbite Digital was founded by <strong className="text-text-dark">Wellington Dhliwayo</strong>, a full-stack web developer based in Cape Town — but before code, there were <strong className="text-text-dark">10 years on site as a trade-tested journeyman</strong>, working boilermaking, pipe fitting, and site supervision. That background shapes how we work: measure first, build to spec, test before handover, and stand behind what you deliver.
+                </p>
+                <p>
+                  Wellington later graduated as a <strong className="text-text-dark">top student at HyperionDev</strong> after completing an intensive programme covering modern JavaScript, React, Node.js, and full-stack application architecture — pairing a tradesman&rsquo;s discipline with a developer&rsquo;s toolkit.
                 </p>
                 <p>
                   Wellington built Tishbite Digital to bridge a real gap: small and growing businesses across South Africa deserve the same digital quality as large corporates. Every system we deliver — from websites and SEO to CRM automation — is engineered to produce <strong className="text-text-dark">measurable results</strong>, not just aesthetics.
@@ -262,9 +268,15 @@ export default function AboutPageContent() {
             initial="hidden"
             whileInView="visible"
             viewport={vp}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
           >
             {[
+              {
+                bg: "bg-accent/10",
+                icon: FaHardHat, iconColor: "text-[#b8860b]",
+                title: "10 Years in the Trades",
+                body: "A trade-tested journeyman background in boilermaking, pipe fitting, and site supervision — a decade of measuring twice, building to spec, and standing behind the work. It's the discipline behind how every project is scoped, built, and handed over.",
+              },
               {
                 bg: "bg-primary/10",
                 icon: FaMedal, iconColor: "text-primary",
@@ -290,14 +302,16 @@ export default function AboutPageContent() {
                   {title}
                 </h3>
                 <p className="text-text-muted text-sm leading-relaxed mb-4">{body}</p>
-                <a
-                  href={linkHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark transition-colors no-underline"
-                >
-                  {linkLabel} <FaExternalLinkAlt size={11} aria-hidden="true" />
-                </a>
+                {linkHref && (
+                  <a
+                    href={linkHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark transition-colors no-underline"
+                  >
+                    {linkLabel} <FaExternalLinkAlt size={11} aria-hidden="true" />
+                  </a>
+                )}
               </motion.div>
             ))}
           </motion.div>

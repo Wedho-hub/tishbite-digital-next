@@ -12,59 +12,24 @@ import {
   FaCheckCircle,
   FaShieldAlt,
 } from "react-icons/fa";
+import { PRODUCTS } from "@/lib/products";
 
-const INSTALLMENT_INFO = {
-  "Business Launch Suite": { amount: 2900, months: 3 },
-  "Digital Foundation Suite": { amount: 3400, months: 3 },
-  "Growth Acceleration Suite": { amount: 2500, months: 5 },
-  "Revenue Automation Suite": { amount: 3000, months: 5 },
-  "Tishbite Enterprise Growth System": { amount: 4700, months: 6 },
-};
+// Derived from the shared product catalog so the amount charged here always
+// matches what's advertised on the Services page — previously this list was
+// hand-duplicated with its own (drifted) prices.
+const CHECKOUT_PRODUCTS = PRODUCTS.filter((p) => p.numericPrice);
 
-const SERVICES_CATALOGUE = [
-  {
-    name: "Business Launch Suite",
-    price: 8700,
-    badge: "Most Popular",
-    description: "Website + branding + local SEO foundation",
-  },
-  {
-    name: "Digital Foundation Suite",
-    price: 10200,
-    badge: null,
-    description: "Website + SEO + Google Business setup",
-  },
-  {
-    name: "Growth Acceleration Suite",
-    price: 12500,
-    badge: null,
-    description: "Full digital system with lead automation",
-  },
-  {
-    name: "Revenue Automation Suite",
-    price: 15000,
-    badge: null,
-    description: "Advanced automation + ads + CRM integration",
-  },
-  {
-    name: "Tishbite Enterprise Growth System",
-    price: 28200,
-    badge: "Premium",
-    description: "Complete enterprise digital growth system",
-  },
-  {
-    name: "Brand Identity & Market Positioning Design",
-    price: 4500,
-    badge: null,
-    description: "Logo, colours, brand guidelines & positioning",
-  },
-  {
-    name: "Business Registration & Compliance Setup",
-    price: 2500,
-    badge: null,
-    description: "Company registration & compliance documentation",
-  },
-];
+const INSTALLMENT_INFO = CHECKOUT_PRODUCTS.reduce((acc, p) => {
+  if (p.installment) acc[p.title] = p.installment;
+  return acc;
+}, {});
+
+const SERVICES_CATALOGUE = CHECKOUT_PRODUCTS.map((p) => ({
+  name: p.title,
+  price: p.numericPrice,
+  badge: p.badge,
+  description: p.shortDescription,
+}));
 
 const fadeUp = { hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
 const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.08 } } };

@@ -5,19 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaWhatsapp, FaPaperPlane, FaClock, FaCalendarAlt, FaPhone, FaEnvelope, FaClipboardList, FaArrowRight } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
+import { PRODUCTS } from "@/lib/products";
 
 const SERVICES_OPTIONS = [
-  "Lead-Generating Website Development",
-  "Custom Web App Development",
-  "Google Business Profile & Local SEO",
-  "Brand Identity & Market Positioning",
-  "Meta Suite Setup & Social Integration",
-  "Paid Ads & Lead Generation Campaigns",
-  "CRM, Automation & Conversion Systems",
-  "Business Registration & Compliance Setup",
-  "Social Media Growth Strategy & Execution",
-  "Growth Bundle / Full Package",
   "Free Website & SEO Audit",
+  ...PRODUCTS.map((p) => p.title),
   "Other / Not Sure Yet",
 ];
 

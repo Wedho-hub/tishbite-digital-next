@@ -15,9 +15,10 @@ import { motion } from "framer-motion";
 import {
   FaBullhorn, FaCode, FaSearch, FaCogs, FaLayerGroup, FaRocket,
   FaArrowRight, FaCheckCircle, FaMapMarkerAlt, FaCalendarCheck, FaShieldAlt,
-  FaUsers, FaPaintBrush, FaPen,
+  FaUsers, FaPaintBrush, FaPen, FaMoneyBillWave,
 } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
+import { PRODUCTS, getProductByTitle } from "@/lib/products";
 
 /* ── Animation variants ─────────────────────────────── */
 const spring     = { type: "spring", stiffness: 120, damping: 18 };
@@ -42,111 +43,48 @@ const getServiceIcon = (s) => {
   return ICON_MAP.find(({ matcher }) => matcher.test(hay))?.icon || FaRocket;
 };
 
-const normalize = (t = "") =>
-  t.toLowerCase().replace(/™/g,"").replace(/^the\s+/i,"").replace(/\s+/g," ").trim();
+const getServicePrice = (s) => s?.price || getProductByTitle(s?.title)?.price || "Custom pricing";
 
-const BUNDLE_PRICE_MAP = {
-  "business launch suite":             "From R8,500",
-  "digital foundation suite":          "From R10,000",
-  "growth acceleration suite":         "From R12,500",
-  "revenue automation suite":          "From R15,000",
-  "tishbite enterprise growth system": "From R28,000+",
-};
-const getServicePrice = (s, isBundle) =>
-  s?.price || (isBundle ? BUNDLE_PRICE_MAP[normalize(s?.title)] || "Custom pricing" : "Custom pricing");
-
-/* ── Blueprint descriptions ── */
-const BLUEPRINTS = {
-  "professional website development": {
-    displayTitle: "Lead-Generating Website Development",
-    description: "**Problem:** Many websites get visits but fail to turn visitors into enquiries.\n\n**Solution:** We build fast, mobile-optimized websites with conversion-focused structure and clear calls to action.\n\n**Result Focus:** More qualified enquiries, better user experience, and stronger digital authority.\n\n- Responsive, speed-conscious design\n- SEO-ready page structure\n- Contact and WhatsApp conversion pathways",
-  },
-  "custom web application development": {
-    displayTitle: "Custom Web Application Development",
-    description: "**Problem:** Off-the-shelf tools and template websites often can't handle the specific workflows a growing business needs — bookings, client portals, dashboards, internal tools.\n\n**Solution:** We design and build custom, full-stack web applications tailored to your exact process, complete with logins, databases, admin dashboards, and integrations with the tools you already use.\n\n**Result Focus:** A purpose-built system that fits how your business actually works, cuts down manual admin, and scales as you grow.\n\n- Full-stack builds on modern frameworks (React, Next.js, Node.js)\n- Secure logins, dashboards, and database-backed features\n- Payment, CRM, and third-party API integrations",
-  },
-  "google business profile & local seo optimization": {
-    displayTitle: "Google Business Profile & Local SEO Growth",
-    description: "**Problem:** Local customers cannot choose your business if you do not appear in map and local search results.\n\n**Solution:** We optimize your Google Business Profile and local SEO signals to improve findability in your service area.\n\n**Result Focus:** Increased local discovery, stronger profile trust signals, and more nearby enquiries.\n\n- Profile optimization and service mapping\n- Local keyword and category refinement\n- Visibility improvements for map-based searches",
-  },
-  "brand identity & business design": {
-    displayTitle: "Brand Identity & Market Positioning Design",
-    description: "**Problem:** Businesses lose opportunities when their branding looks inconsistent or unprofessional.\n\n**Solution:** We create a clear visual identity system that positions your business as credible and memorable.\n\n**Result Focus:** Better first impressions, stronger recall, and higher trust during sales conversations.\n\n- Custom logo and identity direction\n- Consistent color and typography system\n- Practical brand usage guide",
-  },
-  "lead generation & paid advertising campaigns": {
-    displayTitle: "Paid Ads & Lead Generation Campaigns",
-    description: "**Problem:** Businesses burn ad budget when campaigns are not built around qualified buyer intent.\n\n**Solution:** We design and optimize paid campaigns focused on lead quality, not vanity metrics.\n\n**Result Focus:** More sales-ready leads, improved conversion flow, and better marketing ROI.\n\n- Targeted audience strategy\n- Offer-led campaign setup\n- Tracking and optimization loops",
-  },
-  "crm, automation & conversion optimization": {
-    displayTitle: "CRM, Automation & Conversion Systems",
-    description: "**Problem:** Slow follow-up and manual admin cause warm leads to go cold before conversion.\n\n**Solution:** We implement CRM and automation workflows that organize leads and trigger timely follow-ups.\n\n**Result Focus:** Faster response speed, improved conversion rates, and scalable sales operations.\n\n- Pipeline and lead-stage design\n- Automated follow-up workflows\n- Conversion path optimization",
-  },
-  "business launch suite": {
-    displayTitle: "Business Launch Suite",
-    description: "**Problem:** New businesses struggle to launch quickly because legal setup and brand identity are done in disconnected steps.\n\n**Solution:** This bundle combines registration and branding so you launch as a compliant, professional business.\n\n**Result Focus:** Faster go-to-market setup, stronger credibility, and a cleaner foundation for sales.\n\n- Registration and compliance setup\n- Brand identity and launch assets\n- Structured start-up readiness",
-  },
-  "digital foundation suite": {
-    displayTitle: "Digital Foundation Suite",
-    description: "**Problem:** Businesses moving online often lack the core assets needed to attract and convert digital traffic.\n\n**Solution:** This bundle builds your core website, local SEO visibility, and social platform integration in one rollout.\n\n**Result Focus:** Better online discoverability, trust, and enquiry readiness from day one.\n\n- Lead-ready website\n- Local SEO and Google profile setup\n- Meta and channel integration",
-  },
-  "growth acceleration suite": {
-    displayTitle: "Growth Acceleration Suite",
-    description: "**Problem:** Visibility may exist, but growth stalls when content, local search, and advertising are not aligned.\n\n**Solution:** This bundle aligns social growth, local SEO, and paid campaigns into one demand-generation strategy.\n\n**Result Focus:** Stronger lead pipeline, higher brand visibility, and momentum toward revenue growth.\n\n- Social growth execution\n- Local search optimization\n- Paid campaign lead acquisition",
-  },
-  "revenue automation suite": {
-    displayTitle: "Revenue Automation Suite",
-    description: "**Problem:** Many businesses generate leads but lose revenue due to weak follow-up and fragmented sales systems.\n\n**Solution:** This bundle combines ads, platform integration, and CRM automation to move leads efficiently through your pipeline.\n\n**Result Focus:** Better lead-to-sale conversion, reduced manual effort, and predictable revenue operations.\n\n- Conversion-focused lead generation\n- Unified platform setup\n- CRM automation workflows",
-  },
-  "tishbite enterprise growth system": {
-    displayTitle: "Tishbite Enterprise Growth System",
-    description: "**Problem:** Scaling businesses outgrow piecemeal marketing and need a coordinated infrastructure for growth.\n\n**Solution:** Our flagship bundle unifies all core growth services into one structured operating system.\n\n**Result Focus:** End-to-end visibility, faster execution, and enterprise-ready growth consistency.\n\n- Full brand-to-conversion ecosystem\n- Integrated acquisition and automation layers\n- Long-term scalability framework",
-  },
-};
+// Numeric amount to send to checkout; null for monthly plans (not a
+// once-off PayFast purchase) so the card can route those to "Enquire" instead.
+const getCheckoutPrice = (s) => getProductByTitle(s?.title)?.numericPrice ?? null;
 
 const getDescription = (s) => {
-  const b = BLUEPRINTS[normalize(s?.title)];
-  if (b?.description) return b.description;
+  const b = getProductByTitle(s?.title);
+  if (b?.blueprint) return b.blueprint;
   return s?.category === "bundle"
     ? "**Problem:** Growth stalls when critical functions are handled in isolation.\n\n**Solution:** This bundle combines key systems into one coordinated execution plan.\n\n**Result Focus:** Better consistency, higher lead quality, and clearer growth momentum."
     : "**Problem:** Businesses struggle to turn visibility into qualified enquiries.\n\n**Solution:** This service strengthens one core growth function with practical execution support.\n\n**Result Focus:** Better trust, stronger conversion readiness, and improved business outcomes.";
 };
 
-const getDisplayTitle = (s) => {
-  if (s?.displayTitle) return s.displayTitle;
-  const b = BLUEPRINTS[normalize(s?.title)];
-  if (b?.displayTitle) return b.displayTitle;
-  return (s?.title || "Service").replace(/^The\s+/i,"").replace(/™/g,"").trim();
-};
+const getDisplayTitle = (s) => (s?.displayTitle || s?.title || "Service").replace(/^The\s+/i,"").replace(/™/g,"").trim();
 
-/* ── Fallback data ── */
-const FALLBACK_GENERAL = [
-  { _id:"fb-reg",    title:"Company Registration & Compliance Setup",           category:"general" },
-  { _id:"fb-brand",  title:"Brand Identity & Business Design",                  category:"general" },
-  { _id:"fb-web",    title:"Professional Website Development",                   category:"general" },
-  { _id:"fb-webapp", title:"Custom Web Application Development",                category:"general" },
-  { _id:"fb-seo",    title:"Google Business Profile & Local SEO Optimization",  category:"general" },
-  { _id:"fb-meta",   title:"Meta Business Suite & Social Platform Integration",  category:"general" },
-  { _id:"fb-social", title:"Social Media Growth Strategy & Management",          category:"general" },
-  { _id:"fb-ads",    title:"Lead Generation & Paid Advertising Campaigns",       category:"general" },
-  { _id:"fb-crm",    title:"CRM, Automation & Conversion Optimization",          category:"general" },
-];
-const FALLBACK_BUNDLES = [
-  { _id:"fb-launch",     title:"Business Launch Suite",             category:"bundle" },
-  { _id:"fb-foundation", title:"Digital Foundation Suite",          category:"bundle" },
-  { _id:"fb-growth",     title:"Growth Acceleration Suite",         category:"bundle" },
-  { _id:"fb-revenue",    title:"Revenue Automation Suite",          category:"bundle" },
-  { _id:"fb-enterprise", title:"Tishbite Enterprise Growth System", category:"bundle" },
-];
+const getBadge = (s) => getProductByTitle(s?.title)?.badge || null;
+
+/* ── Fallback data — mirrors lib/products.js so the page renders the full
+   catalog correctly even before any services exist in the database ── */
+const FALLBACK_GENERAL = PRODUCTS
+  .filter((p) => p.category === "general")
+  .map((p) => ({ _id: `fb-${p.slug}`, title: p.title, category: "general", price: p.price }));
+const FALLBACK_BUNDLES = PRODUCTS
+  .filter((p) => p.category === "bundle")
+  .sort((a, b) => (a.tier === b.tier ? 0 : a.tier === "lead" ? -1 : 1))
+  .map((p) => ({ _id: `fb-${p.slug}`, title: p.title, category: "bundle", price: p.price }));
 const FALLBACK_SERVICES = [...FALLBACK_GENERAL, ...FALLBACK_BUNDLES];
 
-const PRICING_ROWS = [
-  { service:"General Services",                 startingPrice:"R2,500 – R7,500", subscription:"Monthly installments available",        maintenance:"Optional: R500/month",                        notes:"Ideal for individual service needs",         checkoutService:null,                            price:null  },
-  { service:"Business Launch Suite",            startingPrice:"R8,500",          subscription:"3 monthly installments (R2,900 each)",   maintenance:"1 month free maintenance included",           notes:"Company registration + branding bundle",     checkoutService:"Business Launch Suite",         price:8500  },
-  { service:"Digital Foundation Suite",         startingPrice:"R10,000",         subscription:"3–4 monthly installments",                maintenance:"1 month free website & social setup support", notes:"Website + Google Business + Meta Suite",     checkoutService:"Digital Foundation Suite",      price:10000 },
-  { service:"Growth Acceleration Suite",        startingPrice:"R12,500",         subscription:"3–6 monthly installments",                maintenance:"1 month free social media support",           notes:"Social media growth + lead generation",      checkoutService:"Growth Acceleration Suite",     price:12500 },
-  { service:"Revenue Automation Suite",         startingPrice:"R15,000",         subscription:"3–6 monthly installments",                maintenance:"1 month free automation & CRM support",       notes:"CRM, automation & conversion optimization",  checkoutService:"Revenue Automation Suite",      price:15000 },
-  { service:"Tishbite Enterprise Growth System",startingPrice:"R28,000+",        subscription:"Custom subscription or installments",     maintenance:"2 months free maintenance & support",         notes:"All 8 services included, enterprise-grade",  checkoutService:"Tishbite Enterprise Growth System", price:28000 },
-];
+const PRICING_ROWS = PRODUCTS.map((p) => ({
+  service: p.title,
+  startingPrice: p.price,
+  subscription: p.installment
+    ? `${p.installment.months} monthly installments (R${p.installment.amount.toLocaleString("en-ZA")} each)`
+    : p.numericPrice
+      ? "Once-off, or ask about installments"
+      : "Ongoing — no long-term contract",
+  maintenance: p.tier === "advanced" ? "Free maintenance/support period included" : "—",
+  notes: p.shortDescription,
+  checkoutService: p.numericPrice ? p.title : null,
+  price: p.numericPrice,
+}));
 
 const TEAM_CAPABILITIES = [
   { Icon: FaCode, label: "Web Development & Engineering" },
@@ -202,15 +140,23 @@ export default function ServicesPageContent() {
   const bundles  = services.filter((s) => (s.category || "general") === "bundle");
 
   const renderCard = (service, isBundle = false) => {
-    const Icon       = getServiceIcon(service);
-    const isExpanded = expanded[service._id];
+    const Icon          = getServiceIcon(service);
+    const isExpanded    = expanded[service._id];
+    const badge         = getBadge(service);
+    const checkoutPrice = getCheckoutPrice(service);
     return (
       <motion.li
         key={service._id}
         variants={cardVar}
         whileTap={{ scale: 0.98 }}
-        className={`flex flex-col bg-white rounded-2xl p-6 border ${isBundle ? "border-accent/30" : "border-primary/10"} shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300`}
+        className={`relative flex flex-col bg-white rounded-2xl p-6 border ${isBundle ? "border-accent/30" : "border-primary/10"} shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300`}
       >
+        {badge && (
+          <span className="absolute -top-2.5 left-5 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1 rounded-full bg-primary-dark text-white shadow-sm">
+            {badge}
+          </span>
+        )}
+
         <div className="flex items-start justify-between mb-3">
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isBundle ? "bg-accent/15" : "bg-primary/10"}`}>
             <Icon className={`text-lg ${isBundle ? "text-[#b8860b]" : "text-primary"}`} aria-hidden="true" />
@@ -221,7 +167,7 @@ export default function ServicesPageContent() {
         </div>
 
         <p className={`text-sm font-bold mb-1 ${isBundle ? "text-[#8a6500]" : "text-primary"}`}>
-          {getServicePrice(service, isBundle)}
+          {getServicePrice(service)}
         </p>
 
         <h3
@@ -245,27 +191,37 @@ export default function ServicesPageContent() {
           >
             {isExpanded ? "Show Less" : "Read More"}
           </button>
-          <motion.button
-            className={`ml-auto flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-lg ${isBundle ? "bg-accent text-primary-dark" : "bg-primary text-white"}`}
-            onClick={() => goCheckout(getDisplayTitle(service), isBundle ? 8500 : 3500)}
-            aria-label={`Get started with ${getDisplayTitle(service)}`}
-            whileHover="hover"
-            initial="rest"
-            whileTap={{ scale: 0.95 }}
-            variants={isBundle ? {
-              rest: { y: 0, backgroundColor: "#f4c95d", boxShadow: "0 2px 6px rgba(244,201,93,0.2)" },
-              hover: { y: -2, backgroundColor: "#ffe08a", boxShadow: "0 6px 18px rgba(244,201,93,0.5)" },
-            } : {
-              rest: { y: 0, backgroundColor: "#2d6a4f", boxShadow: "0 2px 6px rgba(27,67,50,0.15)" },
-              hover: { y: -2, backgroundColor: "#1b4332", boxShadow: "0 6px 18px rgba(27,67,50,0.38)" },
-            }}
-            transition={{ type: "spring", stiffness: 300, damping: 18 }}
-          >
-            Get Started
-            <motion.span variants={{ rest: { x: 0 }, hover: { x: 3 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
-              <FaArrowRight size={10} />
-            </motion.span>
-          </motion.button>
+          {checkoutPrice ? (
+            <motion.button
+              className={`ml-auto flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-lg ${isBundle ? "bg-accent text-primary-dark" : "bg-primary text-white"}`}
+              onClick={() => goCheckout(getDisplayTitle(service), checkoutPrice)}
+              aria-label={`Get started with ${getDisplayTitle(service)}`}
+              whileHover="hover"
+              initial="rest"
+              whileTap={{ scale: 0.95 }}
+              variants={isBundle ? {
+                rest: { y: 0, backgroundColor: "#f4c95d", boxShadow: "0 2px 6px rgba(244,201,93,0.2)" },
+                hover: { y: -2, backgroundColor: "#ffe08a", boxShadow: "0 6px 18px rgba(244,201,93,0.5)" },
+              } : {
+                rest: { y: 0, backgroundColor: "#2d6a4f", boxShadow: "0 2px 6px rgba(27,67,50,0.15)" },
+                hover: { y: -2, backgroundColor: "#1b4332", boxShadow: "0 6px 18px rgba(27,67,50,0.38)" },
+              }}
+              transition={{ type: "spring", stiffness: 300, damping: 18 }}
+            >
+              Get Started
+              <motion.span variants={{ rest: { x: 0 }, hover: { x: 3 } }} transition={{ type: "spring", stiffness: 300, damping: 18 }} aria-hidden="true">
+                <FaArrowRight size={10} />
+              </motion.span>
+            </motion.button>
+          ) : (
+            <Link
+              href="/contact"
+              className={`ml-auto flex items-center gap-1.5 text-xs font-bold px-3.5 py-2 rounded-lg no-underline ${isBundle ? "bg-accent text-primary-dark" : "bg-primary text-white"}`}
+              aria-label={`Enquire about ${getDisplayTitle(service)}`}
+            >
+              Enquire <FaArrowRight size={10} />
+            </Link>
+          )}
         </div>
       </motion.li>
     );
@@ -386,6 +342,41 @@ export default function ServicesPageContent() {
                 ))}
               </motion.div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════
+          Positioning strip — the path a customer actually takes
+      ════════════════════════════════════════════════ */}
+      <section className="py-10 bg-primary-dark" aria-label="How our products work together">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5 sm:gap-4">
+            {[
+              { Icon: FaSearch, title: "Get Found", body: "Google profile + SEO put you in front of buyers already searching" },
+              { Icon: FaCheckCircle, title: "Get Chosen", body: "A fast, trustworthy website and reviews turn lookers into leads" },
+              { Icon: FaMoneyBillWave, title: "Get Paid", body: "WhatsApp and clear next steps turn leads into booked customers" },
+            ].map(({ Icon, title, body }, i, arr) => (
+              <motion.div
+                key={title}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={VIEW}
+                className="flex items-center gap-4 sm:gap-3"
+              >
+                <div className="flex flex-col items-center text-center max-w-50">
+                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center mb-2.5">
+                    <Icon className="text-accent text-lg" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-white font-bold text-sm mb-1">{title}</h3>
+                  <p className="text-white/55 text-xs leading-relaxed m-0">{body}</p>
+                </div>
+                {i < arr.length - 1 && (
+                  <FaArrowRight className="hidden sm:block text-accent/50 text-lg shrink-0" aria-hidden="true" />
+                )}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
