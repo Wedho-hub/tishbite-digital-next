@@ -6,33 +6,43 @@ import { motion } from "framer-motion";
 import { FaStar, FaGoogle, FaCheckCircle, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useSwipeCarousel } from "@/hooks/useSwipeCarousel";
 
+// Real reviews from Tishbite Digital's Google Business Profile.
 const FALLBACK_REVIEWS = [
   {
-    _id: "fallback-thandi",
-    name: "Thandi M.",
-    role: "HR Business Partner",
-    company: "Maffy Online",
+    _id: "google-sam",
+    name: "Anthon Sam",
     rating: 5,
     quote:
-      "Our WhatsApp enquiries doubled within the first month of launching our new site. Tishbite Digital didn't just build a website — they built us a lead machine that works around the clock.",
+      "Tishbite Digital did an amazing job with my website. As a small business owner, I really appreciated their professionalism and support. Highly recommend!",
+    source: "Google Review",
   },
   {
-    _id: "fallback-nkosi",
-    name: "Mr. F. Nkosi",
-    role: "Principal",
-    company: "FOG Educare",
+    _id: "google-gambinga",
+    name: "Mavis Gambinga",
     rating: 5,
-    quote:
-      "Parents started finding us through Google within weeks. Enrolment enquiries increased noticeably and we now appear for the local searches that matter most to our community.",
+    quote: "We hired Tishbite to build our company website from scratch.",
+    source: "Google Review",
   },
   {
-    _id: "fallback-leon",
-    name: "Leon V.",
-    role: "Owner",
-    company: "Cape Comfort Home Services",
+    _id: "google-muchati",
+    name: "Philemon Muchati",
     rating: 5,
-    quote:
-      "They made the whole process simple and clear. I didn't know where to start online, but within a short time I had a professional site and was getting weekly WhatsApp enquiries.",
+    quote: "We have been with Tishbite Digital so well, very reliable and highly recommended.",
+    source: "Google Review",
+  },
+  {
+    _id: "google-chishiri",
+    name: "Tendai Chishiri",
+    rating: 5,
+    quote: "Tishbite Digital delivered beyond expectations.",
+    source: "Google Review",
+  },
+  {
+    _id: "google-mutiramanja",
+    name: "Benson Mutiramanja",
+    rating: 5,
+    quote: "Thank you for doing best bro.",
+    source: "Google Review",
   },
 ];
 
@@ -139,9 +149,11 @@ export default function Testimonials() {
                       <p className="text-white font-semibold text-sm m-0">
                         {review.name}
                       </p>
-                      <p className="text-white/50 text-xs m-0">
-                        {[review.role, review.company].filter(Boolean).join(" · ")}
-                      </p>
+                      {(review.role || review.company) && (
+                        <p className="text-white/50 text-xs m-0">
+                          {[review.role, review.company].filter(Boolean).join(" · ")}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -152,7 +164,11 @@ export default function Testimonials() {
                   </blockquote>
 
                   <div className="flex items-center gap-1.5 text-white/30 text-xs border-t border-white/10 pt-3">
-                    <FaCheckCircle aria-hidden="true" />
+                    {review.source === "Google Review" ? (
+                      <FaGoogle aria-hidden="true" />
+                    ) : (
+                      <FaCheckCircle aria-hidden="true" />
+                    )}
                     <span>{review.source || "Client Feedback"}</span>
                   </div>
                 </article>
