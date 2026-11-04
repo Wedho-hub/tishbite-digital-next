@@ -4,15 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-const stagger = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-};
+import Reveal from "@/components/Reveal";
 
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("en-ZA", { year: "numeric", month: "long", day: "numeric" });
@@ -26,17 +18,12 @@ export default function BlogGrid({ posts }) {
   }
 
   return (
-    <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-      variants={stagger}
-      initial="hidden"
-      animate="visible"
-    >
-      {posts.map((post) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {posts.map((post, i) => (
+        <Reveal key={post._id} variant="slide" index={i}>
         <motion.article
-          key={post._id}
-          variants={fadeUp}
-          className="flex flex-col bg-white rounded-2xl border border-primary/8 shadow-sm hover:shadow-md hover:-translate-y-0.5 overflow-hidden transition-all duration-300"
+          whileHover={{ y: -5 }}
+          className="flex flex-col bg-white rounded-2xl border border-primary/8 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
         >
           <div className="aspect-video bg-primary/5 overflow-hidden">
             {post.image ? (
@@ -85,7 +72,8 @@ export default function BlogGrid({ posts }) {
             </div>
           </div>
         </motion.article>
+        </Reveal>
       ))}
-    </motion.div>
+    </div>
   );
 }

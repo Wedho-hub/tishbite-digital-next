@@ -10,6 +10,7 @@ import {
   FaArrowRight, FaCode, FaBullhorn, FaPaintBrush, FaPen, FaHardHat,
 } from "react-icons/fa";
 import { SiNextdotjs, SiTailwindcss } from "react-icons/si";
+import Reveal from "@/components/Reveal";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -204,17 +205,18 @@ export default function AboutPageContent() {
             role="list"
             aria-label="Core technology skills"
           >
-            {SKILLS.map(({ Icon, label, color, bg }) => (
-              <motion.div
-                key={label}
-                variants={fadeUp}
-                role="listitem"
-                className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-primary/8 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
-                style={{ backgroundColor: bg }}
-              >
-                <Icon className="text-3xl" style={{ color }} aria-hidden="true" />
-                <span className="text-sm font-semibold text-text-dark text-center">{label}</span>
-              </motion.div>
+            {SKILLS.map(({ Icon, label, color, bg }, i) => (
+              <Reveal key={label} variant="bounce" index={i}>
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.03 }}
+                  role="listitem"
+                  className="flex flex-col items-center gap-2 p-4 rounded-2xl border border-primary/8 hover:shadow-md transition-shadow duration-300"
+                  style={{ backgroundColor: bg }}
+                >
+                  <Icon className="text-3xl" style={{ color }} aria-hidden="true" />
+                  <span className="text-sm font-semibold text-text-dark text-center">{label}</span>
+                </motion.div>
+              </Reveal>
             ))}
           </motion.div>
         </div>
@@ -237,20 +239,21 @@ export default function AboutPageContent() {
             viewport={vp}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
-            {TEAM_CAPABILITIES.map(({ Icon, title, body }) => (
-              <motion.div
-                key={title}
-                variants={fadeUp}
-                className="flex flex-col items-center text-center p-6 bg-bg rounded-2xl border border-primary/8 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Icon className="text-primary text-2xl" aria-hidden="true" />
-                </div>
-                <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                  {title}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
-              </motion.div>
+            {TEAM_CAPABILITIES.map(({ Icon, title, body }, i) => (
+              <Reveal key={title} variant="slide" index={i}>
+                <motion.div
+                  whileHover={{ y: -5 }}
+                  className="flex flex-col items-center text-center p-6 bg-bg rounded-2xl border border-primary/8 hover:shadow-md transition-shadow duration-300"
+                >
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${i % 2 === 0 ? "bg-primary" : "bg-accent"}`}>
+                    <Icon className={`text-2xl ${i % 2 === 0 ? "text-white" : "text-primary-dark"}`} aria-hidden="true" />
+                  </div>
+                  <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    {title}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
+                </motion.div>
+              </Reveal>
             ))}
           </motion.div>
         </div>
@@ -272,47 +275,49 @@ export default function AboutPageContent() {
           >
             {[
               {
-                bg: "bg-accent/10",
-                icon: FaHardHat, iconColor: "text-[#b8860b]",
+                bg: "bg-accent", iconColor: "text-primary-dark",
+                icon: FaHardHat,
                 title: "10 Years in the Trades",
                 body: "A trade-tested journeyman background in boilermaking, pipe fitting, and site supervision — a decade of measuring twice, building to spec, and standing behind the work. It's the discipline behind how every project is scoped, built, and handed over.",
               },
               {
-                bg: "bg-primary/10",
-                icon: FaMedal, iconColor: "text-primary",
+                bg: "bg-primary", iconColor: "text-white",
+                icon: FaMedal,
                 title: "HyperionDev — Top Student",
                 body: "Completed a full-stack web development programme at HyperionDev, achieving top student recognition. The programme covered JavaScript, React, Node.js, REST APIs, databases, and software engineering principles.",
                 linkHref: "https://www.hyperiondev.com/portfolio/WD24080015372/",
                 linkLabel: "View Verified Portfolio",
               },
               {
-                bg: "bg-accent/10",
-                icon: FaRocket, iconColor: "text-[#b8860b]",
+                bg: "bg-accent", iconColor: "text-primary-dark",
+                icon: FaRocket,
                 title: "Live Production Application",
                 body: "This website is a fully deployed, production-grade MERN stack application built from scratch — featuring authentication, a CMS, PayFast payment integration, REST API, SEO, and a custom admin dashboard.",
                 linkHref: "https://github.com/Wedho-hub",
                 linkLabel: "GitHub: Wedho-hub",
               },
-            ].map(({ bg, icon: Icon, iconColor, title, body, linkHref, linkLabel }) => (
-              <motion.div key={title} variants={fadeUp} className="bg-white rounded-2xl p-6 border border-primary/8 shadow-sm">
-                <div className={`w-12 h-12 rounded-xl ${bg} flex items-center justify-center mb-4`}>
-                  <Icon className={`${iconColor} text-xl`} aria-hidden="true" />
-                </div>
-                <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                  {title}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed mb-4">{body}</p>
-                {linkHref && (
-                  <a
-                    href={linkHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark transition-colors no-underline"
-                  >
-                    {linkLabel} <FaExternalLinkAlt size={11} aria-hidden="true" />
-                  </a>
-                )}
-              </motion.div>
+            ].map(({ bg, icon: Icon, iconColor, title, body, linkHref, linkLabel }, i) => (
+              <Reveal key={title} variant="bounce" index={i}>
+                <motion.div whileHover={{ y: -5 }} className="bg-white rounded-2xl p-6 border border-primary/8 shadow-sm hover:shadow-md transition-shadow duration-300">
+                  <div className={`w-12 h-12 rounded-xl ${bg} flex items-center justify-center mb-4`}>
+                    <Icon className={`${iconColor} text-xl`} aria-hidden="true" />
+                  </div>
+                  <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    {title}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed mb-4">{body}</p>
+                  {linkHref && (
+                    <a
+                      href={linkHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:text-primary-dark transition-colors no-underline"
+                    >
+                      {linkLabel} <FaExternalLinkAlt size={11} aria-hidden="true" />
+                    </a>
+                  )}
+                </motion.div>
+              </Reveal>
             ))}
           </motion.div>
         </div>
@@ -332,20 +337,21 @@ export default function AboutPageContent() {
             viewport={vp}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
           >
-            {VALUES.map(({ Icon, title, body }) => (
-              <motion.div
-                key={title}
-                variants={fadeUp}
-                className="flex flex-col items-center text-center p-6 bg-bg rounded-2xl border border-primary/8 hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
-              >
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Icon className="text-primary text-2xl" aria-hidden="true" />
-                </div>
-                <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                  {title}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
-              </motion.div>
+            {VALUES.map(({ Icon, title, body }, i) => (
+              <Reveal key={title} variant="slide" index={i}>
+                <motion.div
+                  whileHover={{ y: -5 }}
+                  className="flex flex-col items-center text-center p-6 bg-bg rounded-2xl border border-primary/8 hover:shadow-md transition-shadow duration-300"
+                >
+                  <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${i % 2 === 0 ? "bg-primary" : "bg-accent"}`}>
+                    <Icon className={`text-2xl ${i % 2 === 0 ? "text-white" : "text-primary-dark"}`} aria-hidden="true" />
+                  </div>
+                  <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    {title}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
+                </motion.div>
+              </Reveal>
             ))}
           </motion.div>
         </div>
@@ -365,17 +371,18 @@ export default function AboutPageContent() {
             viewport={vp}
             className="grid grid-cols-1 md:grid-cols-2 gap-5"
           >
-            {SERVICES.map(({ title, body }) => (
-              <motion.div
-                key={title}
-                variants={fadeUp}
-                className="bg-white rounded-2xl p-6 border-l-4 border-l-primary border border-primary/8 shadow-sm"
-              >
-                <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                  {title}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
-              </motion.div>
+            {SERVICES.map(({ title, body }, i) => (
+              <Reveal key={title} variant="slide" index={i}>
+                <motion.div
+                  whileHover={{ x: 4 }}
+                  className={`bg-white rounded-2xl p-6 border-l-4 border shadow-sm ${i % 2 === 0 ? "border-l-primary border-primary/8" : "border-l-accent border-accent/20"}`}
+                >
+                  <h3 className="font-bold text-primary-dark text-base mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    {title}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed m-0">{body}</p>
+                </motion.div>
+              </Reveal>
             ))}
           </motion.div>
         </div>

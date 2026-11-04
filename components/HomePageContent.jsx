@@ -28,6 +28,7 @@ import {
 } from "react-icons/fa";
 import Hero from "@/components/Hero";
 import Testimonials from "@/components/Testimonials";
+import Reveal from "@/components/Reveal";
 import { useSwipeCarousel } from "@/hooks/useSwipeCarousel";
 
 /* ── Animation variants ─────────────────────────────────── */
@@ -408,10 +409,9 @@ export default function HomePageContent() {
               viewport={VIEW}
               className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
             >
-              {GROWTH_PILLARS.map((pillar) => (
+              {GROWTH_PILLARS.map((pillar, i) => (
+                <Reveal key={pillar.title} variant="bounce" index={i}>
                 <motion.article
-                  key={pillar.title}
-                  variants={cardVariants}
                   whileHover={{ y: -6, boxShadow: "0 16px 36px rgba(196,146,28,0.35)" }}
                   whileTap={{ scale: 0.97 }}
                   transition={{ type: "spring", stiffness: 280, damping: 20 }}
@@ -430,6 +430,7 @@ export default function HomePageContent() {
                     {pillar.description}
                   </p>
                 </motion.article>
+                </Reveal>
               ))}
             </motion.div>
 
@@ -494,26 +495,44 @@ export default function HomePageContent() {
             viewport={VIEW}
             className="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-6"
           >
-            {WHO_WE_HELP.map((item) => (
-              <motion.div
-                key={item.label}
-                variants={cardVariants}
-                whileHover={{ y: -5, boxShadow: "0 14px 32px rgba(27,67,50,0.12)" }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                className="flex flex-col items-start gap-3 p-5 rounded-2xl border border-primary/8 bg-bg hover:bg-white transition-colors duration-300"
-              >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: "linear-gradient(135deg, rgba(27,67,50,0.10) 0%, rgba(27,67,50,0.04) 100%)" }}>
-                  <item.Icon className="text-primary text-base" aria-hidden="true" />
-                </div>
-                <div>
-                  <p className="font-bold text-primary-dark text-sm leading-snug mb-1" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                    {item.label}
-                  </p>
-                  <p className="text-text-muted text-xs leading-relaxed m-0">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+            {WHO_WE_HELP.map((item, i) => {
+              // Breaks the uniform card pattern on purpose — every third
+              // card gets a solid brand-color treatment instead of the
+              // pale neutral background, so the grid has a visual rhythm
+              // instead of reading as one flat block.
+              const isAccent = i % 3 === 2;
+              return (
+                <Reveal key={item.label} variant="slide" index={i}>
+                  <motion.div
+                    whileHover={{ y: -6, boxShadow: isAccent ? "0 14px 32px rgba(27,67,50,0.32)" : "0 14px 32px rgba(27,67,50,0.12)" }}
+                    whileTap={{ scale: 0.97 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
+                    className={`flex flex-col items-start gap-3 p-5 rounded-2xl transition-colors duration-300 ${
+                      isAccent
+                        ? "bg-primary-dark border border-primary-dark"
+                        : "border border-primary/8 bg-bg hover:bg-white"
+                    }`}
+                  >
+                    <div
+                      className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
+                        isAccent ? "bg-accent" : "bg-primary"
+                      }`}
+                    >
+                      <item.Icon className={`text-base ${isAccent ? "text-primary-dark" : "text-white"}`} aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p
+                        className={`font-bold text-sm leading-snug mb-1 ${isAccent ? "text-white" : "text-primary-dark"}`}
+                        style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                      >
+                        {item.label}
+                      </p>
+                      <p className={`text-xs leading-relaxed m-0 ${isAccent ? "text-white/70" : "text-text-muted"}`}>{item.desc}</p>
+                    </div>
+                  </motion.div>
+                </Reveal>
+              );
+            })}
           </motion.div>
         </div>
       </section>
@@ -566,20 +585,25 @@ export default function HomePageContent() {
                 href: "/blog",
                 highlight: false,
               },
-            ].map((card) => (
+            ].map((card, i) => (
+              <Reveal key={card.title} variant="bounce" index={i}>
               <motion.article
-                key={card.title}
-                variants={card.highlight ? fadeLeft : fadeRight}
-                whileHover={{ y: -6, boxShadow: card.highlight ? "0 16px 36px rgba(27,67,50,0.45)" : "0 12px 28px rgba(27,67,50,0.15)" }}
+                whileHover={{ y: -6, boxShadow: card.highlight ? "0 16px 36px rgba(27,67,50,0.45)" : "0 12px 28px rgba(196,146,28,0.3)" }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                className={`rounded-2xl p-7 flex flex-col cursor-pointer ${card.highlight ? "bg-linear-to-br from-primary-dark to-primary text-white shadow-xl" : "bg-bg border border-primary/10"}`}
+                className={`rounded-2xl p-7 flex flex-col cursor-pointer ${card.highlight ? "bg-linear-to-br from-primary-dark to-primary text-white shadow-xl" : "bg-white border border-accent/25 shadow-sm"}`}
               >
-                <card.Icon
-                  size={48}
-                  className={`mb-4 ${card.highlight ? "text-accent" : "text-primary"}`}
-                  aria-hidden="true"
-                />
+                <div
+                  className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 ${
+                    card.highlight ? "bg-white/15" : "bg-accent"
+                  }`}
+                >
+                  <card.Icon
+                    size={24}
+                    className={card.highlight ? "text-accent" : "text-primary-dark"}
+                    aria-hidden="true"
+                  />
+                </div>
                 <h4
                   className={`text-xl font-bold mb-2 ${card.highlight ? "text-white" : "text-primary-dark"}`}
                   style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
@@ -599,6 +623,7 @@ export default function HomePageContent() {
                   {card.cta} <FaArrowRight size={11} className="transition-transform duration-200 group-hover:translate-x-1.5" />
                 </Link>
               </motion.article>
+              </Reveal>
             ))}
           </motion.div>
         </div>
@@ -690,23 +715,27 @@ export default function HomePageContent() {
             viewport={VIEW}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {FAQ_ITEMS.map((item) => (
-              <motion.article
-                key={item.question}
-                variants={cardVariants}
-                whileTap={{ scale: 0.97 }}
-                className="bg-white rounded-2xl p-6 border border-primary/8 hover:shadow-md transition-shadow duration-300"
-              >
-                <h3
-                  className="text-sm font-bold text-primary-dark mb-2 leading-snug"
-                  style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+            {FAQ_ITEMS.map((item, i) => (
+              <Reveal key={item.question} variant="slide" index={i}>
+                <motion.article
+                  whileHover={{ y: -3 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="bg-white rounded-2xl p-6 border border-primary/8 hover:shadow-md hover:border-accent/40 transition-all duration-300"
                 >
-                  {item.question}
-                </h3>
-                <p className="text-text-muted text-sm leading-relaxed m-0">
-                  {item.answer}
-                </p>
-              </motion.article>
+                  <div className="w-7 h-7 rounded-lg bg-accent/20 text-[#8a6500] flex items-center justify-center text-xs font-extrabold mb-3">
+                    {i + 1}
+                  </div>
+                  <h3
+                    className="text-sm font-bold text-primary-dark mb-2 leading-snug"
+                    style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
+                  >
+                    {item.question}
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed m-0">
+                    {item.answer}
+                  </p>
+                </motion.article>
+              </Reveal>
             ))}
           </motion.div>
         </div>

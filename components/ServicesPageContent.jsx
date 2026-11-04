@@ -18,6 +18,7 @@ import {
   FaUsers, FaPaintBrush, FaPen, FaMoneyBillWave,
 } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
+import Reveal from "@/components/Reveal";
 import { PRODUCTS, getProductByTitle } from "@/lib/products";
 
 /* ── Animation variants ─────────────────────────────── */
@@ -139,15 +140,14 @@ export default function ServicesPageContent() {
   const general = services.filter((s) => (s.category || "general") === "general");
   const bundles  = services.filter((s) => (s.category || "general") === "bundle");
 
-  const renderCard = (service, isBundle = false) => {
+  const renderCard = (service, isBundle = false, index = 0) => {
     const Icon          = getServiceIcon(service);
     const isExpanded    = expanded[service._id];
     const badge         = getBadge(service);
     const checkoutPrice = getCheckoutPrice(service);
     return (
-      <motion.li
-        key={service._id}
-        variants={cardVar}
+      <Reveal key={service._id} as="li" variant="bounce" index={index}>
+      <motion.div
         whileTap={{ scale: 0.98 }}
         className={`relative flex flex-col bg-white rounded-2xl p-6 border ${isBundle ? "border-accent/30" : "border-primary/10"} shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300`}
       >
@@ -158,8 +158,8 @@ export default function ServicesPageContent() {
         )}
 
         <div className="flex items-start justify-between mb-3">
-          <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isBundle ? "bg-accent/15" : "bg-primary/10"}`}>
-            <Icon className={`text-lg ${isBundle ? "text-[#b8860b]" : "text-primary"}`} aria-hidden="true" />
+          <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${isBundle ? "bg-accent" : "bg-primary"}`}>
+            <Icon className={`text-lg ${isBundle ? "text-primary-dark" : "text-white"}`} aria-hidden="true" />
           </div>
           <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${isBundle ? "bg-accent/15 text-[#b8860b]" : "bg-primary/10 text-primary"}`}>
             {isBundle ? "Bundle" : "General"}
@@ -223,7 +223,8 @@ export default function ServicesPageContent() {
             </Link>
           )}
         </div>
-      </motion.li>
+      </motion.div>
+      </Reveal>
     );
   };
 
@@ -415,7 +416,7 @@ export default function ServicesPageContent() {
             viewport={VIEW}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 list-none p-0 m-0"
           >
-            {(showAllGeneral ? general : general.slice(0, INITIAL_VISIBLE)).map((s) => renderCard(s, false))}
+            {(showAllGeneral ? general : general.slice(0, INITIAL_VISIBLE)).map((s, i) => renderCard(s, false, i))}
           </motion.ul>
 
           {general.length > INITIAL_VISIBLE && (
@@ -474,7 +475,7 @@ export default function ServicesPageContent() {
             viewport={VIEW}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 list-none p-0 m-0"
           >
-            {(showAllBundles ? bundles : bundles.slice(0, INITIAL_VISIBLE)).map((s) => renderCard(s, true))}
+            {(showAllBundles ? bundles : bundles.slice(0, INITIAL_VISIBLE)).map((s, i) => renderCard(s, true, i))}
           </motion.ul>
 
           {bundles.length > INITIAL_VISIBLE && (
