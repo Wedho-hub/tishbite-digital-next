@@ -103,6 +103,14 @@ body {
   --tw-prose-pre-bg: var(--color-surface-dark);
   --tw-prose-th-borders: color-mix(in srgb, var(--color-primary) 20%, transparent);
   --tw-prose-td-borders: color-mix(in srgb, var(--color-primary) 10%, transparent);
+
+  /* A long bare URL (common in a "further reading" list — see the
+     altar post's sources) has no spaces to wrap at, so by default it
+     overflows its container instead of breaking — on mobile that
+     drags the whole article column wider than the viewport, the
+     classic cause of an invisible-but-real horizontal scroll. */
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* ── Magazine body details ────────────────────────────────
