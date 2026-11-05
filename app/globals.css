@@ -28,6 +28,7 @@
 
   --font-display: var(--font-montserrat), sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
+  --font-editorial: var(--font-fraunces), Georgia, serif;
 }
 
 :root {
@@ -102,6 +103,179 @@ body {
   --tw-prose-pre-bg: var(--color-surface-dark);
   --tw-prose-th-borders: color-mix(in srgb, var(--color-primary) 20%, transparent);
   --tw-prose-td-borders: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+
+/* ── Magazine body details ────────────────────────────────
+   Everything here keys off .prose-tishbite so plain Markdown with no
+   custom directives still reads as a designed magazine page — see
+   components/blog/ArticleBody.jsx. */
+.prose-tishbite h1,
+.prose-tishbite h2,
+.prose-tishbite h3,
+.prose-tishbite h4 {
+  font-family: var(--font-editorial);
+  font-weight: 600;
+}
+
+/* Drop cap on the article's opening paragraph only. */
+.prose-tishbite.has-dropcap > p:first-of-type::first-letter {
+  float: left;
+  font-family: var(--font-editorial);
+  font-weight: 700;
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding: 0.05em 0.08em 0 0;
+  color: var(--color-primary-dark);
+}
+
+/* Hand-authored "N. Heading" numbers, split out by remarkMagazineHeadings,
+   styled as a magazine section marker rather than a plain list number. */
+.prose-tishbite h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 2.75em;
+}
+.prose-tishbite h2 .h2-num {
+  font-family: var(--font-editorial);
+  font-weight: 700;
+  font-size: 0.75em;
+  color: var(--color-accent-dark);
+  font-variant-numeric: tabular-nums;
+}
+
+.prose-tishbite h3 {
+  letter-spacing: 0.02em;
+  color: var(--color-primary-dark);
+}
+
+.prose-tishbite blockquote {
+  background: var(--color-surface-tint);
+  border-radius: 0 0.75rem 0.75rem 0;
+  padding: 0.9em 1.2em;
+  font-style: italic;
+}
+.prose-tishbite blockquote p {
+  margin: 0;
+}
+
+/* Bold text that opens a list item reads as a mini-heading for that
+   point (a pattern already used throughout the altar post, e.g.
+   "**Does it manipulate?** ..."). */
+.prose-tishbite li > strong:first-child {
+  color: var(--color-primary-dark);
+}
+
+/* Ornamental hr instead of a bare rule. */
+.prose-tishbite hr {
+  border: none;
+  height: 1px;
+  background: var(--tw-prose-hr);
+  text-align: center;
+  overflow: visible;
+  margin: 2.5em 0;
+}
+.prose-tishbite hr::after {
+  content: "✦ ✦ ✦";
+  display: inline-block;
+  position: relative;
+  top: -0.6em;
+  padding: 0 0.75em;
+  background: var(--color-bg);
+  color: var(--color-accent-dark);
+  font-size: 0.8em;
+  letter-spacing: 0.3em;
+}
+
+/* ==highlight== -> <mark>, via remarkHighlightMark. */
+.prose-tishbite mark {
+  background: var(--color-accent-light);
+  color: var(--color-text-dark);
+  padding: 0.05em 0.2em;
+  border-radius: 0.2em;
+}
+
+/* Lone images promoted to <figure> by rehypeFigureImages. */
+.prose-tishbite figure {
+  margin: 2em 0;
+}
+.prose-tishbite figure img {
+  margin-bottom: 0;
+}
+.prose-tishbite figcaption {
+  margin-top: 0.6em;
+  font-size: 0.8em;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.prose-tishbite table {
+  overflow: hidden;
+  border-radius: 0.5rem;
+}
+.prose-tishbite tbody tr:nth-child(even) {
+  background: color-mix(in srgb, var(--color-primary) 4%, transparent);
+}
+
+/* ── Article sidebar (table of contents + CTA card) ──────────────────
+   See components/blog/ArticleSidebar.jsx. Sticky on desktop; a plain
+   collapsible <details> on mobile where there's no room for a rail. */
+.article-toc a {
+  display: block;
+  padding: 0.3em 0;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  border-left: 2px solid transparent;
+  padding-left: 0.75em;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+.article-toc a:hover {
+  color: var(--color-primary-dark);
+}
+.article-toc a[data-active="true"] {
+  color: var(--color-primary-dark);
+  border-left-color: var(--color-accent);
+  font-weight: 600;
+}
+.article-toc a.toc-h3 {
+  padding-left: 1.5em;
+  font-size: 0.8rem;
+}
+
+/* ── Reading progress bar ─────────────────────────────────────────────
+   See components/blog/ReadingProgressBar.jsx. */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  z-index: 60;
+  transition: width 0.1s linear;
+}
+
+/* ── Print stylesheet ──────────────────────────────────────────────── */
+@media print {
+  nav,
+  footer,
+  .article-sidebar,
+  .article-footer-share,
+  .reading-progress-bar,
+  .no-print {
+    display: none !important;
+  }
+  .prose-tishbite {
+    max-width: none !important;
+    font-size: 11pt;
+    color: #000;
+  }
+  .prose-tishbite a {
+    color: inherit;
+    text-decoration: underline;
+  }
 }
 
 /* ── CTA pattern-break ───────────────────────────────────

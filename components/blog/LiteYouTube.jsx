@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { FaPlay } from "react-icons/fa";
+import { trackEvent } from "@/lib/analytics";
 
 // Click-to-load facade — the real <iframe> (and everything YouTube loads
 // alongside it) only mounts after a genuine click, instead of on page load.
@@ -29,7 +30,10 @@ export default function LiteYouTube({ id, title }) {
   return (
     <button
       type="button"
-      onClick={() => setPlaying(true)}
+      onClick={() => {
+        trackEvent("video_play", { video_id: id, title });
+        setPlaying(true);
+      }}
       aria-label={`Play video${title ? `: ${title}` : ""}`}
       className="group relative w-full aspect-video rounded-xl overflow-hidden shadow-md block border-0 p-0 cursor-pointer bg-surface-dark"
     >

@@ -1,6 +1,5 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import dynamic from "next/dynamic";
 import remarkGfm from "remark-gfm";
 import remarkDirective from "remark-directive";
@@ -10,18 +9,28 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 // Code-split react-markdown into this route's own chunk instead of a
 // shared/common one — it was previously loading on every page site-wide.
 const ReactMarkdown = dynamic(() => import("react-markdown"));
-import { FaArrowRight, FaCalendarAlt, FaExternalLinkAlt } from "react-icons/fa";
-import PageHeader from "@/components/PageHeader";
-import LiteYouTube from "@/components/blog/LiteYouTube";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
+import LiteYouTube from "@/components/blog/LiteYouTube";
+import ArticleHeader from "@/components/blog/ArticleHeader";
+import ArticleSidebar from "@/components/blog/ArticleSidebar";
+import ArticleFooter from "@/components/blog/ArticleFooter";
+import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
+import { Pullquote, Callout, Keypoints, Cta, DirectiveYoutube } from "@/components/blog/ArticleDirectives";
 import {
   stripDuplicateLeadingH1,
   stripProductionCues,
   applySmartTypography,
   cleanExcerpt,
+  estimateReadTime,
+  extractHeadings,
   remarkDowngradeH1,
   remarkDirectiveToHast,
+  remarkHighlightMark,
+  remarkMagazineHeadings,
+  remarkAutoInsertCta,
+  rehypeFigureImages,
 } from "@/lib/blog";
 
 export const revalidate = 300;
@@ -72,6 +81,42 @@ async function resolvePost(param) {
   if (bySlug) return bySlug;
   if (isObjectId(param)) return getPostById(param);
   return null;
+}
+
+async function getRelatedPosts(post) {
+  try {
+    await connectDB();
+    let related = await BlogPost.find({ _id: { $ne: post._id }, category: post.category })
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .select("title slug image coverAlt")
+      .lean();
+    if (related.length < 3) {
+      const excludeIds = [post._id, ...related.map((r) => r._id)];
+      const extra = await BlogPost.find({ _id: { $nin: excludeIds } })
+        .sort({ createdAt: -1 })
+        .limit(3 - related.length)
+        .select("title slug image coverAlt")
+        .lean();
+      related = [...related, ...extra];
+    }
+    return related;
+  } catch {
+    return [];
+  }
+}
+
+async function getAdjacentPosts(post) {
+  try {
+    await connectDB();
+    const [prevPost, nextPost] = await Promise.all([
+      BlogPost.findOne({ createdAt: { $lt: post.createdAt } }).sort({ createdAt: -1 }).select("title slug").lean(),
+      BlogPost.findOne({ createdAt: { $gt: post.createdAt } }).sort({ createdAt: 1 }).select("title slug").lean(),
+    ]);
+    return { prevPost, nextPost };
+  } catch {
+    return { prevPost: null, nextPost: null };
+  }
 }
 
 function cleanedBody(post) {
@@ -161,6 +206,14 @@ export default async function BlogDetailPage({ params }) {
   const content = cleanedBody(post);
   const url = `${SITE_URL}/blog/${post.slug}`;
   const description = getDescription(post, content);
+  const readTime = estimateReadTime(content);
+  const headings = extractHeadings(content);
+  const tags = post.tags?.length ? post.tags : [];
+
+  const [related, { prevPost, nextPost }] = await Promise.all([
+    getRelatedPosts(post),
+    getAdjacentPosts(post),
+  ]);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -197,9 +250,10 @@ export default async function BlogDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <ReadingProgressBar targetId="article-content" />
 
       {imageUrl && (
-        <div className="relative h-72 lg:h-96 overflow-hidden">
+        <figure className="relative h-72 lg:h-112 overflow-hidden m-0">
           <Image
             src={imageUrl}
             alt={post.coverAlt || post.title}
@@ -208,73 +262,80 @@ export default async function BlogDetailPage({ params }) {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-primary-dark/50" />
-        </div>
-      )}
-      {!imageUrl && <PageHeader title={post.title} background="dark" />}
-
-      <article className="py-14 bg-bg">
-        <div className="container mx-auto px-4 max-w-[68ch]">
-          {imageUrl && (
-            <h1
-              className="text-3xl lg:text-4xl font-extrabold text-primary-dark mb-4 leading-tight"
-              style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
-            >
-              {post.title}
-            </h1>
-          )}
-          {imageUrl && (post.coverCaption || post.coverCredit) && (
-            <p className="text-text-muted text-xs mb-6 -mt-2">
+          <div className="absolute inset-0 bg-primary-dark/40" />
+          {(post.coverCaption || post.coverCredit) && (
+            <figcaption className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-surface-dark/70 text-white/80 text-xs">
               {post.coverCaption}
               {post.coverCaption && post.coverCredit && " — "}
               {post.coverCredit}
-            </p>
+            </figcaption>
           )}
+        </figure>
+      )}
 
-          <div className="flex items-center gap-4 text-text-muted text-xs mb-8">
-            {post.category && (
-              <span className="px-2.5 py-1 rounded-full bg-primary/10 text-primary font-bold">
-                {post.category}
-              </span>
-            )}
-            {post.createdAt && (
-              <span className="flex items-center gap-1">
-                <FaCalendarAlt aria-hidden="true" />
-                {new Date(post.createdAt).toLocaleDateString("en-ZA", { year: "numeric", month: "long", day: "numeric" })}
-              </span>
-            )}
+      <article id="article-content" className="py-10 lg:py-14 bg-bg">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="max-w-[72ch] mx-auto lg:max-w-none lg:mx-0">
+            <ArticleHeader post={post} url={url} readTime={readTime} />
           </div>
 
-          {youtubeId && (
-            <div className="mb-8">
-              <LiteYouTube id={youtubeId} title={post.title} />
+          <div className="lg:grid lg:grid-cols-[1fr_17rem] lg:gap-10">
+            <div className="max-w-[72ch] mx-auto lg:max-w-none lg:mx-0 min-w-0">
+              {post.takeaways?.length > 0 && (
+                <div className="mb-8">
+                  <Keypoints title="Key takeaways">
+                    <ul>
+                      {post.takeaways.map((takeaway) => (
+                        <li key={takeaway}>{takeaway}</li>
+                      ))}
+                    </ul>
+                  </Keypoints>
+                </div>
+              )}
+
+              {youtubeId && (
+                <div className="mb-8">
+                  <LiteYouTube id={youtubeId} title={post.title} />
+                </div>
+              )}
+
+              <div className="prose prose-tishbite prose-lg has-dropcap max-w-none prose-img:rounded-xl">
+                {content ? (
+                  <ReactMarkdown
+                    remarkPlugins={[
+                      remarkGfm,
+                      remarkDirective,
+                      [remarkAutoInsertCta, post.ctaVariant],
+                      remarkDirectiveToHast,
+                      remarkMagazineHeadings,
+                      remarkHighlightMark,
+                      remarkDowngradeH1,
+                    ]}
+                    rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }], rehypeFigureImages]}
+                    components={{
+                      a: ArticleLink,
+                      pullquote: Pullquote,
+                      callout: Callout,
+                      keypoints: Keypoints,
+                      cta: Cta,
+                      youtube: DirectiveYoutube,
+                    }}
+                  >
+                    {content}
+                  </ReactMarkdown>
+                ) : (
+                  <p className="text-text-muted">{post.excerpt}</p>
+                )}
+              </div>
+
+              <div className="max-w-none">
+                <ArticleFooter post={post} url={url} tags={tags} related={related} prevPost={prevPost} nextPost={nextPost} />
+              </div>
             </div>
-          )}
 
-          <div className="prose prose-tishbite prose-lg max-w-none prose-img:rounded-xl">
-            {content ? (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkDirective, remarkDirectiveToHast, remarkDowngradeH1]}
-                rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }]]}
-                components={{ a: ArticleLink }}
-              >
-                {content}
-              </ReactMarkdown>
-            ) : (
-              <p className="text-text-muted">{post.excerpt}</p>
-            )}
-          </div>
-
-          <div className="mt-12 pt-8 border-t border-primary/8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <Link href="/blog" className="text-primary font-semibold text-sm no-underline hover:text-primary-dark">
-              ← Back to Blog
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-linear-to-r from-primary-dark to-primary-light text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
-            >
-              Get a Free Audit <FaArrowRight size={12} />
-            </Link>
+            <aside className="mt-10 lg:mt-0">
+              <ArticleSidebar headings={headings} />
+            </aside>
           </div>
         </div>
       </article>

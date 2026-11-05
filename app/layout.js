@@ -1,4 +1,4 @@
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Inter, Fraunces } from "next/font/google";
 import "./globals.css";
 import PublicWrapper from "@/components/PublicWrapper";
 
@@ -13,6 +13,17 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Editorial display serif for blog article headlines/headings only —
+// Montserrat/Inter stay the UI faces everywhere else.
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
   display: "swap",
 });
 
@@ -58,7 +69,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${montserrat.variable} ${inter.variable}`}>
+    <html lang="en" data-scroll-behavior="smooth" className={`${montserrat.variable} ${inter.variable} ${fraunces.variable}`}>
       <body className="flex flex-col min-h-screen bg-bg text-text-dark">
         <PublicWrapper>{children}</PublicWrapper>
       </body>
