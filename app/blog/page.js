@@ -1,7 +1,8 @@
 import PageHeader from "@/components/PageHeader";
-import BlogGrid from "@/components/BlogGrid";
+import BlogFrontPage from "@/components/blog/BlogFrontPage";
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
+import { getCategoryCounts, cleanField } from "@/lib/blog";
 
 export const revalidate = 300;
 
@@ -59,13 +60,15 @@ async function getPosts() {
   try {
     await connectDB();
     const posts = await BlogPost.find()
-      .select("title slug content excerpt category author image coverAlt createdAt")
+      .select("title slug deck excerpt category author image coverAlt featured createdAt")
       .sort({ createdAt: -1 })
       .lean();
     if (!posts.length) return FALLBACK_POSTS;
     return posts.map((post) => ({
       ...post,
       _id: String(post._id),
+      excerpt: cleanField(post.excerpt),
+      deck: cleanField(post.deck),
       createdAt: post.createdAt?.toISOString?.() || post.createdAt,
     }));
   } catch {
@@ -75,6 +78,15 @@ async function getPosts() {
 
 export default async function BlogPage() {
   const posts = await getPosts();
+
+  // A post flagged `featured` leads the front page regardless of date;
+  // otherwise the most recent post (posts are already sorted desc)
+  // leads, same as before this flag existed.
+  const featuredIndex = posts.findIndex((post) => post.featured);
+  const ordered =
+    featuredIndex > 0 ? [posts[featuredIndex], ...posts.slice(0, featuredIndex), ...posts.slice(featuredIndex + 1)] : posts;
+
+  const categories = getCategoryCounts(posts);
 
   return (
     <>
@@ -86,7 +98,7 @@ export default async function BlogPage() {
 
       <section className="py-14 bg-bg">
         <div className="container mx-auto px-4 max-w-7xl">
-          <BlogGrid posts={posts} />
+          <BlogFrontPage posts={ordered} categories={categories} />
         </div>
       </section>
     </>

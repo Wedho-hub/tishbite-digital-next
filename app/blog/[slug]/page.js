@@ -23,6 +23,7 @@ import {
   stripProductionCues,
   applySmartTypography,
   cleanExcerpt,
+  cleanField,
   estimateReadTime,
   extractHeadings,
   remarkDowngradeH1,
@@ -122,15 +123,6 @@ async function getAdjacentPosts(post) {
 function cleanedBody(post) {
   const stripped = stripProductionCues(stripDuplicateLeadingH1(post.content, post.title));
   return applySmartTypography(stripped);
-}
-
-// Short admin-authored fields (excerpt, metaDescription) go through the
-// same cue-stripping/typography pass as the body — otherwise a raw
-// "[Pause]" or literal "--" in the excerpt leaks straight into the meta
-// description and JSON-LD, bypassing every fix applied to the article
-// body itself.
-function cleanField(text) {
-  return applySmartTypography(stripProductionCues(String(text || "")));
 }
 
 function getDescription(post, content) {
@@ -265,9 +257,9 @@ export default async function BlogDetailPage({ params }) {
           <div className="absolute inset-0 bg-primary-dark/40" />
           {(post.coverCaption || post.coverCredit) && (
             <figcaption className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-surface-dark/70 text-white/80 text-xs">
-              {post.coverCaption}
+              {cleanField(post.coverCaption)}
               {post.coverCaption && post.coverCredit && " — "}
-              {post.coverCredit}
+              {cleanField(post.coverCredit)}
             </figcaption>
           )}
         </figure>

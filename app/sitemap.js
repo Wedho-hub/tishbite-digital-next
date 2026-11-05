@@ -1,5 +1,6 @@
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
+import { slugify } from "@/lib/blog";
 
 const BASE_URL = "https://www.tishbitedigital.co.za";
 
@@ -74,10 +75,11 @@ const STATIC_ENTRIES = [
 
 export default async function sitemap() {
   let blogEntries = [];
+  let categoryEntries = [];
 
   try {
     await connectDB();
-    const posts = await BlogPost.find().select("slug _id updatedAt createdAt").lean();
+    const posts = await BlogPost.find().select("slug category _id updatedAt createdAt").lean();
     blogEntries = posts
       .filter((post) => post.slug)
       .map((post) => ({
@@ -86,9 +88,17 @@ export default async function sitemap() {
         changeFrequency: "monthly",
         priority: 0.6,
       }));
+
+    const categories = [...new Set(posts.map((post) => post.category).filter(Boolean))];
+    categoryEntries = categories.map((category) => ({
+      url: `${BASE_URL}/blog/category/${slugify(category)}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.5,
+    }));
   } catch {
     // DB unavailable at build/request time — sitemap still serves static pages
   }
 
-  return [...STATIC_ENTRIES, ...blogEntries];
+  return [...STATIC_ENTRIES, ...blogEntries, ...categoryEntries];
 }
