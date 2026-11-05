@@ -1,17 +1,33 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import remarkGfm from "remark-gfm";
+import remarkDirective from "remark-directive";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // Code-split react-markdown into this route's own chunk instead of a
 // shared/common one — it was previously loading on every page site-wide.
 const ReactMarkdown = dynamic(() => import("react-markdown"));
-import { FaArrowRight, FaCalendarAlt } from "react-icons/fa";
+import { FaArrowRight, FaCalendarAlt, FaExternalLinkAlt } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
+import LiteYouTube from "@/components/blog/LiteYouTube";
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
+import {
+  stripDuplicateLeadingH1,
+  stripProductionCues,
+  applySmartTypography,
+  cleanExcerpt,
+  remarkDowngradeH1,
+  remarkDirectiveToHast,
+} from "@/lib/blog";
 
 export const revalidate = 300;
+
+const SITE_URL = "https://www.tishbitedigital.co.za";
+const isObjectId = (value) => /^[0-9a-fA-F]{24}$/.test(String(value || ""));
 
 // Accepts watch?v=, youtu.be/, embed/, and shorts/ URL formats.
 function getYoutubeEmbedId(url) {
@@ -30,24 +46,79 @@ function getYoutubeEmbedId(url) {
   }
 }
 
-async function getPost(id) {
+async function getPostBySlug(slug) {
   try {
     await connectDB();
-    const post = await BlogPost.findById(id).lean();
-    return post;
+    return await BlogPost.findOne({ slug }).lean();
   } catch {
     return null;
   }
 }
 
+async function getPostById(id) {
+  try {
+    await connectDB();
+    return await BlogPost.findById(id).lean();
+  } catch {
+    return null;
+  }
+}
+
+// Resolves a post for a given route param, which may be a real slug or a
+// legacy Mongo ID from before slugs existed. Never redirects itself —
+// callers decide what to do with a slug mismatch.
+async function resolvePost(param) {
+  const bySlug = await getPostBySlug(param);
+  if (bySlug) return bySlug;
+  if (isObjectId(param)) return getPostById(param);
+  return null;
+}
+
+function cleanedBody(post) {
+  const stripped = stripProductionCues(stripDuplicateLeadingH1(post.content, post.title));
+  return applySmartTypography(stripped);
+}
+
+// Short admin-authored fields (excerpt, metaDescription) go through the
+// same cue-stripping/typography pass as the body — otherwise a raw
+// "[Pause]" or literal "--" in the excerpt leaks straight into the meta
+// description and JSON-LD, bypassing every fix applied to the article
+// body itself.
+function cleanField(text) {
+  return applySmartTypography(stripProductionCues(String(text || "")));
+}
+
+function getDescription(post, content) {
+  const metaDescription = cleanField(post.metaDescription);
+  if (metaDescription) return metaDescription;
+  const excerpt = cleanField(post.excerpt);
+  if (excerpt) return excerpt;
+  return cleanExcerpt(content, 155);
+}
+
+// Link renderer: external links open in a new tab with a small ↗ marker;
+// internal links behave like any other in-page link.
+function ArticleLink({ href = "", children, ...rest }) {
+  const isExternal = /^https?:\/\//i.test(href) && !href.includes("tishbitedigital.co.za");
+  if (!isExternal) {
+    return <a href={href} {...rest}>{children}</a>;
+  }
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" {...rest}>
+      {children}
+      <FaExternalLinkAlt className="inline-block ml-1 mb-0.5" size={10} aria-hidden="true" />
+    </a>
+  );
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await resolvePost(slug);
   if (!post) return { title: "Article Not Found" };
 
-  const plainContent = String(post.content || "").replace(/[#>*_`~[\]()]/g, "").trim();
-  const description = post.metaDescription || `${plainContent.slice(0, 155)}…`;
-  const url = `https://www.tishbitedigital.co.za/blog/${slug}`;
+  const canonicalSlug = post.slug || slug;
+  const description = getDescription(post, cleanedBody(post));
+  const url = `${SITE_URL}/blog/${canonicalSlug}`;
 
   return {
     title: post.metaTitle || post.title,
@@ -59,33 +130,91 @@ export async function generateMetadata({ params }) {
       description,
       url,
       type: "article",
+      publishedTime: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+      modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+      authors: post.author ? [post.author] : undefined,
       images: post.image ? [{ url: post.image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.metaTitle || post.title,
+      description,
+      images: post.image ? [post.image] : undefined,
     },
   };
 }
 
 export default async function BlogDetailPage({ params }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const post = await resolvePost(slug);
   if (!post) notFound();
+
+  // Legacy ID URL, or a slug that's since changed — send a permanent
+  // redirect to the canonical slug URL rather than serving duplicate
+  // content at two addresses.
+  if (post.slug && post.slug !== slug) {
+    permanentRedirect(`/blog/${post.slug}`);
+  }
 
   const imageUrl = post.image || null;
   const youtubeId = getYoutubeEmbedId(post.videoUrl);
+  const content = cleanedBody(post);
+  const url = `${SITE_URL}/blog/${post.slug}`;
+  const description = getDescription(post, content);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BlogPosting",
+        headline: post.title,
+        description,
+        image: post.image ? [post.image] : undefined,
+        datePublished: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+        dateModified: new Date(post.updatedAt || post.createdAt).toISOString(),
+        author: { "@type": "Person", name: post.author || "Tishbite Digital" },
+        publisher: {
+          "@type": "Organization",
+          name: "Tishbite Digital",
+          logo: { "@type": "ImageObject", url: `${SITE_URL}/icon.png` },
+        },
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE_URL}/blog` },
+          { "@type": "ListItem", position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       {imageUrl && (
         <div className="relative h-72 lg:h-96 overflow-hidden">
-          <Image src={imageUrl} alt={post.title} fill sizes="100vw" className="object-cover" priority />
+          <Image
+            src={imageUrl}
+            alt={post.coverAlt || post.title}
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
           <div className="absolute inset-0 bg-primary-dark/50" />
         </div>
       )}
-      {!imageUrl && (
-        <PageHeader title={post.title} background="dark" />
-      )}
+      {!imageUrl && <PageHeader title={post.title} background="dark" />}
 
       <article className="py-14 bg-bg">
-        <div className="container mx-auto px-4 max-w-3xl">
+        <div className="container mx-auto px-4 max-w-[68ch]">
           {imageUrl && (
             <h1
               className="text-3xl lg:text-4xl font-extrabold text-primary-dark mb-4 leading-tight"
@@ -93,6 +222,13 @@ export default async function BlogDetailPage({ params }) {
             >
               {post.title}
             </h1>
+          )}
+          {imageUrl && (post.coverCaption || post.coverCredit) && (
+            <p className="text-text-muted text-xs mb-6 -mt-2">
+              {post.coverCaption}
+              {post.coverCaption && post.coverCredit && " — "}
+              {post.coverCredit}
+            </p>
           )}
 
           <div className="flex items-center gap-4 text-text-muted text-xs mb-8">
@@ -110,21 +246,20 @@ export default async function BlogDetailPage({ params }) {
           </div>
 
           {youtubeId && (
-            <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-8 shadow-md">
-              <iframe
-                src={`https://www.youtube.com/embed/${youtubeId}`}
-                title={post.title}
-                className="absolute inset-0 w-full h-full"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-                loading="lazy"
-              />
+            <div className="mb-8">
+              <LiteYouTube id={youtubeId} title={post.title} />
             </div>
           )}
 
-          <div className="prose prose-base max-w-none prose-headings:font-bold prose-headings:text-primary-dark prose-a:text-primary prose-strong:text-text-dark prose-img:rounded-xl text-text-dark">
-            {post.content ? (
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+          <div className="prose prose-tishbite prose-lg max-w-none prose-img:rounded-xl">
+            {content ? (
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm, remarkDirective, remarkDirectiveToHast, remarkDowngradeH1]}
+                rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }]]}
+                components={{ a: ArticleLink }}
+              >
+                {content}
+              </ReactMarkdown>
             ) : (
               <p className="text-text-muted">{post.excerpt}</p>
             )}

@@ -2,7 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { authFetch, resolveUploadUrl } from "@/lib/adminApi";
-import { FaEdit, FaTrash, FaTimes } from "react-icons/fa";
+import { FaEdit, FaTrash, FaTimes, FaSync } from "react-icons/fa";
+
+// Local copy of lib/blog.js's slugify — avoids pulling the markdown/unist
+// pipeline (server-oriented) into this client bundle for one tiny helper.
+function slugify(text) {
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFKD").replace(/[̀-ͯ]/g, "")
+    .replace(/'/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
 
 export default function ManageBlogsPage() {
   const [blogs, setBlogs] = useState([]);
@@ -13,21 +25,35 @@ export default function ManageBlogsPage() {
 
   const [editing, setEditing] = useState(null);
   const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [slugTouched, setSlugTouched] = useState(false);
   const [content, setContent] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [category, setCategory] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [coverAlt, setCoverAlt] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [currentImageUrl, setCurrentImageUrl] = useState("");
 
+  // Slug auto-follows the title until the admin edits it directly —
+  // after that, title changes no longer touch it (stable permalinks).
+  const handleTitleChange = (value) => {
+    setTitle(value);
+    if (!slugTouched) setSlug(slugify(value));
+  };
+  const handleSlugChange = (value) => {
+    setSlugTouched(true);
+    setSlug(slugify(value));
+  };
+
   const fetchBlogs = async () => {
-    setError("");
     try {
       const res = await authFetch("/api/blogs?summary=false&all=true&admin=true");
       if (!res.ok) throw new Error("Failed to load blog posts");
       const data = await res.json();
       setBlogs(data.data || data);
+      setError("");
     } catch (err) {
       setError(err.message);
     } finally {
@@ -35,11 +61,16 @@ export default function ManageBlogsPage() {
     }
   };
 
-  useEffect(() => { fetchBlogs(); }, []);
+  useEffect(() => {
+    (async () => {
+      await fetchBlogs();
+    })();
+  }, []);
 
   const resetForm = () => {
     setEditing(null);
-    setTitle(""); setContent(""); setExcerpt(""); setCategory(""); setVideoUrl("");
+    setTitle(""); setSlug(""); setSlugTouched(false);
+    setContent(""); setExcerpt(""); setCategory(""); setVideoUrl(""); setCoverAlt("");
     setImage(null); setImagePreview(""); setCurrentImageUrl("");
     setError("");
   };
@@ -59,9 +90,11 @@ export default function ManageBlogsPage() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
+    if (slug.trim()) formData.append("slug", slug.trim());
     if (excerpt.trim()) formData.append("excerpt", excerpt);
     if (category.trim()) formData.append("category", category);
     if (videoUrl.trim()) formData.append("videoUrl", videoUrl);
+    if (coverAlt.trim()) formData.append("coverAlt", coverAlt);
     if (image) formData.append("image", image);
 
     setSubmitting(true);
@@ -87,10 +120,13 @@ export default function ManageBlogsPage() {
   const handleEdit = (blog) => {
     setEditing(blog._id);
     setTitle(blog.title);
+    setSlug(blog.slug || "");
+    setSlugTouched(true); // editing an existing post: don't auto-regenerate from title
     setContent(blog.content || "");
     setExcerpt(blog.excerpt || "");
     setCategory(blog.category || "");
     setVideoUrl(blog.videoUrl || "");
+    setCoverAlt(blog.coverAlt || "");
     setCurrentImageUrl(resolveUploadUrl(blog.image) || "");
     setImage(null);
     setImagePreview("");
@@ -137,11 +173,37 @@ export default function ManageBlogsPage() {
         <form onSubmit={handleSubmit} encType="multipart/form-data" className="flex flex-col gap-4">
           <input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Post title"
             disabled={submitting}
             className={inputBase}
           />
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[#0f2016]/40 text-xs shrink-0">/blog/</span>
+              <input
+                value={slug}
+                onChange={(e) => handleSlugChange(e.target.value)}
+                placeholder="auto-generated-from-title"
+                disabled={submitting}
+                className={`${inputBase} font-mono text-xs`}
+              />
+              {slugTouched && (
+                <button
+                  type="button"
+                  onClick={() => { setSlugTouched(false); setSlug(slugify(title)); }}
+                  disabled={submitting}
+                  title="Reset to title-derived slug"
+                  className="shrink-0 w-9 h-9 rounded-lg bg-[#0f2016]/5 text-[#0f2016]/60 hover:bg-[#0f2016]/10 flex items-center justify-center border-0 cursor-pointer"
+                >
+                  <FaSync size={11} />
+                </button>
+              )}
+            </div>
+            <p className="text-[#0f2016]/40 text-xs mt-1">
+              The URL for this post. Changing it after publishing breaks any links already shared to the old one.
+            </p>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
               value={category}
@@ -182,6 +244,13 @@ export default function ManageBlogsPage() {
             <label className="block text-[#0f2016]/60 text-xs font-semibold mb-1.5">
               Cover Image (max 5MB, JPEG/PNG/WebP)
             </label>
+            <input
+              value={coverAlt}
+              onChange={(e) => setCoverAlt(e.target.value)}
+              placeholder="Alt text for the cover image (describe it for screen readers & SEO)"
+              disabled={submitting}
+              className={`${inputBase} mb-2`}
+            />
             {editing && currentImageUrl && !imagePreview && (
               <div className="mb-2">
                 <p className="text-[#0f2016]/50 text-xs mb-1">Current image:</p>

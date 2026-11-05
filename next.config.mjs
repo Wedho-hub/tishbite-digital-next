@@ -13,6 +13,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com", // YouTube thumbnail stills — lite-embed facade
+      },
     ],
   },
   // www.tishbitedigital.co.za is the canonical domain (matches metadataBase,

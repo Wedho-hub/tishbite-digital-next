@@ -3,27 +3,7 @@ import BlogPost from "@/models/BlogPost";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData } from "@/lib/uploadImage";
 import { pingIndexNow } from "@/lib/indexNow";
-
-const pickBlogPayload = (body = {}) => {
-  const payload = {
-    title: body.title,
-    content: body.content,
-    excerpt: body.excerpt,
-    category: body.category,
-    videoUrl: body.videoUrl,
-    author: body.author,
-    metaTitle: body.metaTitle,
-    metaDescription: body.metaDescription,
-  };
-
-  if (body.keywords !== undefined) {
-    payload.keywords = Array.isArray(body.keywords)
-      ? body.keywords
-      : String(body.keywords).split(",").map((k) => k.trim()).filter(Boolean);
-  }
-
-  return payload;
-};
+import { generateUniqueSlug, pickBlogPayload } from "@/lib/blog";
 
 export async function GET(request) {
   await connectDB();
@@ -38,8 +18,8 @@ export async function GET(request) {
 
   const query = BlogPost.find()
     .select(summaryMode
-      ? "title content excerpt category author image createdAt"
-      : "title content excerpt category videoUrl author image metaTitle metaDescription keywords createdAt updatedAt")
+      ? "title slug content excerpt deck category author image coverAlt featured createdAt"
+      : "title slug content deck excerpt category tags videoUrl author image coverAlt coverCaption coverCredit featured takeaways ctaVariant metaTitle metaDescription keywords createdAt updatedAt")
     .sort({ createdAt: -1 })
     .skip(skip);
 
@@ -92,6 +72,8 @@ export async function POST(request) {
     return Response.json({ message: "Title and content are required" }, { status: 400 });
   }
 
+  data.slug = await generateUniqueSlug(BlogPost, data.title, { preferred: body.slug });
+
   if (imageFile) {
     const imageData = await resolveUploadedImageData(imageFile, "tishbite-digital/blog-posts");
     if (imageData?.image) {
@@ -103,6 +85,6 @@ export async function POST(request) {
   const post = await BlogPost.create(data);
   // Awaited (not fire-and-forget) — Vercel can freeze the function as soon
   // as the response is sent, killing any pending unawaited work.
-  await pingIndexNow(["/blog", `/blog/${post._id}`]);
+  await pingIndexNow(["/blog", `/blog/${post.slug}`]);
   return Response.json(post, { status: 201 });
 }

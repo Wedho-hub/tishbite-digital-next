@@ -3,27 +3,7 @@ import BlogPost from "@/models/BlogPost";
 import { requireAdmin } from "@/lib/auth";
 import { resolveUploadedImageData, deleteStoredImage } from "@/lib/uploadImage";
 import { pingIndexNow } from "@/lib/indexNow";
-
-const pickBlogPayload = (body = {}) => {
-  const payload = {
-    title: body.title,
-    content: body.content,
-    excerpt: body.excerpt,
-    category: body.category,
-    videoUrl: body.videoUrl,
-    author: body.author,
-    metaTitle: body.metaTitle,
-    metaDescription: body.metaDescription,
-  };
-
-  if (body.keywords !== undefined) {
-    payload.keywords = Array.isArray(body.keywords)
-      ? body.keywords
-      : String(body.keywords).split(",").map((k) => k.trim()).filter(Boolean);
-  }
-
-  return payload;
-};
+import { generateUniqueSlug, pickBlogPayload } from "@/lib/blog";
 
 export async function GET(request, { params }) {
   await connectDB();
@@ -61,6 +41,17 @@ export async function PUT(request, { params }) {
 
   const data = pickBlogPayload(body);
 
+  // Slug stays stable across edits unless the admin explicitly changes it
+  // (editing the title alone shouldn't silently break an already-shared
+  // or already-indexed permalink).
+  const requestedSlug = typeof body.slug === "string" ? body.slug.trim() : "";
+  if (requestedSlug && requestedSlug !== existingPost.slug) {
+    data.slug = await generateUniqueSlug(BlogPost, data.title || existingPost.title, {
+      preferred: requestedSlug,
+      excludeId: id,
+    });
+  }
+
   if (imageFile) {
     const imageData = await resolveUploadedImageData(imageFile, "tishbite-digital/blog-posts");
     if (imageData?.image) {
@@ -75,7 +66,7 @@ export async function PUT(request, { params }) {
     await deleteStoredImage({ image: existingPost.image, imagePublicId: existingPost.imagePublicId });
   }
 
-  await pingIndexNow(["/blog", `/blog/${id}`]);
+  await pingIndexNow(["/blog", `/blog/${post.slug}`]);
   return Response.json(post);
 }
 
@@ -92,6 +83,6 @@ export async function DELETE(request, { params }) {
 
   // Ping the now-gone URL too — IndexNow treats this as a signal to
   // recrawl and notice the removal sooner than the next scheduled crawl.
-  await pingIndexNow(["/blog", `/blog/${id}`]);
+  await pingIndexNow(["/blog", `/blog/${post.slug || id}`]);
   return Response.json({ message: "Blog post deleted" });
 }

@@ -77,13 +77,15 @@ export default async function sitemap() {
 
   try {
     await connectDB();
-    const posts = await BlogPost.find().select("_id updatedAt createdAt").lean();
-    blogEntries = posts.map((post) => ({
-      url: `${BASE_URL}/blog/${post._id}`,
-      lastModified: post.updatedAt || post.createdAt || new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    }));
+    const posts = await BlogPost.find().select("slug _id updatedAt createdAt").lean();
+    blogEntries = posts
+      .filter((post) => post.slug)
+      .map((post) => ({
+        url: `${BASE_URL}/blog/${post.slug}`,
+        lastModified: post.updatedAt || post.createdAt || new Date(),
+        changeFrequency: "monthly",
+        priority: 0.6,
+      }));
   } catch {
     // DB unavailable at build/request time — sitemap still serves static pages
   }
