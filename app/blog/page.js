@@ -16,7 +16,10 @@ export const metadata = {
     "WhatsApp lead generation South Africa",
     "small business growth strategies South Africa",
   ],
-  alternates: { canonical: "https://www.tishbitedigital.co.za/blog" },
+  alternates: {
+    canonical: "https://www.tishbitedigital.co.za/blog",
+    types: { "application/rss+xml": "https://www.tishbitedigital.co.za/blog/rss.xml" },
+  },
   openGraph: {
     title: "Digital Growth Insights — Tishbite Digital Blog",
     description:

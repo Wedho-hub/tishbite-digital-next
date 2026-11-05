@@ -170,13 +170,15 @@ export async function generateMetadata({ params }) {
       publishedTime: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
       authors: post.author ? [post.author] : undefined,
-      images: post.image ? [{ url: post.image }] : undefined,
+      // No `images` here — opengraph-image.jsx (this route segment)
+      // generates the og:image/twitter:image itself, using the post's
+      // real cover photo when there is one. Setting both would risk
+      // duplicate/conflicting image tags.
     },
     twitter: {
       card: "summary_large_image",
       title: post.metaTitle || post.title,
       description,
-      images: post.image ? [post.image] : undefined,
     },
   };
 }
