@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/Reveal";
 import CategoryChips from "@/components/blog/CategoryChips";
 import { slugify } from "@/lib/blog";
+import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("en-ZA", { year: "numeric", month: "long", day: "numeric" });
@@ -27,7 +28,7 @@ function LeadStory({ post, index = 0 }) {
         <div className="relative aspect-video md:aspect-auto overflow-hidden">
           {post.image ? (
             <Image
-              src={post.image}
+              src={cloudinaryOptimizedUrl(post.image, { width: 960 })}
               alt={post.coverAlt || post.title}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
@@ -75,7 +76,7 @@ function SecondaryCard({ post, index = 0 }) {
         <div className="relative aspect-video overflow-hidden">
           {post.image ? (
             <Image
-              src={post.image}
+              src={cloudinaryOptimizedUrl(post.image, { width: 640 })}
               alt={post.coverAlt || post.title}
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -114,7 +115,7 @@ function CompactRow({ post, index = 0 }) {
       >
         <div className="relative w-20 h-16 shrink-0 rounded-lg overflow-hidden bg-surface-tint">
           {post.image ? (
-            <Image src={post.image} alt={post.coverAlt || post.title} fill sizes="80px" className="object-cover" />
+            <Image src={cloudinaryOptimizedUrl(post.image, { width: 160 })} alt={post.coverAlt || post.title} fill sizes="80px" className="object-cover" />
           ) : (
             <PostPlaceholder />
           )}

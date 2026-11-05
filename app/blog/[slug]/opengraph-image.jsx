@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
+import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 export const alt = "Tishbite Digital blog article cover";
 export const size = { width: 1200, height: 630 };
@@ -26,13 +27,14 @@ export default async function Image({ params }) {
   const post = await getPost(slug);
   const title = post?.title || "Tishbite Digital";
   const category = post?.category;
+  const coverImage = post?.image ? cloudinaryOptimizedUrl(post.image, { width: 1200 }) : null;
 
   // satori (next/og's renderer) calls .trim() on every style value it
   // sees — an explicit `undefined` for a conditional property (e.g.
   // backgroundImage only when there's no cover photo) crashes the
   // whole render, so the two backgrounds get genuinely separate style
   // objects instead of one object with a sometimes-undefined key.
-  const backgroundStyle = post?.image
+  const backgroundStyle = coverImage
     ? { backgroundColor: "#0f2016" }
     : { backgroundImage: "linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%)" };
 
@@ -48,10 +50,10 @@ export default async function Image({ params }) {
           ...backgroundStyle,
         }}
       >
-        {post?.image && (
+        {coverImage && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={post.image}
+            src={coverImage}
             alt=""
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />

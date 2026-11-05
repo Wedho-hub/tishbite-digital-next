@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import ShareButtons from "@/components/blog/ShareButtons";
+import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 export default function ArticleFooter({ post, url, tags, related, prevPost, nextPost }) {
   return (
@@ -67,7 +68,7 @@ export default function ArticleFooter({ post, url, tags, related, prevPost, next
                 <div className="relative h-32 rounded-lg overflow-hidden bg-surface-tint mb-3">
                   {r.image && (
                     <Image
-                      src={r.image}
+                      src={cloudinaryOptimizedUrl(r.image, { width: 300 })}
                       alt={r.coverAlt || r.title}
                       fill
                       sizes="300px"

@@ -140,7 +140,11 @@ body {
   font-family: var(--font-editorial);
   font-weight: 700;
   font-size: 0.75em;
-  color: var(--color-accent-dark);
+  /* accent-dark (gold) on the light body background only hit ~2.7:1
+     contrast, under the 3:1 AA minimum for large/bold text — primary
+     (brand green) reads just as distinct from the heading's
+     primary-dark and comfortably clears 6:1. */
+  color: var(--color-primary);
   font-variant-numeric: tabular-nums;
 }
 

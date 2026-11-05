@@ -13,6 +13,7 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import connectDB from "@/lib/db";
 import BlogPost from "@/models/BlogPost";
 import LiteYouTube from "@/components/blog/LiteYouTube";
+import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 import ArticleHeader from "@/components/blog/ArticleHeader";
 import ArticleSidebar from "@/components/blog/ArticleSidebar";
 import ArticleFooter from "@/components/blog/ArticleFooter";
@@ -195,7 +196,7 @@ export default async function BlogDetailPage({ params }) {
     permanentRedirect(`/blog/${post.slug}`);
   }
 
-  const imageUrl = post.image || null;
+  const imageUrl = post.image ? cloudinaryOptimizedUrl(post.image) : null;
   const youtubeId = getYoutubeEmbedId(post.videoUrl);
   const content = cleanedBody(post);
   const url = `${SITE_URL}/blog/${post.slug}`;
