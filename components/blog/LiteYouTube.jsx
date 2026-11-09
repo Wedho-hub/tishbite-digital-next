@@ -14,11 +14,18 @@ export default function LiteYouTube({ id, title, orientation = "landscape" }) {
   if (!id) return null;
 
   const aspectClass = orientation === "portrait" ? "aspect-[9/16]" : "aspect-video";
+  // Belt-and-braces alongside the Tailwind aspect-ratio class: next/image's
+  // `fill` needs the parent to already have a non-zero computed height, and
+  // in dev mode (Turbopack HMR / Fast Refresh) the Tailwind stylesheet can
+  // briefly lag the initial paint, read as a real 0-height parent and
+  // logged as a warning. An inline style can't race the stylesheet — it's
+  // present in the HTML from the first paint regardless of CSS load order.
+  const aspectStyle = { aspectRatio: orientation === "portrait" ? "9 / 16" : "16 / 9" };
   const imgSizes = orientation === "portrait" ? "(max-width: 768px) 70vw, 320px" : "(max-width: 768px) 100vw, 68ch";
 
   if (playing) {
     return (
-      <div className={`relative w-full ${aspectClass} rounded-xl overflow-hidden shadow-md`}>
+      <div className={`relative w-full ${aspectClass} rounded-xl overflow-hidden shadow-md`} style={aspectStyle}>
         <iframe
           src={`https://www.youtube.com/embed/${id}?autoplay=1`}
           title={title || "YouTube video"}
@@ -39,6 +46,7 @@ export default function LiteYouTube({ id, title, orientation = "landscape" }) {
       }}
       aria-label={`Play video${title ? `: ${title}` : ""}`}
       className={`group relative w-full ${aspectClass} rounded-xl overflow-hidden shadow-md block border-0 p-0 cursor-pointer bg-surface-dark`}
+      style={aspectStyle}
     >
       <Image
         src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
