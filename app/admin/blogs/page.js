@@ -2,10 +2,6 @@
 
 import { useState, useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
-import remarkGfm from "remark-gfm";
-import remarkDirective from "remark-directive";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import { authFetch, resolveUploadUrl } from "@/lib/adminApi";
 import { FaEdit, FaTrash, FaTimes, FaSync, FaEye, FaEyeSlash, FaExclamationTriangle } from "react-icons/fa";
 import {
@@ -13,12 +9,9 @@ import {
   stripDuplicateLeadingH1,
   stripProductionCues,
   applySmartTypography,
-  remarkDowngradeH1,
-  remarkDirectiveToHast,
-  remarkHighlightMark,
-  remarkMagazineHeadings,
-  remarkAutoInsertCta,
-  rehypeFigureImages,
+  getChecklistWarnings,
+  getArticleRemarkPlugins,
+  getArticleRehypePlugins,
 } from "@/lib/blog";
 import { Pullquote, Callout, Keypoints, Cta, DirectiveYoutube } from "@/components/blog/ArticleDirectives";
 
@@ -69,6 +62,10 @@ export default function ManageBlogsPage() {
   const [coverAlt, setCoverAlt] = useState("");
   const [coverCaption, setCoverCaption] = useState("");
   const [coverCredit, setCoverCredit] = useState("");
+  const [coverFocus, setCoverFocus] = useState("center");
+  const [videoOrientation, setVideoOrientation] = useState("landscape");
+  const [authorBio, setAuthorBio] = useState("");
+  const [authorAvatar, setAuthorAvatar] = useState("");
   const [featured, setFeatured] = useState(false);
   const [takeaways, setTakeaways] = useState("");
   const [ctaVariant, setCtaVariant] = useState("audit");
@@ -120,6 +117,8 @@ export default function ManageBlogsPage() {
     setDeck(""); setContent(""); setExcerpt("");
     setCategory(""); setCategoryMode("select"); setAuthor(""); setTags("");
     setVideoUrl(""); setCoverAlt(""); setCoverCaption(""); setCoverCredit("");
+    setCoverFocus("center"); setVideoOrientation("landscape");
+    setAuthorBio(""); setAuthorAvatar("");
     setFeatured(false); setTakeaways(""); setCtaVariant("audit");
     setImage(null); setImagePreview(""); setCurrentImageUrl("");
     setShowPreview(false);
@@ -156,26 +155,20 @@ export default function ManageBlogsPage() {
   // being saved, it just flags the same things the public blog's Phase
   // 1 fixes already compensate for (missing excerpt, leftover script
   // cues, etc.) so the admin can catch them before publishing instead.
-  const checklist = useMemo(() => {
-    const warnings = [];
-    const hasImage = Boolean(image || currentImageUrl);
-
-    if (!excerpt.trim()) warnings.push("No excerpt — search engines will fall back to an auto-generated snippet.");
-    else if (excerpt.length > EXCERPT_LIMIT) warnings.push(`Excerpt is ${excerpt.length} characters — meta descriptions get cut off past ~${EXCERPT_LIMIT}.`);
-
-    if (!category.trim()) warnings.push("No category selected.");
-    if (!hasImage) warnings.push("No cover image.");
-    if (hasImage && !coverAlt.trim()) warnings.push("Cover image has no alt text.");
-    if (!author.trim()) warnings.push("No author set.");
-    if (!tags.trim()) warnings.push("No tags — related posts and filtering rely on these.");
-    if (content.trim() && !/^##?\s/m.test(content)) warnings.push("No headings in the content — long posts read better with section breaks.");
-    if (content && stripProductionCues(content) !== content) warnings.push("Looks like a leftover script cue ([Pause], [B-roll]...) is still in the content.");
-    if (/(?<!-)--(?!-)/.test(content.replace(/```[\s\S]*?```/g, "").replace(/`[^`]*`/g, ""))) {
-      warnings.push('Contains "--" or "---" — these get auto-converted to dashes, double check it reads right.');
-    }
-
-    return warnings;
-  }, [excerpt, category, image, currentImageUrl, coverAlt, author, tags, content]);
+  const checklist = useMemo(
+    () =>
+      getChecklistWarnings({
+        content,
+        excerpt,
+        category,
+        deck,
+        image: image || currentImageUrl,
+        coverAlt,
+        author,
+        tags,
+      }),
+    [content, excerpt, category, deck, image, currentImageUrl, coverAlt, author, tags]
+  );
 
   const previewContent = useMemo(
     () => applySmartTypography(stripProductionCues(stripDuplicateLeadingH1(content, title))),
@@ -201,6 +194,10 @@ export default function ManageBlogsPage() {
     if (coverAlt.trim()) formData.append("coverAlt", coverAlt);
     if (coverCaption.trim()) formData.append("coverCaption", coverCaption);
     if (coverCredit.trim()) formData.append("coverCredit", coverCredit);
+    formData.append("coverFocus", coverFocus);
+    formData.append("videoOrientation", videoOrientation);
+    if (authorBio.trim()) formData.append("authorBio", authorBio);
+    if (authorAvatar.trim()) formData.append("authorAvatar", authorAvatar);
     formData.append("featured", String(featured));
     if (takeaways.trim()) formData.append("takeaways", takeaways);
     formData.append("ctaVariant", ctaVariant);
@@ -243,6 +240,10 @@ export default function ManageBlogsPage() {
     setCoverAlt(blog.coverAlt || "");
     setCoverCaption(blog.coverCaption || "");
     setCoverCredit(blog.coverCredit || "");
+    setCoverFocus(blog.coverFocus || "center");
+    setVideoOrientation(blog.videoOrientation || "landscape");
+    setAuthorBio(blog.authorBio || "");
+    setAuthorAvatar(blog.authorAvatar || "");
     setFeatured(Boolean(blog.featured));
     setTakeaways((blog.takeaways || []).join("\n"));
     setCtaVariant(blog.ctaVariant || "audit");
@@ -394,6 +395,23 @@ export default function ManageBlogsPage() {
               />
             </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                value={authorAvatar}
+                onChange={(e) => setAuthorAvatar(e.target.value)}
+                placeholder="Author avatar URL (optional — defaults to the site author photo)"
+                disabled={submitting}
+                className={inputBase}
+              />
+              <input
+                value={authorBio}
+                onChange={(e) => setAuthorBio(e.target.value)}
+                placeholder="Author bio (optional — defaults to the site author bio)"
+                disabled={submitting}
+                className={inputBase}
+              />
+            </div>
+
             <div>
               <input
                 value={excerpt}
@@ -415,13 +433,24 @@ export default function ManageBlogsPage() {
               className={inputBase}
             />
 
-            <input
-              value={videoUrl}
-              onChange={(e) => setVideoUrl(e.target.value)}
-              placeholder="YouTube video URL (optional)"
-              disabled={submitting}
-              className={inputBase}
-            />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <input
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
+                placeholder="YouTube video URL (optional)"
+                disabled={submitting}
+                className={inputBase}
+              />
+              <select
+                value={videoOrientation}
+                onChange={(e) => setVideoOrientation(e.target.value)}
+                disabled={submitting}
+                className={inputBase}
+              >
+                <option value="landscape">Landscape video</option>
+                <option value="portrait">Portrait / Shorts</option>
+              </select>
+            </div>
 
             <div>
               <p className="text-[#0f2016]/50 text-xs mb-1.5">
@@ -489,6 +518,23 @@ export default function ManageBlogsPage() {
                   disabled={submitting}
                   className={inputBase}
                 />
+              </div>
+              <div className="mb-2">
+                <label className="block text-[#0f2016]/50 text-xs mb-1">
+                  Focus point (which part of the photo to keep in frame when cropped — use this if the image has text baked in, like a thumbnail)
+                </label>
+                <select
+                  value={coverFocus}
+                  onChange={(e) => setCoverFocus(e.target.value)}
+                  disabled={submitting}
+                  className={inputBase}
+                >
+                  <option value="center">Center</option>
+                  <option value="top">Top</option>
+                  <option value="bottom">Bottom</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
               </div>
               {editing && currentImageUrl && !imagePreview && (
                 <div className="mb-2">
@@ -580,6 +626,7 @@ export default function ManageBlogsPage() {
                   src={imagePreview || currentImageUrl}
                   alt=""
                   className="w-full h-full object-cover"
+                  style={{ objectPosition: coverFocus }}
                 />
               </div>
             )}
@@ -594,16 +641,8 @@ export default function ManageBlogsPage() {
             <div className="prose prose-tishbite prose-lg has-dropcap max-w-none prose-img:rounded-xl">
               {previewContent ? (
                 <ReactMarkdown
-                  remarkPlugins={[
-                    remarkGfm,
-                    remarkDirective,
-                    [remarkAutoInsertCta, ctaVariant],
-                    remarkDirectiveToHast,
-                    remarkMagazineHeadings,
-                    remarkHighlightMark,
-                    remarkDowngradeH1,
-                  ]}
-                  rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }], rehypeFigureImages]}
+                  remarkPlugins={getArticleRemarkPlugins(ctaVariant)}
+                  rehypePlugins={getArticleRehypePlugins()}
                   components={{
                     pullquote: Pullquote,
                     callout: Callout,

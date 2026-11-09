@@ -1,4 +1,4 @@
-import { Montserrat, Inter, Fraunces } from "next/font/google";
+import { Montserrat, Inter, Fraunces, Source_Serif_4, Noto_Serif_Hebrew, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import PublicWrapper from "@/components/PublicWrapper";
 
@@ -24,6 +24,36 @@ const fraunces = Fraunces({
   weight: "variable",
   style: ["normal", "italic"],
   axes: ["opsz", "SOFT", "WONK"],
+  display: "swap",
+});
+
+// Article body text. Source Serif 4 covers Latin; the Hebrew/Greek
+// Noto Serif fallbacks are listed after it purely so existing Unicode
+// terms in post content (e.g. מִזְבֵּחַ, θυσιαστήριον) get real serif
+// glyphs from a font that covers them, instead of the browser's
+// generic system fallback — no per-term markup needed, the browser
+// picks whichever font's unicode-range covers each character.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  display: "swap",
+});
+
+const notoSerifHebrew = Noto_Serif_Hebrew({
+  variable: "--font-noto-hebrew",
+  subsets: ["hebrew"],
+  weight: "variable",
+  display: "swap",
+});
+
+const notoSerifGreek = Noto_Serif({
+  variable: "--font-noto-greek",
+  subsets: ["greek"],
+  weight: "variable",
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -69,7 +99,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-scroll-behavior="smooth" className={`${montserrat.variable} ${inter.variable} ${fraunces.variable}`}>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${montserrat.variable} ${inter.variable} ${fraunces.variable} ${sourceSerif.variable} ${notoSerifHebrew.variable} ${notoSerifGreek.variable}`}
+    >
       <body className="flex flex-col min-h-screen bg-bg text-text-dark">
         <PublicWrapper>{children}</PublicWrapper>
       </body>

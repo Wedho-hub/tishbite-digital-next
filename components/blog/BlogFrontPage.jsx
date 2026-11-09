@@ -3,7 +3,7 @@ import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
 import Reveal from "@/components/Reveal";
 import CategoryChips from "@/components/blog/CategoryChips";
-import { slugify } from "@/lib/blog";
+import { slugify, coverObjectPosition } from "@/lib/blog";
 import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 function formatDate(dateStr) {
@@ -33,6 +33,7 @@ function LeadStory({ post, index = 0 }) {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
+              style={{ objectPosition: coverObjectPosition(post.coverFocus) }}
               priority
             />
           ) : (
@@ -81,6 +82,7 @@ function SecondaryCard({ post, index = 0 }) {
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
+              style={{ objectPosition: coverObjectPosition(post.coverFocus) }}
             />
           ) : (
             <PostPlaceholder />

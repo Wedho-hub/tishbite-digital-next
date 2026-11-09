@@ -16,6 +16,21 @@ const blogPostSchema = new mongoose.Schema(
     coverAlt: { type: String, required: false, trim: true },
     coverCaption: { type: String, required: false, trim: true },
     coverCredit: { type: String, required: false, trim: true },
+    // object-position preset for the cover image — lets a photo with
+    // baked-in text or an off-center subject (e.g. the altar post's
+    // "ALTAR FOR!" thumbnail text) avoid being cropped by object-cover.
+    coverFocus: {
+      type: String,
+      enum: ["center", "top", "bottom", "left", "right"],
+      default: "center",
+    },
+    videoOrientation: {
+      type: String,
+      enum: ["landscape", "portrait"],
+      default: "landscape",
+    },
+    authorBio: { type: String, required: false, trim: true },
+    authorAvatar: { type: String, required: false, trim: true },
     featured: { type: Boolean, default: false },
     takeaways: [{ type: String, trim: true }],
     ctaVariant: {

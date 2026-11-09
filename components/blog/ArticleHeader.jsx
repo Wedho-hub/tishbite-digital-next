@@ -5,13 +5,13 @@ export default function ArticleHeader({ post, url, readTime }) {
   return (
     <header className="mb-8">
       {post.category && (
-        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-3">{post.category}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary mb-3">{post.category}</p>
       )}
-      <h1 className="font-editorial text-3xl lg:text-5xl font-bold text-primary-dark leading-tight mb-4">
+      <h1 className="editorial-gradient-text font-editorial text-display font-bold leading-[1.05] mb-4">
         {post.title}
       </h1>
       {post.deck && (
-        <p className="font-editorial text-lg lg:text-xl text-text-muted italic leading-snug mb-5">
+        <p className="font-editorial text-deck text-text-muted italic leading-snug mb-5">
           {post.deck}
         </p>
       )}

@@ -63,7 +63,7 @@ async function getPosts() {
   try {
     await connectDB();
     const posts = await BlogPost.find()
-      .select("title slug deck excerpt category author image coverAlt featured createdAt")
+      .select("title slug deck excerpt category author image coverAlt coverFocus featured createdAt")
       .sort({ createdAt: -1 })
       .lean();
     if (!posts.length) return FALLBACK_POSTS;

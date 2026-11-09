@@ -26,7 +26,7 @@ async function getAllPosts() {
   try {
     await connectDB();
     const posts = await BlogPost.find()
-      .select("title slug deck excerpt category author image coverAlt featured createdAt")
+      .select("title slug deck excerpt category author image coverAlt coverFocus featured createdAt")
       .sort({ createdAt: -1 })
       .lean();
     return posts.map((post) => ({

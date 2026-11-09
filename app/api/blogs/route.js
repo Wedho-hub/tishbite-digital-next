@@ -19,7 +19,7 @@ export async function GET(request) {
   const query = BlogPost.find()
     .select(summaryMode
       ? "title slug content excerpt deck category author image coverAlt featured createdAt"
-      : "title slug content deck excerpt category tags videoUrl author image coverAlt coverCaption coverCredit featured takeaways ctaVariant metaTitle metaDescription keywords createdAt updatedAt")
+      : "title slug content deck excerpt category tags videoUrl videoOrientation author authorBio authorAvatar image coverAlt coverCaption coverCredit coverFocus featured takeaways ctaVariant metaTitle metaDescription keywords createdAt updatedAt")
     .sort({ createdAt: -1 })
     .skip(skip);
 

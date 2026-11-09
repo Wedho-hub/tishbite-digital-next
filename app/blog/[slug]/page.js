@@ -1,10 +1,6 @@
 import { notFound, permanentRedirect } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import remarkGfm from "remark-gfm";
-import remarkDirective from "remark-directive";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // Code-split react-markdown into this route's own chunk instead of a
 // shared/common one — it was previously loading on every page site-wide.
@@ -25,14 +21,11 @@ import {
   applySmartTypography,
   cleanExcerpt,
   cleanField,
+  coverObjectPosition,
   estimateReadTime,
   extractHeadings,
-  remarkDowngradeH1,
-  remarkDirectiveToHast,
-  remarkHighlightMark,
-  remarkMagazineHeadings,
-  remarkAutoInsertCta,
-  rehypeFigureImages,
+  getArticleRemarkPlugins,
+  getArticleRehypePlugins,
 } from "@/lib/blog";
 
 export const revalidate = 300;
@@ -255,6 +248,7 @@ export default async function BlogDetailPage({ params }) {
             fill
             sizes="100vw"
             className="object-cover"
+            style={{ objectPosition: coverObjectPosition(post.coverFocus) }}
             priority
           />
           <div className="absolute inset-0 bg-primary-dark/40" />
@@ -270,12 +264,12 @@ export default async function BlogDetailPage({ params }) {
 
       <article id="article-content" className="py-10 lg:py-14 bg-bg">
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="max-w-[72ch] mx-auto lg:max-w-none lg:mx-0">
+          <div className="max-w-[68ch] mx-auto lg:max-w-none lg:mx-0">
             <ArticleHeader post={post} url={url} readTime={readTime} />
           </div>
 
           <div className="lg:grid lg:grid-cols-[1fr_17rem] lg:gap-10">
-            <div className="max-w-[72ch] mx-auto lg:max-w-none lg:mx-0 min-w-0">
+            <div className="max-w-[68ch] mx-auto lg:max-w-none lg:mx-0 min-w-0">
               {post.takeaways?.length > 0 && (
                 <div className="mb-8">
                   <Keypoints title="Key takeaways">
@@ -289,24 +283,22 @@ export default async function BlogDetailPage({ params }) {
               )}
 
               {youtubeId && (
-                <div className="mb-8">
-                  <LiteYouTube id={youtubeId} title={post.title} />
+                <div
+                  className={
+                    post.videoOrientation === "portrait"
+                      ? "mb-6 lg:float-right lg:w-72 lg:ml-8 lg:mb-4"
+                      : "mb-8"
+                  }
+                >
+                  <LiteYouTube id={youtubeId} title={post.title} orientation={post.videoOrientation} />
                 </div>
               )}
 
               <div className="prose prose-tishbite prose-lg has-dropcap max-w-none prose-img:rounded-xl">
                 {content ? (
                   <ReactMarkdown
-                    remarkPlugins={[
-                      remarkGfm,
-                      remarkDirective,
-                      [remarkAutoInsertCta, post.ctaVariant],
-                      remarkDirectiveToHast,
-                      remarkMagazineHeadings,
-                      remarkHighlightMark,
-                      remarkDowngradeH1,
-                    ]}
-                    rehypePlugins={[rehypeSlug, [rehypeAutolinkHeadings, { behavior: "wrap" }], rehypeFigureImages]}
+                    remarkPlugins={getArticleRemarkPlugins(post.ctaVariant)}
+                    rehypePlugins={getArticleRehypePlugins()}
                     components={{
                       a: ArticleLink,
                       pullquote: Pullquote,
@@ -323,7 +315,7 @@ export default async function BlogDetailPage({ params }) {
                 )}
               </div>
 
-              <div className="max-w-none">
+              <div className="max-w-none clear-both">
                 <ArticleFooter post={post} url={url} tags={tags} related={related} prevPost={prevPost} nextPost={nextPost} />
               </div>
             </div>

@@ -9,13 +9,16 @@ import { trackEvent } from "@/lib/analytics";
 // alongside it) only mounts after a genuine click, instead of on page load.
 // Fixes both the LCP hit and the third-party tracking that fires the
 // instant a full YouTube iframe is in the DOM.
-export default function LiteYouTube({ id, title }) {
+export default function LiteYouTube({ id, title, orientation = "landscape" }) {
   const [playing, setPlaying] = useState(false);
   if (!id) return null;
 
+  const aspectClass = orientation === "portrait" ? "aspect-[9/16]" : "aspect-video";
+  const imgSizes = orientation === "portrait" ? "(max-width: 768px) 70vw, 320px" : "(max-width: 768px) 100vw, 68ch";
+
   if (playing) {
     return (
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-md">
+      <div className={`relative w-full ${aspectClass} rounded-xl overflow-hidden shadow-md`}>
         <iframe
           src={`https://www.youtube.com/embed/${id}?autoplay=1`}
           title={title || "YouTube video"}
@@ -35,13 +38,13 @@ export default function LiteYouTube({ id, title }) {
         setPlaying(true);
       }}
       aria-label={`Play video${title ? `: ${title}` : ""}`}
-      className="group relative w-full aspect-video rounded-xl overflow-hidden shadow-md block border-0 p-0 cursor-pointer bg-surface-dark"
+      className={`group relative w-full ${aspectClass} rounded-xl overflow-hidden shadow-md block border-0 p-0 cursor-pointer bg-surface-dark`}
     >
       <Image
         src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
         alt=""
         fill
-        sizes="(max-width: 768px) 100vw, 68ch"
+        sizes={imgSizes}
         className="object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
       />
       <div className="absolute inset-0 bg-surface-dark/25 group-hover:bg-surface-dark/10 transition-colors duration-300" />

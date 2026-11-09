@@ -8,6 +8,12 @@
   --color-accent: #f4c95d;
   --color-accent-light: #ffe08a;
   --color-accent-dark: #c49219;
+  /* accent-dark only hits ~2.66:1 against --color-bg, under the 3:1 AA
+     minimum even for large/bold text — this darker gold clears ~4:1,
+     for the few gold decorations (e.g. outlined numerals) that are
+     the actual rendered glyph colour rather than a border/background
+     accent. See app/globals.css's .h2-num rule. */
+  --color-accent-deep: #9c7214;
   --color-bg: #f5faf7;
   --color-text-dark: #122820;
   --color-text-muted: #5b6f67;
@@ -29,6 +35,16 @@
   --font-display: var(--font-montserrat), sans-serif;
   --font-body: var(--font-inter), system-ui, sans-serif;
   --font-editorial: var(--font-fraunces), Georgia, serif;
+  /* Article body text — see app/layout.js for why the Hebrew/Greek
+     fallbacks are listed here rather than applied per-term. */
+  --font-serif-body: var(--font-source-serif), var(--font-noto-hebrew), var(--font-noto-greek), Georgia, serif;
+
+  /* ── Editorial type scale ─────────────────────────────────
+     Referenced by ArticleHeader (display/deck) and .prose-tishbite
+     (body) — one scale instead of ad hoc sizes per component. */
+  --text-display: clamp(2.5rem, 7vw, 6rem);
+  --text-deck: clamp(1.125rem, 2vw, 1.375rem);
+  --text-body: 1.1875rem; /* 19px */
 }
 
 :root {
@@ -113,10 +129,34 @@ body {
   word-break: break-word;
 }
 
+/* ── Editorial gradient headline ──────────────────────────
+   Used on ArticleHeader's H1. Both gradient stops independently clear
+   AA contrast against the body background at solid fill (~6:1+), so
+   the gradient between them can't fail even mid-transition — unlike
+   gold, which only passes decoratively. Plain primary-dark fallback
+   for engines without background-clip: text. */
+.editorial-gradient-text {
+  color: var(--color-primary-dark);
+}
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .editorial-gradient-text {
+    background-image: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
 /* ── Magazine body details ────────────────────────────────
    Everything here keys off .prose-tishbite so plain Markdown with no
    custom directives still reads as a designed magazine page — see
    components/blog/ArticleBody.jsx. */
+.prose-tishbite {
+  font-family: var(--font-serif-body);
+  font-size: var(--text-body);
+  line-height: 1.65;
+}
 .prose-tishbite h1,
 .prose-tishbite h2,
 .prose-tishbite h3,
@@ -147,18 +187,48 @@ body {
 .prose-tishbite h2 .h2-num {
   font-family: var(--font-editorial);
   font-weight: 700;
-  font-size: 0.75em;
-  /* accent-dark (gold) on the light body background only hit ~2.7:1
-     contrast, under the 3:1 AA minimum for large/bold text — primary
-     (brand green) reads just as distinct from the heading's
-     primary-dark and comfortably clears 6:1. */
-  color: var(--color-primary);
+  font-size: 0.9em;
   font-variant-numeric: tabular-nums;
+  /* Solid fallback for browsers without text-stroke support — gold
+     fill alone only hits ~2.7:1 contrast against the body background,
+     under the 3:1 AA minimum for large/bold text, so the fallback
+     uses brand green instead of gold. */
+  color: var(--color-primary);
+}
+@supports (-webkit-text-stroke: 1px black) {
+  .prose-tishbite h2 .h2-num {
+    color: transparent;
+    /* An earlier version reasoned a thin stroke on a "decorative"
+       numeral didn't need to clear text contrast, since the adjacent
+       heading text carries the real information — Lighthouse/axe
+       disagreed: it reads the stroke colour as the element's
+       foreground regardless, and still flagged accent-dark's 2.66:1.
+       accent-deep (~4:1) is the real fix. */
+    -webkit-text-stroke: 1.5px var(--color-accent-deep);
+  }
 }
 
 .prose-tishbite h3 {
   letter-spacing: 0.02em;
   color: var(--color-primary-dark);
+}
+
+/* Scripture references (e.g. "Joshua 22:10-34"), detected by
+   remarkScriptureRefs. */
+.scripture-ref {
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+/* End mark — a small gold brand glyph after the article's last
+   paragraph. :last-of-type only looks at direct children, so this
+   naturally lands on the last top-level paragraph of the body copy
+   itself, not one nested inside a directive or the sources block. */
+.prose-tishbite > p:last-of-type::after {
+  content: " \2766";
+  color: var(--color-accent-dark);
+  font-weight: 700;
+  margin-left: 0.3em;
 }
 
 .prose-tishbite blockquote {
@@ -201,10 +271,52 @@ body {
 
 /* ==highlight== -> <mark>, via remarkHighlightMark. */
 .prose-tishbite mark {
-  background: var(--color-accent-light);
+  /* A skewed two-stop gradient band behind the text reads as a
+     highlighter stroke rather than a flat box — background colour
+     only (not text colour) so contrast against the dark body text
+     stays the same regardless of the gradient. */
+  background-color: transparent;
+  background-image: linear-gradient(
+    100deg,
+    color-mix(in srgb, var(--color-accent-light) 75%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 85%, transparent) 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 55%;
+  background-position: 0 78%;
   color: var(--color-text-dark);
-  padding: 0.05em 0.2em;
-  border-radius: 0.2em;
+  padding: 0.05em 0.15em;
+  border-radius: 0.15em;
+}
+
+/* "Further reading" section promoted by rehypeSourcesSection — hanging
+   indents (negative text-indent cancelled by matching padding, so only
+   wrapped lines indent) and a small-caps heading to read as a distinct
+   reference block rather than an ordinary numbered list. */
+.sources-block {
+  margin-top: 2em;
+  padding-top: 1.5em;
+  border-top: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
+}
+.sources-block > h2:first-child,
+.sources-block > h3:first-child {
+  font-size: 0.85em;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+  margin-top: 0;
+}
+.sources-block ol,
+.sources-block ul {
+  padding-left: 0;
+}
+.sources-block li {
+  padding-left: 1.75em;
+  text-indent: -1.75em;
+  margin-bottom: 0.65em;
+  font-size: 0.9em;
+}
+.sources-block a {
+  font-weight: 600;
 }
 
 /* Lone images promoted to <figure> by rehypeFigureImages. */

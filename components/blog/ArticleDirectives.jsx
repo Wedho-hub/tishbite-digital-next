@@ -28,9 +28,15 @@ import { trackEvent } from "@/lib/analytics";
 // must import each one by name and build the map itself.
 export function Pullquote({ children, cite }) {
   return (
-    <blockquote className="not-prose my-10 border-y-2 border-accent/40 py-6 text-center [&>p]:font-editorial [&>p]:text-2xl [&>p]:lg:text-3xl [&>p]:italic [&>p]:text-primary-dark [&>p]:leading-snug [&>p]:m-0">
+    <blockquote className="not-prose relative my-10 lg:-mx-10 border-y-2 border-accent/40 py-8 px-4 lg:px-10 text-center [&>p]:relative [&>p]:z-10 [&>p]:font-editorial [&>p]:text-2xl [&>p]:lg:text-3xl [&>p]:italic [&>p]:text-primary-dark [&>p]:leading-snug [&>p]:m-0">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none select-none absolute -top-3 left-2 lg:left-8 font-editorial text-7xl lg:text-8xl text-accent-dark/60 leading-none"
+      >
+        &ldquo;
+      </span>
       {children}
-      {cite && <cite className="block mt-3 text-sm text-text-muted not-italic">— {cite}</cite>}
+      {cite && <cite className="relative z-10 block mt-3 text-sm text-text-muted not-italic">— {cite}</cite>}
     </blockquote>
   );
 }
@@ -90,11 +96,11 @@ export function Cta({ title, button, href = "/contact" }) {
   );
 }
 
-export function DirectiveYoutube({ id, title }) {
+export function DirectiveYoutube({ id, title, orientation }) {
   if (!id) return null;
   return (
     <div className="not-prose my-8">
-      <LiteYouTube id={id} title={title || "Video"} />
+      <LiteYouTube id={id} title={title || "Video"} orientation={orientation === "portrait" ? "portrait" : "landscape"} />
     </div>
   );
 }

@@ -2,11 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import ShareButtons from "@/components/blog/ShareButtons";
+import AuthorCard from "@/components/blog/AuthorCard";
 import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 export default function ArticleFooter({ post, url, tags, related, prevPost, nextPost }) {
   return (
     <footer className="article-footer-share mt-14 pt-8 border-t border-primary/10">
+      <AuthorCard author={post.author} authorBio={post.authorBio} authorAvatar={post.authorAvatar} />
+
       {tags?.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-8">
           {tags.map((tag) => (
