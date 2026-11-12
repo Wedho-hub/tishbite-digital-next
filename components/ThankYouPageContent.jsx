@@ -72,7 +72,7 @@ export default function ThankYouPageContent({ offerSlug }) {
             href={waHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-[#25d366] text-white font-bold text-base no-underline hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 mb-4"
+            className="w-full flex items-center justify-center gap-2 px-5 py-4 rounded-xl bg-[#25d366] text-primary-dark font-bold text-base no-underline hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300 mb-4"
           >
             <FaWhatsapp size={20} aria-hidden="true" /> Chat on WhatsApp Now
           </a>

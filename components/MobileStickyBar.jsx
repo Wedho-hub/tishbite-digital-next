@@ -32,7 +32,7 @@ export default function MobileStickyBar() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        className="flex items-center justify-center gap-1.5 text-white font-bold py-3 px-5 rounded-xl text-sm no-underline"
+        className="flex items-center justify-center gap-1.5 text-primary-dark font-bold py-3 px-5 rounded-xl text-sm no-underline"
         style={{ background: "#25d366" }}
         whileHover={{ backgroundColor: "#1db954" }}
         whileTap={{ scale: 0.94 }}

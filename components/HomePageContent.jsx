@@ -404,7 +404,7 @@ export default function HomePageContent() {
         <SectionHeading kicker="Lead Magnets That Convert" center>
           Turn website traffic into conversations and clients
         </SectionHeading>
-        <p className="text-primary-dark/70 max-w-xl text-base text-center mx-auto -mt-6 mb-10">
+        <p className="text-primary-dark/85 max-w-xl text-base text-center mx-auto -mt-6 mb-10">
           Strong SEO and GEO performance starts with clear offers, answer-first
           content, and fast next steps for high-intent visitors.
         </p>
@@ -526,7 +526,7 @@ export default function HomePageContent() {
                     <div className="relative aspect-4/3 overflow-hidden">
                       <Image
                         src={project.img}
-                        alt={`${project.name} — ${project.desc}`}
+                        alt=""
                         width={300}
                         height={225}
                         sizes="(max-width: 640px) 70vw, 220px"
@@ -549,10 +549,10 @@ export default function HomePageContent() {
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={`View ${project.name} live project (opens in a new tab)`}
                   className="no-underline block w-45 sm:w-55 shrink-0"
                 >
                   {card}
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               ) : (
                 <div key={project.name} className="w-45 sm:w-55 shrink-0">
@@ -574,7 +574,7 @@ export default function HomePageContent() {
             <FaChevronLeft size={13} />
           </button>
 
-          <div className="flex items-center gap-2" role="tablist" aria-label="Project slides">
+          <div className="flex items-center" role="tablist" aria-label="Project slides">
             {PROJECTS.map((project, i) => (
               <button
                 key={project.name}
@@ -583,10 +583,20 @@ export default function HomePageContent() {
                 aria-selected={i === projectsActiveIndex}
                 aria-label={`Show project ${i + 1}`}
                 onClick={() => projectsGoTo(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === projectsActiveIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
-                }`}
-              />
+                className="p-3 flex items-center justify-center"
+              >
+                {/* Visible dot stays small by design — the button's own
+                    padding is what gives this a real ≥24x24px touch
+                    target (not just the 8x8px dot), and doubles as the
+                    gap between dots so adjacent targets' hit areas
+                    don't overlap (a separate flex `gap` would). */}
+                <span
+                  aria-hidden="true"
+                  className={`block h-2 rounded-full transition-all duration-300 ${
+                    i === projectsActiveIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
+                  }`}
+                />
+              </button>
             ))}
           </div>
 

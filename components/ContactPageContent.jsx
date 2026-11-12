@@ -106,12 +106,15 @@ export default function ContactPageContent() {
               viewport={{ once: true }}
             >
               <div className="bg-linear-to-br from-primary-dark to-primary rounded-2xl p-7 text-white mb-4">
-                <h3
+                {/* A card title, not a true sectioning heading — using
+                    h3 here skipped straight from the page's own h1 with
+                    no h2 between them. */}
+                <p
                   className="text-xl font-bold mb-3"
                   style={{ fontFamily: "var(--font-montserrat), sans-serif" }}
                 >
                   Start Your Digital Transformation
-                </h3>
+                </p>
                 <p className="text-white/70 text-sm leading-relaxed mb-5">
                   Whether you need a professional website, CRM integration, automation system, or SEO-driven marketing strategy — we structure systems that scale your business.
                 </p>
@@ -133,7 +136,7 @@ export default function ContactPageContent() {
                   href="https://wa.me/27640584229?text=Hello%20Tishbite%20Digital,%20I%20want%20a%20free%20website%20and%20SEO%20audit."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 bg-[#25d366] text-white font-bold py-3 rounded-xl no-underline text-sm"
+                  className="flex items-center justify-center gap-2 bg-[#25d366] text-primary-dark font-bold py-3 rounded-xl no-underline text-sm"
                   whileHover="hover"
                   initial="rest"
                   whileTap={{ scale: 0.96 }}
@@ -151,10 +154,10 @@ export default function ContactPageContent() {
               </div>
 
               <div className="bg-white rounded-2xl p-6 border border-primary/8 shadow-sm">
-                <h4 className="font-bold text-primary-dark text-sm flex items-center gap-2 mb-3">
+                <p className="font-bold text-primary-dark text-sm flex items-center gap-2 mb-3">
                   <FaClock className="text-primary" aria-hidden="true" />
                   Operating Times
-                </h4>
+                </p>
                 <ul className="space-y-2 list-none p-0 m-0 text-sm text-text-muted">
                   <li className="flex items-start gap-2">
                     <FaCalendarAlt className="text-primary mt-0.5 shrink-0" aria-hidden="true" />
@@ -200,7 +203,7 @@ export default function ContactPageContent() {
                   aria-labelledby="contact-form-title"
                   noValidate
                 >
-                  <h3 id="contact-form-title" className="sr-only">Contact Form</h3>
+                  <h2 id="contact-form-title" className="sr-only">Contact Form</h2>
 
                   <div className="mb-4">
                     <label className="block text-sm font-semibold text-text-dark mb-1.5" htmlFor="contact-name">
@@ -311,13 +314,13 @@ export default function ContactPageContent() {
                     >
                       <p className="font-bold text-green-700 mb-1">✅ Message received!</p>
                       <p className="text-green-600 text-sm mb-3">
-                        We'll be in touch within <strong>24 hours</strong>. Want a faster response?
+                        We&apos;ll be in touch within <strong>24 hours</strong>. Want a faster response?
                       </p>
                       <motion.a
                         href="https://wa.me/27640584229?text=Hi%20Tishbite%20Digital,%20I%20just%20submitted%20an%20enquiry%20and%20would%20love%20to%20chat."
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-4 py-2 rounded-lg text-sm no-underline"
+                        className="inline-flex items-center gap-2 bg-[#25d366] text-primary-dark font-bold px-4 py-2 rounded-lg text-sm no-underline"
                         whileHover={{ y: -2, backgroundColor: "#1db954", boxShadow: "0 6px 16px rgba(37,211,102,0.45)" }}
                         whileTap={{ scale: 0.96 }}
                         transition={{ type: "spring", stiffness: 300, damping: 18 }}

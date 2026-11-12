@@ -259,46 +259,14 @@ export default function ServicesPageContent() {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="flex flex-col lg:flex-row items-center gap-12">
 
-            {/* Team capability card — LEFT on desktop */}
+            {/* Text — RIGHT on desktop. Comes first in DOM order (with
+                lg:order-2 to still render on the right visually) so this
+                section's own <h2> precedes the team-capability card's
+                <h3> in reading order — it was previously the other way
+                round, an invalid h3-before-h2 jump since nothing on the
+                page had introduced an h2 yet. */}
             <motion.div
-              className="lg:w-2/5 w-full"
-              variants={fadeLeft}
-              initial="hidden"
-              whileInView="visible"
-              viewport={VIEW}
-            >
-              <div className="relative">
-                <motion.div
-                  className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl"
-                  animate={{ opacity: [0.35, 0.65, 0.35] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <div className="relative rounded-2xl shadow-2xl bg-white border border-primary/10 p-7">
-                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <FaUsers className="text-primary text-lg" aria-hidden="true" />
-                  </div>
-                  <h3 className="text-lg font-bold text-primary-dark mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
-                    A Small Team, Full Capability
-                  </h3>
-                  <p className="text-text-muted text-sm leading-relaxed mb-5">
-                    Every service on this page is delivered by a small, skilled
-                    team — not outsourced piecemeal.
-                  </p>
-                  <ul className="space-y-3 list-none p-0 m-0">
-                    {TEAM_CAPABILITIES.map(({ Icon, label }) => (
-                      <li key={label} className="flex items-center gap-3 text-sm font-semibold text-text-dark">
-                        <Icon className="text-primary shrink-0" aria-hidden="true" />
-                        {label}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Text — RIGHT on desktop */}
-            <motion.div
-              className="lg:w-3/5 w-full flex flex-col"
+              className="lg:w-3/5 w-full flex flex-col lg:order-2"
               variants={stagger}
               initial="hidden"
               whileInView="visible"
@@ -354,6 +322,43 @@ export default function ServicesPageContent() {
                   </motion.div>
                 ))}
               </motion.div>
+            </motion.div>
+
+            {/* Team capability card — LEFT on desktop (lg:order-1) */}
+            <motion.div
+              className="lg:w-2/5 w-full lg:order-1"
+              variants={fadeLeft}
+              initial="hidden"
+              whileInView="visible"
+              viewport={VIEW}
+            >
+              <div className="relative">
+                <motion.div
+                  className="absolute -inset-4 rounded-3xl bg-primary/15 blur-2xl"
+                  animate={{ opacity: [0.35, 0.65, 0.35] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div className="relative rounded-2xl shadow-2xl bg-white border border-primary/10 p-7">
+                  <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+                    <FaUsers className="text-primary text-lg" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-primary-dark mb-2" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+                    A Small Team, Full Capability
+                  </h3>
+                  <p className="text-text-muted text-sm leading-relaxed mb-5">
+                    Every service on this page is delivered by a small, skilled
+                    team — not outsourced piecemeal.
+                  </p>
+                  <ul className="space-y-3 list-none p-0 m-0">
+                    {TEAM_CAPABILITIES.map(({ Icon, label }) => (
+                      <li key={label} className="flex items-center gap-3 text-sm font-semibold text-text-dark">
+                        <Icon className="text-primary shrink-0" aria-hidden="true" />
+                        {label}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -634,7 +639,7 @@ export default function ServicesPageContent() {
                     key={row.service}
                     className={`${i % 2 === 0 ? "bg-white/4" : "bg-transparent"} border-b border-white/8 hover:bg-white/8 transition-colors`}
                   >
-                    <td className="px-4 py-3.5 font-semibold text-white whitespace-nowrap">{row.service}</td>
+                    <th scope="row" className="px-4 py-3.5 font-semibold text-white whitespace-nowrap text-left">{row.service}</th>
                     <td className="px-4 py-3.5 text-accent font-bold whitespace-nowrap">{row.startingPrice}</td>
                     <td className="px-4 py-3.5 text-white/65">{row.subscription}</td>
                     <td className="px-4 py-3.5 text-white/65">{row.maintenance}</td>

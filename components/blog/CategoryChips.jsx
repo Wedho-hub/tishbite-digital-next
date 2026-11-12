@@ -22,7 +22,7 @@ export default function CategoryChips({ categories, activeCategory }) {
             activeCategory === name ? "bg-primary-dark text-white" : "bg-primary/8 text-primary hover:bg-primary/15"
           }`}
         >
-          {name} <span className="opacity-60">({count})</span>
+          {name} <span>({count})</span>
         </Link>
       ))}
     </nav>

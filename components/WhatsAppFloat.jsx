@@ -71,7 +71,7 @@ export default function WhatsAppFloat() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Chat with Tishbite Digital on WhatsApp"
-              className="relative w-16 h-16 rounded-full bg-[#25d366] text-white flex items-center justify-center shadow-xl"
+              className="relative w-16 h-16 rounded-full bg-[#25d366] text-primary-dark flex items-center justify-center shadow-xl"
               whileHover={{ scale: 1.14 }}
               whileTap={{ scale: 0.93 }}
               animate={{

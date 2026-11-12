@@ -59,7 +59,7 @@ export default function PaymentCancelContent() {
             href="https://wa.me/27640584229"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm no-underline"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-primary-dark font-bold text-sm no-underline"
             whileHover={{ y: -3, backgroundColor: "#1db954", boxShadow: "0 8px 20px rgba(37,211,102,0.45)" }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 18 }}

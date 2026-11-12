@@ -42,7 +42,7 @@ function LeadStory({ post, index = 0 }) {
         </div>
         <div className="flex flex-col justify-center p-6 lg:p-10">
           {post.category && (
-            <span className="inline-block mb-3 text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full bg-accent/20 text-accent-dark self-start">
+            <span className="inline-block mb-3 text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full bg-accent text-primary-dark self-start">
               {post.category}
             </span>
           )}
@@ -169,7 +169,7 @@ function SidebarRail({ categories }) {
                   className="flex items-center justify-between text-text-muted text-sm no-underline hover:text-primary-dark transition-colors"
                 >
                   <span>{name}</span>
-                  <span className="text-xs opacity-60">{count}</span>
+                  <span className="text-xs">{count}</span>
                 </Link>
               </li>
             ))}

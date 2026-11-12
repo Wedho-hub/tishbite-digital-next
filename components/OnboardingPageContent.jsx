@@ -41,9 +41,9 @@ function SectionCard({ number, title, subtitle, children }) {
           {number}
         </span>
         <div>
-          <h3 className="font-bold text-primary-dark text-base leading-snug" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
+          <h2 className="font-bold text-primary-dark text-base leading-snug" style={{ fontFamily: "var(--font-montserrat), sans-serif" }}>
             {title}
-          </h3>
+          </h2>
           {subtitle && <p className="text-text-muted text-xs mt-0.5">{subtitle}</p>}
         </div>
       </div>
@@ -53,12 +53,19 @@ function SectionCard({ number, title, subtitle, children }) {
 }
 
 function Field({ label, optional, children }) {
+  // The caption and the actual input were siblings before — a <label>
+  // next to a field, not wrapping it, has no programmatic association
+  // at all, so a screen reader announces the field with no name. Label
+  // wraps the control directly instead (implicit labelling — works
+  // regardless of how deep the actual <input>/<select>/<textarea> is).
   return (
     <div>
-      <label className="block text-sm font-semibold text-text-dark mb-1.5">
-        {label} {optional && <span className="text-text-muted font-normal">(optional)</span>}
+      <label className="block text-sm font-semibold text-text-dark">
+        <span className="block mb-1.5">
+          {label} {optional && <span className="text-text-muted font-normal">(optional)</span>}
+        </span>
+        {children}
       </label>
-      {children}
     </div>
   );
 }
@@ -167,7 +174,7 @@ export default function OnboardingPageContent() {
                 href="https://wa.me/27640584229?text=Hi%20Tishbite%20Digital,%20I%20just%20completed%20the%20onboarding%20form."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#25d366] text-white font-bold px-5 py-3 rounded-xl text-sm no-underline"
+                className="inline-flex items-center gap-2 bg-[#25d366] text-primary-dark font-bold px-5 py-3 rounded-xl text-sm no-underline"
                 whileHover={{ y: -2, backgroundColor: "#1db954", boxShadow: "0 8px 22px rgba(37,211,102,0.45)" }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ type: "spring", stiffness: 300, damping: 18 }}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import ShareButtons from "@/components/blog/ShareButtons";
 import AuthorCard from "@/components/blog/AuthorCard";
+import Reveal from "@/components/Reveal";
 import { cloudinaryOptimizedUrl } from "@/lib/cloudinaryUrl";
 
 export default function ArticleFooter({ post, url, tags, related, prevPost, nextPost }) {
@@ -66,23 +67,25 @@ export default function ArticleFooter({ post, url, tags, related, prevPost, next
         <div>
           <p className="font-bold text-primary-dark text-lg mb-5">Further reading</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {related.map((r) => (
-              <Link key={r.slug} href={`/blog/${r.slug}`} className="group no-underline">
-                <div className="relative h-32 rounded-lg overflow-hidden bg-surface-tint mb-3">
-                  {r.image && (
-                    <Image
-                      src={cloudinaryOptimizedUrl(r.image, { width: 300 })}
-                      alt={r.coverAlt || r.title}
-                      fill
-                      sizes="300px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  )}
-                </div>
-                <p className="text-sm font-semibold text-text-dark group-hover:text-primary-dark leading-snug">
-                  {r.title}
-                </p>
-              </Link>
+            {related.map((r, i) => (
+              <Reveal key={r.slug} variant="up" index={i}>
+                <Link href={`/blog/${r.slug}`} className="group no-underline">
+                  <div className="relative h-32 rounded-lg overflow-hidden bg-surface-tint mb-3">
+                    {r.image && (
+                      <Image
+                        src={cloudinaryOptimizedUrl(r.image, { width: 300 })}
+                        alt={r.coverAlt || r.title}
+                        fill
+                        sizes="300px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    )}
+                  </div>
+                  <p className="text-sm font-semibold text-text-dark group-hover:text-primary-dark leading-snug">
+                    {r.title}
+                  </p>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -101,7 +101,13 @@ export default function HowWeWorkPageContent() {
               className="bg-white rounded-2xl p-7 border border-primary/8 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300"
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl font-extrabold text-primary/20 leading-none">
+                {/* aria-hidden doesn't exempt this from contrast rules —
+                    it only affects the accessibility tree, not what a
+                    sighted low-vision visitor actually sees, so /20
+                    (1.34:1) was a real failure, not just a lint nag.
+                    /75 clears 3:1 with margin while staying visually
+                    secondary to the heading next to it. */}
+                <span className="text-4xl font-extrabold text-primary/75 leading-none" aria-hidden="true">
                   {step.number}
                 </span>
                 <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -161,7 +167,7 @@ export default function HowWeWorkPageContent() {
             Ready to start the conversation?
           </h2>
           <p className="text-white/70 text-base max-w-lg mx-auto mb-6">
-            Tell us about your business and we'll map out the right growth plan — no pressure, no obligation.
+            Tell us about your business and we&apos;ll map out the right growth plan — no pressure, no obligation.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <motion.div

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { FaCheckCircle, FaQuoteLeft, FaStar } from "react-icons/fa";
 import LeadForm from "@/components/LeadForm";
+import Reveal from "@/components/Reveal";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -79,8 +80,8 @@ export default function LandingPageContent({ offer, quizSlot = null }) {
 
       {/* Proof — below the fold, real existing client testimonial */}
       <section className="py-12 lg:py-16 bg-white border-t border-primary/8">
-        <div className="container mx-auto px-4 max-w-3xl text-center">
-          <div className="flex justify-center gap-1 mb-4" aria-label="5 out of 5 stars">
+        <Reveal variant="up" className="container mx-auto px-4 max-w-3xl text-center">
+          <div className="flex justify-center gap-1 mb-4" role="img" aria-label="5 out of 5 stars">
             {Array.from({ length: 5 }).map((_, i) => (
               <FaStar key={i} className="text-accent text-sm" aria-hidden="true" />
             ))}
@@ -92,7 +93,7 @@ export default function LandingPageContent({ offer, quizSlot = null }) {
           <p className="text-text-muted text-sm font-semibold m-0">
             {offer.proof.name} <span className="font-normal">— {offer.proof.role}</span>
           </p>
-        </div>
+        </Reveal>
       </section>
     </>
   );

@@ -161,21 +161,20 @@ function ProjectCard({ project, layoutId, isOpen, onOpen }) {
       whileTap={{ scale: 0.98 }}
       layoutId={layoutId}
       aria-haspopup="dialog"
-      aria-label={`View full story for ${project.title}`}
       style={{ visibility: isOpen ? "hidden" : "visible" }}
       className="group relative flex flex-col text-left bg-white rounded-2xl border border-primary/8 shadow-sm hover:shadow-xl overflow-hidden transition-shadow duration-300 cursor-pointer"
     >
       <div className="relative aspect-16/10 overflow-hidden">
         <Image
           src={imageUrl}
-          alt={project.title}
+          alt=""
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         <div className="absolute inset-0 bg-linear-to-t from-primary-dark/75 via-primary-dark/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
           <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-primary-dark font-bold text-sm shadow-lg">
             View Full Story <FaArrowRight size={12} />
           </span>
@@ -194,7 +193,7 @@ function ProjectCard({ project, layoutId, isOpen, onOpen }) {
           animate={{ x: [0, 4, 0] }}
           transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
         >
-          Tap to view full story <FaArrowRight size={10} />
+          Tap to view full story <FaArrowRight size={10} aria-hidden="true" />
         </motion.span>
       </div>
     </motion.button>

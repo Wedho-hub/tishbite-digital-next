@@ -36,7 +36,7 @@ export default function PaymentSuccessPage() {
             href="https://wa.me/27640584229"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-white font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#25d366] text-primary-dark font-bold text-sm no-underline hover:-translate-y-0.5 hover:shadow-md transition-all duration-300"
           >
             <FaWhatsapp size={16} /> Chat on WhatsApp
           </a>

@@ -11,6 +11,7 @@ import {
   FaChevronRight,
   FaArrowRight,
 } from "react-icons/fa";
+import Reveal from "@/components/Reveal";
 
 const FALLBACK_CASE_STUDIES = [
   {
@@ -138,7 +139,7 @@ export default function CaseStudiesSection() {
       onMouseLeave={() => setPaused(false)}
     >
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="text-center mb-10 flex flex-col items-center">
+        <Reveal variant="up" index={0} className="text-center mb-10 flex flex-col items-center">
           <p className="inline-flex items-center px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-extrabold uppercase tracking-wider mb-4">
             Case Studies
           </p>
@@ -152,9 +153,9 @@ export default function CaseStudiesSection() {
           <p className="text-text-muted text-base max-w-xl">
             A closer look at how specific business problems were diagnosed and solved — not just what was built, but why it mattered.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="relative">
+        <Reveal variant="up" index={1} className="relative">
           <div className="overflow-hidden rounded-3xl border border-primary/10 shadow-sm bg-bg">
             <AnimatePresence initial={false} mode="wait" custom={direction}>
               <motion.div
@@ -239,10 +240,10 @@ export default function CaseStudiesSection() {
               </button>
             </>
           )}
-        </div>
+        </Reveal>
 
         {caseStudies.length > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-6" role="tablist" aria-label="Case study navigation">
+          <div className="flex items-center justify-center mt-6" role="tablist" aria-label="Case study navigation">
             {caseStudies.map((cs, i) => (
               <button
                 key={cs._id}
@@ -251,10 +252,15 @@ export default function CaseStudiesSection() {
                 aria-selected={i === index}
                 aria-label={`Show case study: ${cs.title}`}
                 onClick={() => goTo(i, i > index ? 1 : -1)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  i === index ? "w-8 bg-primary" : "w-2.5 bg-primary/20 hover:bg-primary/40"
-                }`}
-              />
+                className="p-3 flex items-center justify-center"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`block h-2.5 rounded-full transition-all duration-300 ${
+                    i === index ? "w-8 bg-primary" : "w-2.5 bg-primary/20 hover:bg-primary/40"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         )}

@@ -55,7 +55,7 @@ const ACCENT_BORDER = ["border-t-primary", "border-t-primary-light", "border-t-a
 
 function StarRating({ count }) {
   return (
-    <div className="flex gap-1 mb-2" aria-label={`${count} out of 5 stars`}>
+    <div className="flex gap-1 mb-2" role="img" aria-label={`${count} out of 5 stars`}>
       {Array.from({ length: count }).map((_, i) => (
         <FaStar key={i} className="text-accent text-sm" aria-hidden="true" />
       ))}
@@ -179,7 +179,7 @@ export default function Testimonials() {
               <FaChevronLeft size={13} />
             </button>
 
-            <div className="flex items-center gap-2" role="tablist" aria-label="Testimonial slides">
+            <div className="flex items-center" role="tablist" aria-label="Testimonial slides">
               {reviews.map((review, i) => (
                 <button
                   key={review._id || review.name}
@@ -188,10 +188,15 @@ export default function Testimonials() {
                   aria-selected={i === activeIndex}
                   aria-label={`Show testimonial ${i + 1}`}
                   onClick={() => goTo(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    i === activeIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
-                  }`}
-                />
+                  className="p-3 flex items-center justify-center"
+                >
+                  <span
+                    aria-hidden="true"
+                    className={`block h-2 rounded-full transition-all duration-300 ${
+                      i === activeIndex ? "w-6 bg-primary" : "w-2 bg-primary/20 hover:bg-primary/40"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
 
@@ -216,11 +221,11 @@ export default function Testimonials() {
           href={GOOGLE_REVIEW_URL}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Leave us a Google review (opens in a new tab)"
           className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-primary/5 border border-primary/15 text-primary-dark font-semibold text-sm transition-all duration-200 no-underline shadow-sm"
         >
-          <FaGoogle />
+          <FaGoogle aria-hidden="true" />
           Leave a Google Review
+          <span className="sr-only"> (opens in a new tab)</span>
         </a>
       </div>
     </Section>

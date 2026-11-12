@@ -129,10 +129,10 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.06 }}
           >
-            <h6 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+            <p className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
               Quick Links
-            </h6>
-            <ul className="space-y-2 list-none p-0 m-0">
+            </p>
+            <ul className="space-y-2 list-none p-0 m-0" aria-label="Quick links">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
                   <motion.div whileHover="hover" initial="rest">
@@ -165,9 +165,9 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.12 }}
           >
-            <h6 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
+            <p className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">
               Contact
-            </h6>
+            </p>
             <div className="space-y-2 mb-4">
               <motion.a
                 href="tel:+27640584229"
