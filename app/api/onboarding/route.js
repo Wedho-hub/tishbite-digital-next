@@ -2,6 +2,9 @@ import nodemailer from "nodemailer";
 import connectDB from "@/lib/db";
 import Onboarding from "@/models/Onboarding";
 import { requireAdmin } from "@/lib/auth";
+import { escapeHtml } from "@/lib/textToHtml";
+import { isValidEmail } from "@/lib/validate";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 
@@ -56,6 +59,16 @@ function buildNotificationHtml(data) {
       ? `<tr><td style="padding:6px 0;font-weight:bold;color:#374151;width:170px;vertical-align:top;">${label}:</td><td style="padding:6px 0;color:#111;">${value}</td></tr>`
       : "";
 
+  const businessName = escapeHtml(data.businessName);
+  const fullName = escapeHtml(data.fullName);
+  const email = escapeHtml(data.email);
+  const phone = escapeHtml(data.phone);
+  const location = escapeHtml(data.location);
+  const servicesInterested = escapeHtml((data.servicesInterested || []).join(", "));
+  const budgetRange = escapeHtml(data.budgetRange);
+  const timeline = escapeHtml(data.timeline);
+  const successDefinition = escapeHtml(data.successDefinition);
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"/></head>
@@ -63,18 +76,18 @@ function buildNotificationHtml(data) {
   <div style="font-family:Arial,sans-serif;max-width:640px;margin:32px auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
     <div style="background:#1b4332;padding:28px 32px;">
       <p style="margin:0 0 4px;color:rgba(255,255,255,0.6);font-size:12px;text-transform:uppercase;letter-spacing:1px;">Tishbite Digital — New Client Onboarding</p>
-      <h1 style="margin:0;color:#fff;font-size:22px;">${data.businessName}</h1>
+      <h1 style="margin:0;color:#fff;font-size:22px;">${businessName}</h1>
     </div>
     <div style="background:#ffffff;padding:28px 32px;">
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
-        ${row("Full Name", data.fullName)}
-        ${row("Email", `<a href="mailto:${data.email}" style="color:#1b4332;">${data.email}</a>`)}
-        ${row("Phone", data.phone)}
-        ${row("Location", data.location)}
-        ${row("Services Interested", (data.servicesInterested || []).join(", "))}
-        ${row("Budget Range", data.budgetRange)}
-        ${row("Timeline", data.timeline)}
-        ${row("Success Looks Like", data.successDefinition)}
+        ${row("Full Name", fullName)}
+        ${row("Email", `<a href="mailto:${email}" style="color:#1b4332;">${email}</a>`)}
+        ${row("Phone", phone)}
+        ${row("Location", location)}
+        ${row("Services Interested", servicesInterested)}
+        ${row("Budget Range", budgetRange)}
+        ${row("Timeline", timeline)}
+        ${row("Success Looks Like", successDefinition)}
       </table>
       <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e5e7eb;">
         <a href="https://www.tishbitedigital.co.za/admin/onboarding" style="display:inline-block;background:#1b4332;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:14px;">
@@ -88,6 +101,11 @@ function buildNotificationHtml(data) {
 }
 
 export async function POST(request) {
+  const ip = getClientIp(request.headers);
+  if (!checkRateLimit(`onboarding:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+    return Response.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+  }
+
   const body = await request.json();
   const data = pickOnboardingPayload(body);
 
@@ -95,8 +113,7 @@ export async function POST(request) {
     return Response.json({ error: "Full name, business name, email, and phone are required." }, { status: 400 });
   }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(data.email)) {
+  if (!isValidEmail(data.email)) {
     return Response.json({ error: "Invalid email address." }, { status: 400 });
   }
 

@@ -1,10 +1,18 @@
 import nodemailer from "nodemailer";
 import connectDB from "@/lib/db";
 import Enquiry from "@/models/Enquiry";
+import { escapeHtml } from "@/lib/textToHtml";
+import { isValidEmail } from "@/lib/validate";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
 
 function buildNotificationHtml({ name, email, service, message }) {
+  name = escapeHtml(name);
+  email = escapeHtml(email);
+  service = service ? escapeHtml(service) : service;
+  message = escapeHtml(message);
+
   const serviceRow = service
     ? `<tr>
         <td style="padding:8px 0;font-weight:bold;color:#374151;width:110px;vertical-align:top;">Service:</td>
@@ -58,6 +66,10 @@ function buildNotificationHtml({ name, email, service, message }) {
 }
 
 function buildAutoReplyHtml({ name, service, message }) {
+  name = escapeHtml(name);
+  service = service ? escapeHtml(service) : service;
+  message = escapeHtml(message);
+
   const serviceNote = service
     ? `<p style="margin:0 0 16px;color:#555;font-size:14px;">Your enquiry is about: <strong style="color:#1b4332;">${service}</strong></p>`
     : "";
@@ -104,14 +116,18 @@ function buildAutoReplyHtml({ name, service, message }) {
 
 export async function POST(request) {
   try {
+    const ip = getClientIp(request.headers);
+    if (!checkRateLimit(`contact:${ip}`, { limit: 5, windowMs: 10 * 60_000 })) {
+      return Response.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+    }
+
     const { name, email, service, message } = await request.json();
 
     if (!name?.trim() || !email?.trim() || !message?.trim()) {
       return Response.json({ error: "Name, email, and message are required." }, { status: 400 });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return Response.json({ error: "Invalid email address." }, { status: 400 });
     }
 

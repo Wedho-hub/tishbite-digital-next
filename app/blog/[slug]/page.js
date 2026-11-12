@@ -236,7 +236,11 @@ export default async function BlogDetailPage({ params }) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        // JSON.stringify doesn't escape "</", so DB content (post title,
+        // description) containing a literal "</script>" could prematurely
+        // close this tag and inject markup after it — < neutralizes
+        // that without changing the parsed JSON value at all.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <ReadingProgressBar targetId="article-content" />
 

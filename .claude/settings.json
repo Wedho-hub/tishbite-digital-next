@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -rnE \"\\(api[_-]?key|secret|password|token\\)\\\\s*[:=]\\\\s*['\\\\\"][A-Za-z0-9+/_-]{15,}\" --include=\"*.js\" --include=\"*.jsx\" app lib components models)",
+      "Bash(npm audit *)"
+    ]
+  }
+}

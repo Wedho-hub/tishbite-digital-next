@@ -3,11 +3,17 @@ import Subscriber from "@/models/Subscriber";
 import { requireAdmin } from "@/lib/auth";
 import { sendMail, brandedEmail } from "@/lib/mail";
 import { getOfferBySlug, LEAD_OFFER_EMAILS } from "@/lib/leadOffers";
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { escapeHtml } from "@/lib/textToHtml";
+import { isValidEmail } from "@/lib/validate";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(request) {
   try {
+    const ip = getClientIp(request.headers);
+    if (!checkRateLimit(`subscribe:${ip}`, { limit: 8, windowMs: 10 * 60_000 })) {
+      return Response.json({ error: "Too many requests. Please try again later." }, { status: 429 });
+    }
+
     const body = await request.json();
     const { firstName, email, whatsapp, need, offerSlug, company, score, band } = body;
     const utm = {
@@ -26,7 +32,7 @@ export async function POST(request) {
     if (!firstName?.trim()) {
       return Response.json({ error: "Please enter your first name." }, { status: 400 });
     }
-    if (!email?.trim() || !emailRegex.test(email)) {
+    if (!email?.trim() || !isValidEmail(email)) {
       return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
     }
 
@@ -73,6 +79,16 @@ export async function POST(request) {
     try {
       const notifyTo = process.env.CONTACT_NOTIFY_EMAIL || process.env.ZOHO_SMTP_USER;
       if (notifyTo) {
+        const safeFirstName = escapeHtml(firstName);
+        const safeEmail = escapeHtml(email);
+        const safeWhatsapp = escapeHtml(whatsapp);
+        const safeNeed = escapeHtml(need);
+        const safeUtm = {
+          utmSource: escapeHtml(utm.utmSource),
+          utmMedium: escapeHtml(utm.utmMedium),
+          utmCampaign: escapeHtml(utm.utmCampaign),
+          utmContent: escapeHtml(utm.utmContent),
+        };
         await sendMail({
           to: notifyTo,
           replyTo: email,
@@ -80,13 +96,13 @@ export async function POST(request) {
           html: brandedEmail({
             heading: `New Lead — ${offer.offerLabel}`,
             bodyHtml: `
-              <p style="margin:0 0 8px;"><strong>Name:</strong> ${firstName}</p>
-              <p style="margin:0 0 8px;"><strong>Email:</strong> ${email}</p>
-              ${whatsapp ? `<p style="margin:0 0 8px;"><strong>WhatsApp:</strong> ${whatsapp}</p>` : ""}
-              ${need ? `<p style="margin:0 0 8px;"><strong>Need:</strong> ${need}</p>` : ""}
+              <p style="margin:0 0 8px;"><strong>Name:</strong> ${safeFirstName}</p>
+              <p style="margin:0 0 8px;"><strong>Email:</strong> ${safeEmail}</p>
+              ${whatsapp ? `<p style="margin:0 0 8px;"><strong>WhatsApp:</strong> ${safeWhatsapp}</p>` : ""}
+              ${need ? `<p style="margin:0 0 8px;"><strong>Need:</strong> ${safeNeed}</p>` : ""}
               <p style="margin:0 0 8px;"><strong>Offer:</strong> ${offer.slug}</p>
               ${Number.isFinite(score) ? `<p style="margin:0 0 8px;"><strong>Scorecard result:</strong> ${score}/10${band ? ` — ${band}` : ""}</p>` : ""}
-              ${utm.utmSource ? `<p style="margin:0;color:#9ca3af;font-size:12px;">UTM: ${utm.utmSource} / ${utm.utmMedium} / ${utm.utmCampaign} / ${utm.utmContent}</p>` : ""}
+              ${utm.utmSource ? `<p style="margin:0;color:#9ca3af;font-size:12px;">UTM: ${safeUtm.utmSource} / ${safeUtm.utmMedium} / ${safeUtm.utmCampaign} / ${safeUtm.utmContent}</p>` : ""}
             `,
           }),
         });

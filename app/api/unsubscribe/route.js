@@ -4,7 +4,12 @@ import Subscriber from "@/models/Subscriber";
 export async function POST(request) {
   try {
     const { token } = await request.json();
-    if (!token) return Response.json({ error: "Missing token." }, { status: 400 });
+    // An object here (e.g. {"$ne": null}) would be evaluated by MongoDB as
+    // a query operator instead of a literal token, matching the first
+    // subscriber with any token set — rejecting non-strings closes that.
+    if (typeof token !== "string" || !token) {
+      return Response.json({ error: "Missing token." }, { status: 400 });
+    }
 
     await connectDB();
     const subscriber = await Subscriber.findOneAndUpdate(
