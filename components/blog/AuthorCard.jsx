@@ -1,14 +1,5 @@
 import Image from "next/image";
-
-// Falls back to the site's own About page bio/photo when a post has no
-// per-author override — so existing and future posts don't require
-// re-entering this every time, matching how ctaVariant/coverFocus etc.
-// already default rather than requiring every field on every post.
-const DEFAULT_AUTHOR = {
-  name: "Wellington Dhliwayo",
-  bio: "Founder and lead developer at Tishbite Digital — a full-stack web developer based in Cape Town, with 10 years as a trade-tested journeyman before code. Builds websites, SEO and digital growth systems for small businesses across South Africa.",
-  avatar: "/assets/profilePic.jpg",
-};
+import { DEFAULT_AUTHOR } from "@/lib/blog";
 
 export default function AuthorCard({ author, authorBio, authorAvatar }) {
   const name = author || DEFAULT_AUTHOR.name;

@@ -1,5 +1,6 @@
 import { FaCalendarAlt, FaClock } from "react-icons/fa";
 import ShareButtons from "@/components/blog/ShareButtons";
+import { DEFAULT_AUTHOR } from "@/lib/blog";
 
 export default function ArticleHeader({ post, url, readTime }) {
   return (
@@ -17,7 +18,7 @@ export default function ArticleHeader({ post, url, readTime }) {
       )}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-primary/10">
         <div className="flex items-center gap-3 text-text-muted text-xs">
-          {post.author && <span className="font-semibold text-text-dark">{post.author}</span>}
+          <span className="font-semibold text-text-dark">{post.author || DEFAULT_AUTHOR.name}</span>
           {post.createdAt && (
             <span className="flex items-center gap-1">
               <FaCalendarAlt aria-hidden="true" />

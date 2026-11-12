@@ -16,6 +16,7 @@ import ArticleFooter from "@/components/blog/ArticleFooter";
 import ReadingProgressBar from "@/components/blog/ReadingProgressBar";
 import { Pullquote, Callout, Keypoints, Cta, DirectiveYoutube } from "@/components/blog/ArticleDirectives";
 import {
+  DEFAULT_AUTHOR,
   stripDuplicateLeadingH1,
   stripProductionCues,
   applySmartTypography,
@@ -163,7 +164,7 @@ export async function generateMetadata({ params }) {
       type: "article",
       publishedTime: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
       modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
-      authors: post.author ? [post.author] : undefined,
+      authors: [post.author || DEFAULT_AUTHOR.name],
       // No `images` here — opengraph-image.jsx (this route segment)
       // generates the og:image/twitter:image itself, using the post's
       // real cover photo when there is one. Setting both would risk
@@ -213,7 +214,7 @@ export default async function BlogDetailPage({ params }) {
         image: post.image ? [post.image] : undefined,
         datePublished: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
         dateModified: new Date(post.updatedAt || post.createdAt).toISOString(),
-        author: { "@type": "Person", name: post.author || "Tishbite Digital" },
+        author: { "@type": "Person", name: post.author || DEFAULT_AUTHOR.name },
         publisher: {
           "@type": "Organization",
           name: "Tishbite Digital",
