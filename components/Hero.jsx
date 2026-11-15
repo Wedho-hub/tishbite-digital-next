@@ -119,7 +119,7 @@ export default function Hero() {
                 animate={{ opacity: [1, 0.3, 1], scale: [1, 1.3, 1] }}
                 transition={{ duration: 1.8, repeat: Infinity }}
               />
-              Web Design, SEO, Ads and WhatsApp Lead Generation
+              Brand, Web Design, SEO, Ads and WhatsApp Lead Generation
             </motion.p>
 
             <motion.h1
@@ -134,8 +134,8 @@ export default function Hero() {
               variants={itemVariants}
               className="text-[1.05rem] text-white/85 max-w-135 mb-5 leading-relaxed"
             >
-              Websites. SEO. Ads. Built to generate leads, sales, bookings, and
-              WhatsApp enquiries — not just look good. Whether you are a small
+              Brand. Websites. SEO. Ads. Built to generate leads, sales,
+              bookings, and WhatsApp enquiries — not just look good. Whether you are a small
               business owner, a new entrepreneur, or a growing brand, we help
               you build a digital presence that turns online attention into real
               clients.

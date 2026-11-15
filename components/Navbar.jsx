@@ -107,10 +107,10 @@ export default function Navbar() {
                 <Image
                   src="/assets/tishbiteIcon.png"
                   alt="Tishbite Digital"
-                  width={56}
-                  height={56}
+                  width={1172}
+                  height={1044}
                   priority
-                  className="h-11 w-11 drop-shadow-sm"
+                  className="h-11 w-auto drop-shadow-sm"
                 />
                 <span className="text-white font-bold text-base leading-tight">
                   Tishbite Digital
@@ -234,10 +234,10 @@ export default function Navbar() {
                   <Image
                     src="/assets/tishbiteIcon.png"
                     alt="Tishbite Digital"
-                    width={40}
-                    height={40}
+                    width={1172}
+                    height={1044}
                     priority
-                    className="h-10 w-10 drop-shadow-sm"
+                    className="h-10 w-auto drop-shadow-sm"
                   />
                   <span className="text-white font-bold text-sm leading-tight">
                     Tishbite Digital

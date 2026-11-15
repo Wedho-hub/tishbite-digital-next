@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -19,7 +19,7 @@ import {
 } from "react-icons/fa";
 import PageHeader from "@/components/PageHeader";
 import Reveal from "@/components/Reveal";
-import { PRODUCTS, getProductByTitle, formatZAR } from "@/lib/products";
+import { PRODUCTS, getProductByTitle, formatZAR, installmentTotal } from "@/lib/products";
 
 /* ── Animation variants ─────────────────────────────── */
 const spring     = { type: "spring", stiffness: 120, damping: 18 };
@@ -33,7 +33,8 @@ const VIEW      = { once: true, amount: 0.12 };
 
 /* ── Icon mapping ─── */
 const ICON_MAP = [
-  { matcher: /(market|brand|social|ads?|promotion)/i, icon: FaBullhorn  },
+  { matcher: /brand/i,                                icon: FaPaintBrush},
+  { matcher: /(market|social|ads?|promotion)/i,       icon: FaBullhorn  },
   { matcher: /(web|website|develop|design|app)/i,     icon: FaCode      },
   { matcher: /(seo|search|traffic|ranking)/i,         icon: FaSearch    },
   { matcher: /(autom|crm|system|ops|process)/i,       icon: FaCogs      },
@@ -77,7 +78,7 @@ const PRICING_ROWS = PRODUCTS.map((p) => ({
   service: p.title,
   startingPrice: p.price,
   subscription: p.installment
-    ? `${p.installment.months} monthly instalments (${formatZAR(p.installment.amount)} each)`
+    ? `${p.installment.months} monthly instalments of ${formatZAR(p.installment.amount)} (${formatZAR(installmentTotal(p.installment))} total)`
     : p.numericPrice
       ? "Once-off, or ask about instalments"
       : "Ongoing — no long-term contract",
@@ -119,6 +120,27 @@ export default function ServicesPageContent() {
   const [showAllGeneral, setShowAllGeneral] = useState(false);
   const [showAllBundles, setShowAllBundles] = useState(false);
   const [statsRef, statsInView] = useInView({ triggerOnce: true, threshold: 0.4 });
+
+  // "See All" inserts new cards ABOVE this button, pushing it further
+  // down the page — the viewport itself doesn't move, so on a tall
+  // grid the newly revealed cards can end up entirely below the fold
+  // with nothing visibly different on screen. A visitor who doesn't
+  // happen to scroll right after clicking has no way to tell the click
+  // did anything. Scrolling the (now-relocated) button back into view
+  // guarantees at least the top of the new content is visible.
+  const generalToggleRef = useRef(null);
+  const bundlesToggleRef = useRef(null);
+  const revealMore = (setShowAll, buttonRef) => {
+    setShowAll((prev) => {
+      const next = !prev;
+      if (next) {
+        requestAnimationFrame(() => {
+          buttonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        });
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -173,6 +195,12 @@ export default function ServicesPageContent() {
         {product?.installment && (
           <p className="text-xs text-text-muted mb-2">
             or {product.installment.months} × {formatZAR(product.installment.amount)}/month
+            {" "}({formatZAR(installmentTotal(product.installment))} total)
+          </p>
+        )}
+        {product?.timeline && (
+          <p className="flex items-center gap-1.5 text-xs text-text-muted mb-2">
+            <FaCalendarCheck className="shrink-0" aria-hidden="true" /> {product.timeline}
           </p>
         )}
 
@@ -473,8 +501,9 @@ export default function ServicesPageContent() {
               className="text-center mt-8"
             >
               <motion.button
+                ref={generalToggleRef}
                 className="px-6 py-2.5 rounded-xl border-2 border-primary text-primary font-bold text-sm"
-                onClick={() => setShowAllGeneral((p) => !p)}
+                onClick={() => revealMore(setShowAllGeneral, generalToggleRef)}
                 whileHover={{ y: -2, backgroundColor: "#2d6a4f", color: "#ffffff", boxShadow: "0 6px 16px rgba(27,67,50,0.3)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 300, damping: 18 }}
@@ -532,8 +561,9 @@ export default function ServicesPageContent() {
               className="text-center mt-8"
             >
               <motion.button
+                ref={bundlesToggleRef}
                 className="px-6 py-2.5 rounded-xl border-2 border-accent text-[#b8860b] font-bold text-sm"
-                onClick={() => setShowAllBundles((p) => !p)}
+                onClick={() => revealMore(setShowAllBundles, bundlesToggleRef)}
                 whileHover={{ y: -2, backgroundColor: "#f4c95d", color: "#1b4332", boxShadow: "0 6px 18px rgba(244,201,93,0.45)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 300, damping: 18 }}
@@ -570,7 +600,6 @@ export default function ServicesPageContent() {
                 "Content Creation & Website Copywriting",
                 "Social Media Management",
                 "Google & Meta Ads Lead Generation",
-                "Brand Identity & Logo Design",
                 "Company Registration & Compliance Setup",
               ].map((item) => (
                 <Link

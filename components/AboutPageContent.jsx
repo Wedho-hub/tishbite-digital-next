@@ -146,8 +146,29 @@ export default function AboutPageContent() {
                 <p>
                   What started as a one-person operation has grown into a small, multi-skilled team. Wellington leads technical delivery, with team members bringing dedicated skills in <strong className="text-text-dark">digital marketing, design and brand identity, and content and editing</strong> — so every project gets a complete, specialist approach rather than one person wearing every hat.
                 </p>
-                <p>
-                  Inspired by the story of Elijah from the small town of Tishbe, we believe <strong className="text-text-dark">great voices can rise from unexpected places</strong>.
+              </div>
+
+              {/* "Why Tishbite?" — the name gets asked about often enough
+                  that it earns its own short, visually distinct block
+                  rather than a single easy-to-skim-past sentence. */}
+              <div className="mt-5 rounded-xl bg-surface-tint border border-primary/15 p-5">
+                <p className="font-bold text-primary-dark text-sm uppercase tracking-wide mb-2">
+                  Why &ldquo;Tishbite&rdquo;?{" "}
+                  <span className="font-normal text-text-muted text-xs normal-case tracking-normal">
+                    (pronounced TISH-bite)
+                  </span>
+                </p>
+                <p className="text-text-muted text-sm leading-relaxed m-0">
+                  A Tishbite was simply someone <em>from</em> Tishbe — the small,
+                  unremarkable hometown of the prophet Elijah, whose name means
+                  &ldquo;My God is Yahweh,&rdquo; first introduced in{" "}
+                  <strong className="text-text-dark">1 Kings 17:1</strong> arriving
+                  from nowhere notable to speak with real authority. We kept the
+                  name as a reminder that{" "}
+                  <strong className="text-text-dark">
+                    great voices — and great work — can rise from unexpected places
+                  </strong>
+                  , not just the obvious ones.
                 </p>
               </div>
             </motion.div>

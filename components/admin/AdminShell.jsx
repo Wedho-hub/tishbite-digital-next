@@ -63,8 +63,9 @@ export default function AdminShell({ children }) {
             <Image
               src="/assets/tishbiteIcon.png"
               alt="Tishbite Digital"
-              width={28}
-              height={28}
+              width={1172}
+              height={1044}
+              className="h-7 w-auto"
             />
             <span
               className="text-sm font-extrabold text-white leading-tight"

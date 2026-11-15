@@ -12,7 +12,7 @@ import {
   FaCheckCircle,
   FaShieldAlt,
 } from "react-icons/fa";
-import { PRODUCTS, getProductByTitle, formatZAR } from "@/lib/products";
+import { PRODUCTS, getProductByTitle, formatZAR, installmentTotal } from "@/lib/products";
 
 // Derived from the shared product catalog so the amount charged here always
 // matches what's advertised on the Services page — previously this list was
@@ -85,7 +85,7 @@ function ServicePicker({ onSelect }) {
         </h1>
         <p className="text-text-muted mb-10 max-w-xl">
           Select the package you want to pay for. You will be redirected to
-          PayFast's secure payment portal to complete your purchase.
+          PayFast&apos;s secure payment portal to complete your purchase.
         </p>
 
         <motion.div
@@ -143,7 +143,7 @@ function ServicePicker({ onSelect }) {
                 </p>
                 {info && (
                   <p className={`text-xs mb-1 ${isFeatured ? "text-white/70" : "text-text-muted"}`}>
-                    or {info.months} × {formatZAR(info.amount)}/mo
+                    or {info.months} × {formatZAR(info.amount)}/mo ({formatZAR(installmentTotal(info))} total)
                   </p>
                 )}
                 {svc.freeSupport && (
@@ -288,6 +288,7 @@ function CheckoutForm({ selectedService, onBack }) {
                   {paymentType === "installment" && (
                     <p className="text-white/70 text-xs mt-2">
                       {installInfo.months} monthly payments of {formatZAR(installInfo.amount)} each
+                      {" "}({formatZAR(installmentTotal(installInfo))} total)
                     </p>
                   )}
                 </div>

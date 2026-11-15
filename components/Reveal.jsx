@@ -62,6 +62,17 @@ export default function Reveal({
         delay: (index % 4) * MOTION.stagger,
         scrollTrigger: { trigger: el, start: "top 90%" },
       });
+
+      // A Reveal that mounts into a page whose layout ScrollTrigger
+      // already measured (e.g. a "Show More" button inserting extra
+      // cards into a grid that's already on screen) can get its
+      // trigger position computed against stale cached measurements —
+      // it then never crosses "top 90%" and sits invisible forever,
+      // since no further scroll event happens to make GSAP re-check.
+      // Refreshing after creation re-measures every trigger (including
+      // this new one) against the current layout, so it fires
+      // immediately if it's already within the reveal threshold.
+      ScrollTrigger.refresh();
     });
 
     return () => mm.revert();
